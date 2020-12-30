@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">AppContagi</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_register">Register</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Email non valida</string>
+    <string name="invalid_password">La password deve contenere almeno 5 caratteri</string>
+    <string name="login_failed">"Login fallito"</string>
+    <string name="nome">Nome</string>
+    <string name="cognome">Cognome</string>
+    <string name="email">Email</string>
+    <string name="registrati">Registrati</string>
+    <string name="background">Background</string>
+    <string name="immagine_prima_schermata">Immagine Prima schermata</string>
+    <string name="contagiapp">ContagiAPP</string>
+    <string name="lorem">Lorem</string>
+    <string name="ipsum">ipsum</string>
+    <string name="faketext">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</string>
+    <string name="tab">tab</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="loginSplash">Login/Register</string>
+    <string name="registrati_adesso">Registrati Adesso</string>
+    <string name="password">Password</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="crea_evento">Crea Evento</string>
+    <string name="crea_gruppo">Crea Gruppo</string>
+</resources>
