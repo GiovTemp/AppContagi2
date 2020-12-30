@@ -5,14 +5,14 @@ public class User {
     public String cognome;
     public String email;
     public int rischio;
-    public int etichetta;
+    public String etichetta;
 
     public User(String nome,String cognome,String email){
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
         this.rischio = 0;
-        this.etichetta=1;
+        this.etichetta="super";
 
 
     }

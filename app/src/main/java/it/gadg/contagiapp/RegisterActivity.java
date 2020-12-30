@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -104,9 +105,11 @@ public class RegisterActivity extends AppCompatActivity {
     private void setInfo(String nome,String cognome,String email){
        User u = new User(nome,cognome,email);
        FirebaseUser user = mAuth.getCurrentUser();
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("users");
-        ref.child(user.getUid()).setValue(u);
+
+       FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Utenti").document(user.getUid()).set(u);
+
 
 
     }
