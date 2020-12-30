@@ -6,4 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".CreaGruppoActivity">
 
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="165dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="128dp"
+        android:onClick="CGruppoButton"
+        android:text="Crea Gruppo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/nGruppo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Inserire nome del gruppo"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/button5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
