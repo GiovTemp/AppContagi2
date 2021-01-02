@@ -56,10 +56,9 @@ public class CreaEventoActivity extends AppCompatActivity {
         //inizializzo fragment autocomplete places
 
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-        autocompleteFragment.setTypeFilter(TypeFilter.ADDRESS);
-        autocompleteFragment.setLocationBias(RectangularBounds.newInstance(
-                new LatLng(-33.880490,151.184363),
-                new LatLng(-33.858754,151.229596)));
+        assert autocompleteFragment != null;
+        autocompleteFragment.setTypeFilter(TypeFilter.ESTABLISHMENT);
+
         autocompleteFragment.setCountries("IT");
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.NAME));
 
