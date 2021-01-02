@@ -42,4 +42,7 @@
     <string name="title_activity_main2">MainActivity2</string>
     <string name="crea_evento">Crea Evento</string>
     <string name="crea_gruppo">Crea Gruppo</string>
+    <string name="nome_evento">Nome Evento</string>
+    <string name="ora_inizio">Ora Inizio</string>
+    <string name="data">Data</string>
 </resources>
