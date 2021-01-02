@@ -47,25 +47,25 @@ public class CreaEventoActivity extends AppCompatActivity {
 
         final Evento e = new Evento(nomeEvento.getText().toString(),"1","1",dataEvento.getText().toString(), oraEvento.getText().toString(),1);
         db.collection("Eventi").add(e).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
-                if (task.isSuccessful()) {
-                    DocumentReference docRef = task.getResult();
-                    String key = docRef.getId();
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentReference docRef = task.getResult();
+                                        String key = docRef.getId();
 
-                    PartecipazioneEvento pE = new PartecipazioneEvento(key,user.getUid());
-                    db.collection("PartecipazioneEvento").add(pE).addOnCompleteListener(new OnCompleteListener<DocumentReference>(){
+                                        PartecipazioneEvento pE = new PartecipazioneEvento(key,user.getUid());
+                                        db.collection("PartecipazioneEvento").add(pE).addOnCompleteListener(new OnCompleteListener<DocumentReference>(){
 
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentReference> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Evento creato correttamente", Toast.LENGTH_LONG).show();
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(getApplicationContext(), "Evento creato correttamente", Toast.LENGTH_LONG).show();
 
-                                finish();
-                                }else{
-                                Toast.makeText(getApplicationContext(), "Errore creazione evento", Toast.LENGTH_LONG).show();
+                                                    finish();
+                                                }else{
+                                                    Toast.makeText(getApplicationContext(), "Errore creazione evento", Toast.LENGTH_LONG).show();
 
-                                }
+                                                }
                             }
 
                         });
