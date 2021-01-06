@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import it.gadg.contagiapp.MainActivity;
 import it.gadg.contagiapp.R;
 import it.gadg.contagiapp.modelli.User;
+import java.util.regex.*;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -57,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         // Validazioni Dati
         if(!nomeValido(nome) )
             Toast.makeText(getApplicationContext(),"Nome non Valido", Toast.LENGTH_SHORT).show();
-        else if(!nomeValido(cognome)){
+        else if(!cognomeValido(cognome)){
             Toast.makeText(getApplicationContext(),"Cognome non Valido", Toast.LENGTH_SHORT).show();
         }else if(!emailValida(email)){
             Toast.makeText(getApplicationContext(),"Email non Valida", Toast.LENGTH_SHORT).show();
@@ -119,12 +120,58 @@ public class RegisterActivity extends AppCompatActivity {
 
     //TODO aggiungere vincoli di sicurezza per i vari input
 
+    //controllo sul nome
     private boolean nomeValido(String nome){
-        if(nome.length()>3)
-            return true;
-        else
+
+
+            // Regex per controllare se il nome è valdio.
+            String regex = "^[A-Za-z]\\w{3,29}$";
+
+            // Compile the ReGex
+            Pattern p = Pattern.compile(regex);
+
+            // If the username is empty
+            // return false
+            if (nome == null) {
+                return false;
+            }
+
+            // Pattern class contains matcher() method
+            // to find matching between given username
+            // and regular expression.
+            Matcher m = p.matcher(nome);
+
+            // Return if the username
+            // matched the ReGex
+            return m.matches();
+        }
+
+    // Controllo sul cognome
+    private boolean cognomeValido(String cognome){
+
+
+        // Regex per controllare se il congome è valido.
+        String regex = "^[A-Za-z]\\w{3,29}$";
+
+        // Compile the ReGex
+        Pattern p = Pattern.compile(regex);
+
+        // If the username is empty
+        // return false
+        if (cognome == null) {
             return false;
+        }
+
+        // Pattern class contains matcher() method
+        // to find matching between given username
+        // and regular expression.
+        Matcher m = p.matcher(cognome);
+
+        // Return if the username
+        // matched the ReGex
+        return m.matches();
     }
+
 
     private boolean emailValida(String email){
         return email.contains("@");
