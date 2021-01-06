@@ -1,10 +1,9 @@
-package it.gadg.contagiapp;
+package it.gadg.contagiapp.splash;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -19,6 +18,10 @@ import android.widget.ImageView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.auth.FirebaseAuth;
+
+import it.gadg.contagiapp.autenticazione.Login;
+import it.gadg.contagiapp.MainActivity;
+import it.gadg.contagiapp.R;
 
 public class Splash extends AppCompatActivity {
 

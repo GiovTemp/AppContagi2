@@ -9,19 +9,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreaEventoActivity"></activity>
-        <activity android:name=".CreaGruppoActivity" />
+        <activity android:name=".gruppo.VisualizzaGruppoActivity"></activity>
+        <activity android:name=".gruppo.GestisciGruppoActivity" />
+        <activity android:name=".gruppo.ListaGruppiActivity" />
+        <activity android:name=".evento.ListaEventiActivity" />
+        <activity android:name=".evento.CreaEventoActivity" />
+        <activity android:name=".gruppo.CreaGruppoActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".autenticazione.RegisterActivity" />
         <activity
-            android:name=".Login"
+            android:name=".autenticazione.Login"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".Splash"
+            android:name=".splash.Splash"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

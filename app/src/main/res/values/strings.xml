@@ -45,4 +45,6 @@
     <string name="nome_evento">Nome Evento</string>
     <string name="ora_inizio">Ora Inizio</string>
     <string name="data">Data</string>
+    <string name="i_tuoi_eventi">i tuoi eventi</string>
+    <string name="i_tuoi_gruppi">I tuoi gruppi</string>
 </resources>

@@ -7,8 +7,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import it.gadg.contagiapp.evento.CreaEventoActivity;
+import it.gadg.contagiapp.evento.ListaEventiActivity;
+import it.gadg.contagiapp.gruppo.CreaGruppoActivity;
+import it.gadg.contagiapp.gruppo.ListaGruppiActivity;
+import it.gadg.contagiapp.splash.Splash;
 
 
 public class MainActivity extends Activity {
@@ -46,6 +50,18 @@ public class MainActivity extends Activity {
 
     public void creaGruppo(View view) {
         Intent i = new Intent(getApplicationContext(), CreaGruppoActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+    }
+
+    public void ListaEventi(View view) {
+        Intent i = new Intent(getApplicationContext(), ListaEventiActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+    }
+
+    public void ListaGruppi(View view) {
+        Intent i = new Intent(getApplicationContext(), ListaGruppiActivity.class);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }

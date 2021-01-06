@@ -1,4 +1,4 @@
-package it.gadg.contagiapp;
+package it.gadg.contagiapp.gruppo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +15,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import static it.gadg.contagiapp.R.id.nGruppo;
+import it.gadg.contagiapp.R;
+import it.gadg.contagiapp.modelli.Gruppo;
+import it.gadg.contagiapp.modelli.GruppoUtenti;
 
 public class CreaGruppoActivity extends AppCompatActivity {
 
@@ -64,17 +66,17 @@ public class CreaGruppoActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Errore creazione gruppo", Toast.LENGTH_LONG).show();
 
                             }
-                        }
+                       }
 
-                    });;
+                    });
 
-
-        user.getUid();
 
     }
 
    }
-        });}}
+        });
+    }
+}
 
 
 

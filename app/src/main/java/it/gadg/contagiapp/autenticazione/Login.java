@@ -1,4 +1,4 @@
-package it.gadg.contagiapp;
+package it.gadg.contagiapp.autenticazione;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,6 +15,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import it.gadg.contagiapp.MainActivity;
+import it.gadg.contagiapp.R;
 
 public class Login extends AppCompatActivity {
 
@@ -74,7 +76,7 @@ public class Login extends AppCompatActivity {
                             Log.w("login", "signInWithEmail:failure", task.getException());
                             Toast.makeText(getApplicationContext(), "Autenticazione fallita.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+
                         }
 
                         // ...
