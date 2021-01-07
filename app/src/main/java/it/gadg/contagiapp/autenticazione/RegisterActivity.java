@@ -57,14 +57,14 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Validazioni Dati
         if(!nomeValido(nome) )
-            Toast.makeText(getApplicationContext(),"Nome non Valido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Nome non Valido, inserire solo caratteri", Toast.LENGTH_SHORT).show();
         else if(!cognomeValido(cognome)){
-            Toast.makeText(getApplicationContext(),"Cognome non Valido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Cognome non Valido, inserire solo caratteri", Toast.LENGTH_SHORT).show();
         }else if(!emailValida(email)){
             Toast.makeText(getApplicationContext(),"Email non Valida", Toast.LENGTH_SHORT).show();
         }
         else if(!passwordValida(password)){
-            Toast.makeText(getApplicationContext(),"Password non Valida ( Minimo 7 caratteri) ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Password non Valida: minimo 7 caratteri, inserire almeno @#$%^&+= e una maiuscola ", Toast.LENGTH_SHORT).show();
         }else {
             this.createFirebaseUser(email,password,nome,cognome);
         }
