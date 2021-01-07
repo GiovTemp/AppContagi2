@@ -127,17 +127,17 @@ public class RegisterActivity extends AppCompatActivity {
             // Regex per controllare se il nome è valdio.
             String regex = "^[A-Za-z]\\w{3,29}$";
 
-            // Compile the ReGex
+            // Compila il ReGex
             Pattern p = Pattern.compile(regex);
 
-            // If the username is empty
+            // se il nome è vuoto
             // return false
             if (nome == null) {
                 return false;
             }
 
             // Pattern class contains matcher() method
-            // to find matching between given username
+            // to find matching between given Nome
             // and regular expression.
             Matcher m = p.matcher(nome);
 
@@ -150,13 +150,13 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean cognomeValido(String cognome){
 
 
-        // Regex per controllare se il congome è valido.
+        // Regex per controllare se il cognome è valido.
         String regex = "^[A-Za-z]\\w{3,29}$";
 
-        // Compile the ReGex
+        // Compila il ReGex
         Pattern p = Pattern.compile(regex);
 
-        // If the username is empty
+        // Se il il cognome è vuoto
         // return false
         if (cognome == null) {
             return false;
@@ -167,14 +167,25 @@ public class RegisterActivity extends AppCompatActivity {
         // and regular expression.
         Matcher m = p.matcher(cognome);
 
-        // Return if the username
+        // Return if the cognome
         // matched the ReGex
         return m.matches();
     }
 
 
     private boolean emailValida(String email){
-        return email.contains("@");
+        {
+            // Regex per controllare se l'email è valida.
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                    "[a-zA-Z0-9_+&*-]+)*@" +
+                    "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                    "A-Z]{2,7}$";
+
+            Pattern pat = Pattern.compile(emailRegex);
+            if (email == null)
+                return false;
+            return pat.matcher(email).matches();
+        }
     }
 
     private boolean passwordValida(String password){
