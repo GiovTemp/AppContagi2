@@ -136,13 +136,11 @@ public class RegisterActivity extends AppCompatActivity {
                 return false;
             }
 
-            // Pattern class contains matcher() method
-            // to find matching between given Nome
-            // and regular expression.
+            // Pattern class contiene il metodo matcher()
+            //per trovare la corrispondenza tra un dato e il Nome
             Matcher m = p.matcher(nome);
 
-            // Return if the username
-            // matched the ReGex
+            // Return se il nome corrisponde con la stringa Regex
             return m.matches();
         }
 
@@ -162,13 +160,11 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        // Pattern class contains matcher() method
-        // to find matching between given username
-        // and regular expression.
+        // Pattern class contiene il metodo matcher()
+        //per trovare la corrispondenza tra un dato e il Cognome
         Matcher m = p.matcher(cognome);
 
-        // Return if the cognome
-        // matched the ReGex
+        // Return se il nome corrisponde con la stringa Regex
         return m.matches();
     }
 
@@ -181,9 +177,15 @@ public class RegisterActivity extends AppCompatActivity {
                     "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
                     "A-Z]{2,7}$";
 
+            // Compila il ReGex
             Pattern pat = Pattern.compile(emailRegex);
+
+            // Se l'email è vuota
+            // return false
             if (email == null)
                 return false;
+
+            // Return se l'email corrisponde con la stringa Regex
             return pat.matcher(email).matches();
         }
     }
