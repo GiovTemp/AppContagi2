@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +32,7 @@ import java.util.List;
 
 import it.gadg.contagiapp.R;
 import it.gadg.contagiapp.modelli.Gruppo;
+import it.gadg.contagiapp.modelli.GruppoRicerca;
 
 public class ListaGruppiActivity extends AppCompatActivity {
 
@@ -39,12 +41,12 @@ public class ListaGruppiActivity extends AppCompatActivity {
 
     FirebaseUser user;
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
-    final List<Gruppo> listaGruppi = new ArrayList<>();
-    final List<String> listaRuoli = new ArrayList<>();
     ListView listView;
     String[] idGruppi;
     String[] ruoli;
     String[] nomi;
+    ArrayList<GruppoRicerca> gr = new ArrayList<>();
+    int flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,53 +64,52 @@ public class ListaGruppiActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
 
+        db.collection("GruppoUtenti").whereEqualTo("UID", user.getUid()).whereEqualTo("status", 1).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                flag=queryDocumentSnapshots.size();
+                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
-        db.collection("GruppoUtenti").whereEqualTo("UID", user.getUid()).whereEqualTo("status", 1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull final Task<QuerySnapshot> task) {
+                    String id = document.getString("idGruppo");
+                    String ruolo = document.getString("ruolo");
+                    final GruppoRicerca x = new GruppoRicerca(id, ruolo);
 
-                if (task.isSuccessful()) {
-                    final List<String> list = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        list.add((String) document.get("idGruppo"));
-                        listaRuoli.add((String) document.get("ruolo"));
+                    db.collection("Gruppi").document((String) document.get("idGruppo")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document != null) {
+                                    x.setNome(document.getString("Nome"));
+                                    salvaGruppo(x);
 
-                    }
-
-                    int i=0;
-
-                    nomi  = new String[list.size()];
-                    do{
-                        db.collection("Gruppi").document(list.get(i)).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    if (document != null) {
-                                        Gruppo g = new Gruppo(document.getString("Nome"));
-                                        listaGruppi.add(g);
-
-                                   }
-                                } else {
-                                    Log.d("Errore", "get failed with ", task.getException());
                                 }
+                            } else {
+                                Log.d("Errore", "get failed with ", task.getException());
                             }
+                        }
 
+                    });
+                }
+            }
 
-                        });
+            private void salvaGruppo(GruppoRicerca x) {
+                gr.add(x);
 
-                        i++;
-                    }while (i<list.size());
-
-                    idGruppi = new String[list.size()];
-                    for (int j = 0; j < list.size(); j++) {
-                        idGruppi[j] = list.get(j);
+                if(gr.size()==flag){
+                    idGruppi = new String[gr.size()];
+                    for (int j = 0; j < gr.size(); j++) {
+                        idGruppi[j] = gr.get(j).id;
                     }
 
+                    nomi = new String[gr.size()];
+                    for (int j = 0; j < gr.size(); j++) {
+                        nomi[j] = gr.get(j).nome;
+                    }
 
-                    ruoli = new String[listaRuoli.size()];
-                    for (int j = 0; j < listaRuoli.size(); j++) {
-                        if(listaRuoli.get(j).equals("1")){
+                    ruoli = new String[gr.size()];
+                    for (int j = 0; j < gr.size(); j++) {
+                        if(gr.get(j).ruolo.equals("1")){
                             ruoli[j] = "admin";
                         }else{
                             ruoli[j] = "utente normale";
@@ -116,7 +117,10 @@ public class ListaGruppiActivity extends AppCompatActivity {
 
                     }
 
-                /*
+                    System.out.println(Arrays.toString(nomi));
+                    System.out.println(Arrays.toString(ruoli));
+                    System.out.println(Arrays.toString(idGruppi));
+
                     listView = findViewById(R.id.listaGruppi);
                     Adapter adapter = new Adapter(getApplicationContext(),nomi,ruoli,idGruppi);
                     listView.setAdapter(adapter);
@@ -124,16 +128,16 @@ public class ListaGruppiActivity extends AppCompatActivity {
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            if(listaRuoli.get(position).equals("1")){
+                            if(gr.get(position).ruolo.equals("1")){
                                 Intent intent = new Intent(getApplicationContext(), GestisciGruppoActivity.class);
-                                intent.putExtra("NomeGruppo",listaGruppi.get(position).Nome);
-                                intent.putExtra("idGruppo",list.get(position));
+                                intent.putExtra("NomeGruppo",gr.get(position).nome);
+                                intent.putExtra("idGruppo",gr.get(position).id);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                             }else{
                                 Intent intent = new Intent(getApplicationContext(), VisualizzaGruppoActivity.class);
-                                intent.putExtra("NomeGruppo",listaGruppi.get(position).Nome);
-                                intent.putExtra("idGruppo",list.get(position));
+                                intent.putExtra("NomeGruppo",gr.get(position).nome);
+                                intent.putExtra("idGruppo",gr.get(position).nome);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                             }
@@ -141,23 +145,16 @@ public class ListaGruppiActivity extends AppCompatActivity {
 
                         }
                     });
-                */
-
-                } else {
-
-                    Log.d("QueryGruppi", "Error getting documents: ", task.getException());
 
                 }
             }
-
-
-
         });
 
 
+        }
 
 
-    }
+
 
     class Adapter extends ArrayAdapter<String>{
         Context context;
