@@ -171,7 +171,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean emailValida(String email){
         {
-            // Regex per controllare se l'email è valida.
+            // Regex per controllare se il cognome è valido.
             String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
                     "[a-zA-Z0-9_+&*-]+)*@" +
                     "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
@@ -191,7 +191,29 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean passwordValida(String password){
-        return password.length()>7;
-    }
+        {
 
-}
+            // Regex per controllare se la password è valida.
+            String regex = "^(?=.*[0-9])"
+                    + "(?=.*[a-z])(?=.*[A-Z])"
+                    + "(?=.*[@#$%^&+=])"
+                    + "(?=\\S+$).{8,20}$";
+
+            // Compila il ReGex
+            Pattern p = Pattern.compile(regex);
+
+            // Se la password è vuota
+            // return false
+            if (password == null)
+                return false;
+
+
+            // Pattern class contiene il metodo matcher()
+            //per trovare la corrispondenza tra un dato e la password
+            Matcher m = p.matcher(password);
+
+            // Return se la password corrisponde con la stringa Regex
+            return m.matches();
+
+        }
+    }}
