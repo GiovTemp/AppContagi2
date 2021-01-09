@@ -24,6 +24,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import it.gadg.contagiapp.R;
 import it.gadg.contagiapp.modelli.Evento;
@@ -82,13 +84,25 @@ public class CreaEventoActivity extends AppCompatActivity {
     public void creaEvento(View view) {
 
         nomeEvento = findViewById(R.id.nomeEvento);
-
         dataEvento = findViewById(R.id.dataEvento);
         oraEvento = findViewById(R.id.oraEvento);
+
+        String data = dataEvento.getText().toString();
+        String ora = oraEvento.getText().toString();
+
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+        if(!dataValida(data) ){
+            Toast.makeText(getApplicationContext(),"data non Valida", Toast.LENGTH_SHORT).show();}
+            else if(!oraValido(ora)){
+                Toast.makeText(getApplicationContext(),"orario non valido, Inserire ore e minuti in modo corretto", Toast.LENGTH_SHORT).show();
+             }
+        else {
 
         //TODO implementazione autofill google maps
         //TODO get coordinate da google mas
+
 
         final Evento e = new Evento(nomeEvento.getText().toString(),nomeLuogo,idLuogo,dataEvento.getText().toString(), oraEvento.getText().toString(),1);
         db.collection("Eventi").add(e).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
@@ -119,11 +133,38 @@ public class CreaEventoActivity extends AppCompatActivity {
             }
         });
 
+    }}
+
+    private boolean oraValido(String ora) {
 
 
+        // Regex convalida l'ora nel formato 24h.
+        String regex = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
 
+        // Compila ReGex
+        Pattern p = Pattern.compile(regex);
 
+        // Se ora è vuoto
+        // return false
+        if (ora == null) {
+            return false;
+        }
+
+        // Pattern class contiene il metodo matcher()
+        //per trovare la corrispondenza tra un dato e l'ora
+        Matcher m = p.matcher(ora);
+
+        // Return se l'ora corrisponde con la stringa Regex
+        return m.matches();
     }
 
+    private boolean dataValida(String data) {
+        // TODO Conversione stringa in data
+        String regex = "^(1[0-2]|0[1-9])/(3[01]"
+                + "|[12][0-9]|0[1-9])/[0-9]{4}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher((CharSequence)data);
+        return matcher.matches();
+    }}
 
-}
+
