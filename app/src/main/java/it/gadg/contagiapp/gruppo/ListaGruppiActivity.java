@@ -28,10 +28,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import it.gadg.contagiapp.R;
-import it.gadg.contagiapp.modelli.Gruppo;
 import it.gadg.contagiapp.modelli.GruppoRicerca;
 
 public class ListaGruppiActivity extends AppCompatActivity {
@@ -163,7 +161,7 @@ public class ListaGruppiActivity extends AppCompatActivity {
         String IdGruppi[];
 
         Adapter (Context c,String NomiGruppi[] , String RuoliGruppi[], String IdGruppi[]){
-            super(c,R.layout.rigagruppo,R.id.NomeGruppoRiga,NomiGruppi);
+            super(c,R.layout.rigagruppo,R.id.NomeGruppoInvito,NomiGruppi);
             this.context = c;
             this.NomiGruppi=NomiGruppi;
             this.RuoliGruppi=RuoliGruppi;
@@ -177,9 +175,9 @@ public class ListaGruppiActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rigagruppo = layoutInflater.inflate(R.layout.rigagruppo,parent,false);
-            TextView nomeGruppoRiga = rigagruppo.findViewById(R.id.NomeGruppoRiga);
+            TextView nomeGruppoRiga = rigagruppo.findViewById(R.id.NomeGruppoInvito);
             TextView ruoloGruppoRiga = rigagruppo.findViewById(R.id.RuoloGruppoRiga);
-            TextView idGruppoRiga = rigagruppo.findViewById(R.id.idGruppoRiga);
+            TextView idGruppoRiga = rigagruppo.findViewById(R.id.idGruppoInvito);
 
             nomeGruppoRiga.setText(NomiGruppi[position]);
             ruoloGruppoRiga.setText(RuoliGruppi[position]);

@@ -64,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Email non Valida", Toast.LENGTH_SHORT).show();
         }
         else if(!passwordValida(password)){
-            Toast.makeText(getApplicationContext(),"Password non Valida: minimo 7 caratteri, inserire almeno @#$%^&+= e una maiuscola ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Password non Valida: minimo 7 caratteri, inserire almeno @#$%^&+= e una maiuscola ", Toast.LENGTH_LONG).show();
         }else {
             this.createFirebaseUser(email,password,nome,cognome);
         }

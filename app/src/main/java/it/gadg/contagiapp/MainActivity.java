@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import it.gadg.contagiapp.evento.CreaEventoActivity;
 import it.gadg.contagiapp.evento.ListaEventiActivity;
 import it.gadg.contagiapp.gruppo.CreaGruppoActivity;
+import it.gadg.contagiapp.gruppo.InvitiGruppi;
 import it.gadg.contagiapp.gruppo.ListaGruppiActivity;
 import it.gadg.contagiapp.splash.Splash;
 
@@ -62,6 +63,12 @@ public class MainActivity extends Activity {
 
     public void ListaGruppi(View view) {
         Intent i = new Intent(getApplicationContext(), ListaGruppiActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+    }
+
+    public void ListaInviti(View view) {
+        Intent i = new Intent(getApplicationContext(), InvitiGruppi.class);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }

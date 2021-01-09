@@ -73,7 +73,7 @@ public class GestisciGruppoActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 GruppoUtenti gU = new GruppoUtenti(idGruppo, document.getId());
                                 gU.ruolo = "0";
-                                gU.status = 2;
+                                gU.status = 0;
                                 db.collection("GruppoUtenti").add(gU).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentReference> task) {
