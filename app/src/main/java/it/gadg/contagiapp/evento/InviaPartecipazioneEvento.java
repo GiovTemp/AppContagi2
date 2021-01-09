@@ -45,7 +45,6 @@ public class InviaPartecipazioneEvento extends AppCompatActivity {
 
     public void inviaRichiesta(View view) {
 
-        //TODO controllare unicità richiesta
 
         idGruppo = findViewById(R.id.idEventoRichiesta);
         final String id = idGruppo.getText().toString();
@@ -57,8 +56,7 @@ public class InviaPartecipazioneEvento extends AppCompatActivity {
                     idGruppo.setText("");
                     Toast.makeText(getApplicationContext(), "Richiesta già inoltrata", Toast.LENGTH_LONG).show();
                 }else{
-                    System.out.println("ciao"+flag);
-                    try {
+                   try {
                         db.collection("Eventi").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
