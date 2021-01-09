@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 import it.gadg.contagiapp.R;
 import it.gadg.contagiapp.modelli.Evento;
+import it.gadg.contagiapp.modelli.PartecipazioneEvento;
 
 public class CreaEventoActivity extends AppCompatActivity {
 

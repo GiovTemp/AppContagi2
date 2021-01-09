@@ -1,4 +1,4 @@
-package it.gadg.contagiapp.evento;
+package it.gadg.contagiapp.modelli;
 
 public class PartecipazioneEvento {
 

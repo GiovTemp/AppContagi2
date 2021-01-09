@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import it.gadg.contagiapp.evento.CreaEventoActivity;
+import it.gadg.contagiapp.evento.InviaPartecipazioneEvento;
 import it.gadg.contagiapp.evento.ListaEventiActivity;
 import it.gadg.contagiapp.gruppo.CreaGruppoActivity;
 import it.gadg.contagiapp.gruppo.InvitiGruppi;
@@ -69,6 +70,12 @@ public class MainActivity extends Activity {
 
     public void ListaInviti(View view) {
         Intent i = new Intent(getApplicationContext(), InvitiGruppi.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+    }
+
+    public void cercaEvento(View view) {
+        Intent i = new Intent(getApplicationContext(), InviaPartecipazioneEvento.class);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }
