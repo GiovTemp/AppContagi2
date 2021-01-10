@@ -44,7 +44,7 @@ public class GestisciGruppoActivity extends AppCompatActivity {
         RuoloGruppoGestione.setText("sei admin");
 
         idGruppo = intent.getStringExtra("idGruppo");
-        System.out.println(idGruppo);
+
         db = FirebaseFirestore.getInstance();
 
 

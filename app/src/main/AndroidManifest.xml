@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".evento.InviaPartecipazioneEvento"></activity>
+        <activity android:name=".evento.RichiesteEvento"></activity>
+        <activity android:name=".evento.GestisciEvento" />
+        <activity android:name=".evento.InviaPartecipazioneEvento" />
         <activity android:name=".gruppo.InvitiGruppi" />
         <activity android:name=".gruppo.VisualizzaGruppoActivity" />
         <activity android:name=".gruppo.GestisciGruppoActivity" />

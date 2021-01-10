@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".evento.GestisciEvento">
+
+    <TextView
+        android:id="@+id/NomeEventoGestione"
+        android:layout_width="171dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="50dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/RuoloEventoGestione"
+        android:layout_width="194dp"
+        android:layout_height="33dp"
+        android:textSize="13sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NomeEventoGestione"
+        app:layout_constraintVertical_bias="0.082" />
+
+    <Button
+        android:id="@+id/richiesteEvento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="richiesteEvento"
+        android:text="Vedi Richieste Partecipazione"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RuoloEventoGestione" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

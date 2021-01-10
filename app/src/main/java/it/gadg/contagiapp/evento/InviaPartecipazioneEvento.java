@@ -65,7 +65,7 @@ public class InviaPartecipazioneEvento extends AppCompatActivity {
                                     if (document.exists()) {
                                         PartecipazioneEvento pE = new PartecipazioneEvento(id, u.getUid());
                                         pE.status = 0;
-                                        pE.role = 0;
+                                        pE.role = "0";
                                         db.collection("PartecipazioneEvento").add(pE).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
 
                                             @Override

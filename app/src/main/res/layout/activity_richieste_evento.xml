@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".gruppo.InvitiGruppi">
+    tools:context=".evento.RichiesteEvento">
 
     <ListView
-        android:id="@+id/listaRichieste"
+        android:id="@+id/listaInviti"
         android:layout_width="386dp"
         android:layout_height="601dp"
         android:layout_marginStart="5dp"

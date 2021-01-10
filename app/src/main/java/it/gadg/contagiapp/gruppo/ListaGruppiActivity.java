@@ -51,7 +51,6 @@ public class ListaGruppiActivity extends AppCompatActivity {
 
 
 
-        //TODO ruoli non corrispondenti controllare cicli (problema visibilità "NOMI"
 
 
         super.onCreate(savedInstanceState);
@@ -63,32 +62,32 @@ public class ListaGruppiActivity extends AppCompatActivity {
 
 
         db.collection("GruppoUtenti").whereEqualTo("UID", user.getUid()).whereEqualTo("status", 1).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                flag=queryDocumentSnapshots.size();
-                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        flag=queryDocumentSnapshots.size();
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
-                    String id = document.getString("idGruppo");
-                    String ruolo = document.getString("ruolo");
-                    final GruppoRicerca x = new GruppoRicerca(id, ruolo);
+                            String id = document.getString("idGruppo");
+                            String ruolo = document.getString("ruolo");
+                            final GruppoRicerca x = new GruppoRicerca(id, ruolo);
 
-                    db.collection("Gruppi").document((String) document.get("idGruppo")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document != null) {
-                                    x.setNome(document.getString("Nome"));
-                                    salvaGruppo(x);
+                            db.collection("Gruppi").document((String) document.get("idGruppo")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document != null) {
+                                            x.setNome(document.getString("Nome"));
+                                            salvaGruppo(x);
 
+                                        }
+                                    } else {
+                                        Log.d("Errore", "get failed with ", task.getException());
+                                    }
                                 }
-                            } else {
-                                Log.d("Errore", "get failed with ", task.getException());
-                            }
-                        }
 
-                    });
-                }
+                            });
+                        }
             }
 
             private void salvaGruppo(GruppoRicerca x) {
@@ -135,7 +134,7 @@ public class ListaGruppiActivity extends AppCompatActivity {
                             }else{
                                 Intent intent = new Intent(getApplicationContext(), VisualizzaGruppoActivity.class);
                                 intent.putExtra("NomeGruppo",gr.get(position).nome);
-                                intent.putExtra("idGruppo",gr.get(position).nome);
+                                intent.putExtra("idGruppo",gr.get(position).id);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                             }
