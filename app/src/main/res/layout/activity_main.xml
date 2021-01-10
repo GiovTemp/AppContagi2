@@ -86,4 +86,40 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button8" />
+
+    <Button
+        android:id="@+id/positivoB"
+        android:layout_width="103dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="16dp"
+        android:text="Sono Positivo"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iscrEvento"
+        app:layout_constraintVertical_bias="0.511" />
+
+    <Button
+        android:id="@+id/negativoB"
+        android:layout_width="109dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="52dp"
+        android:text="Sono Negativo"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/positivoB"
+        app:layout_constraintTop_toBottomOf="@+id/iscrEvento"
+        app:layout_constraintVertical_bias="0.673" />
+
+    <Button
+        android:id="@+id/inAttesaB"
+        android:layout_width="104dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="40dp"
+        android:text="IN ATTESA DEL TEST"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/negativoB"
+        app:layout_constraintTop_toBottomOf="@+id/iscrEvento"
+        app:layout_constraintVertical_bias="0.6" />
 </androidx.constraintlayout.widget.ConstraintLayout>

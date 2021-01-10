@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,9 @@ public class MainActivity extends Activity {
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
 
     FirebaseFirestore db;
+    Button positivoB;
+    Button negativoB;
+    Button inAttesaB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,11 @@ public class MainActivity extends Activity {
         mAuth= FirebaseAuth.getInstance();
         FirebaseUser u = mAuth.getCurrentUser();
         String id = u.getUid();
+        positivoB = findViewById(R.id.positivoB);
+        negativoB = findViewById(R.id.negativoB);
+        inAttesaB = findViewById(R.id.inAttesaB);
         db = FirebaseFirestore.getInstance();
+
 
         db.collection("Utenti")
                 .document(id)
@@ -50,6 +58,20 @@ public class MainActivity extends Activity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         DocumentSnapshot document = task.getResult();
                         String etichetta = (String) document.get("etichetta");
+                        if (etichetta.equals("super")||etichetta.equals("sicuro")||etichetta.equals("incerto")){
+                            inAttesaB.setVisibility(View.VISIBLE);
+                        }
+                              else if (etichetta.equals("test")){
+
+                                  positivoB.setVisibility(View.VISIBLE);
+                                  negativoB.setVisibility(View.VISIBLE);
+                        }
+
+                                else if (etichetta.equals("positivo")){
+
+                                    inAttesaB.setVisibility(View.VISIBLE);
+                                    }
+
                     }
                 });
     }
