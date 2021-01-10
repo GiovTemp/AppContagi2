@@ -1,9 +1,9 @@
-package it.gadg.contagiapp.evento;
+package it.gadg.contagiapp.modelli;
 
 public class ListaEvento {
-    String id;
-    String ruolo;
-    String nome;
+    public String id;
+    public String ruolo;
+    public String nome;
 
     public  ListaEvento(String id,String ruolo){
         this.id =id;

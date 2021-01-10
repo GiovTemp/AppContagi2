@@ -32,7 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 import it.gadg.contagiapp.R;
-import it.gadg.contagiapp.modelli.GruppoInvito;
+
 import it.gadg.contagiapp.modelli.UtenteRichiesta;
 
 
@@ -50,7 +50,7 @@ public class RichiesteEvento extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inviti_gruppi);
+        setContentView(R.layout.activity_richieste_evento);
 
         Intent intent = getIntent();
         String id =intent.getStringExtra("idEvento");

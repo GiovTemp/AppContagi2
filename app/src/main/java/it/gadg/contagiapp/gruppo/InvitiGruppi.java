@@ -55,36 +55,40 @@ public class InvitiGruppi extends AppCompatActivity {
         db.collection("GruppoUtenti").whereEqualTo("UID", user.getUid()).whereEqualTo("status", 0).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-               flag = queryDocumentSnapshots.size();
-                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                flag = queryDocumentSnapshots.size();
+                if (flag>0){
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
-                    String id = document.getString("idGruppo");
-                    final GruppoInvito x = new GruppoInvito(id);
+                        String id = document.getString("idGruppo");
+                        final GruppoInvito x = new GruppoInvito(id);
 
 
-                    db.collection("Gruppi").document((String) document.get("idGruppo")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document != null) {
-                                    x.nome=document.getString("Nome");
-                                    salvaGruppo(x);
+                        db.collection("Gruppi").document((String) document.get("idGruppo")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document != null) {
+                                        x.nome = document.getString("Nome");
+                                        salvaGruppo(x);
 
+                                    }
+                                } else {
+                                    Log.d("Errore", "get failed with ", task.getException());
                                 }
-                            } else {
-                                Log.d("Errore", "get failed with ", task.getException());
                             }
-                        }
 
-                    });
+                        });
+                    }
+            }else{
+                    Toast.makeText(getApplicationContext(), "Non hai inviti", Toast.LENGTH_LONG).show();
                 }
             }
 
             private void salvaGruppo(GruppoInvito x) {
                 gr.add(x);
 
-                if (gr.size() == flag) {
+                if (gr.size() == flag && flag!=0) {
                     idGruppi = new String[gr.size()];
                     for (int j = 0; j < gr.size(); j++) {
                         idGruppi[j] = gr.get(j).id;

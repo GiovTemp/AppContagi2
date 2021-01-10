@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,11 +30,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import it.gadg.contagiapp.R;
-import it.gadg.contagiapp.gruppo.GestisciGruppoActivity;
-import it.gadg.contagiapp.gruppo.ListaGruppiActivity;
 import it.gadg.contagiapp.gruppo.VisualizzaGruppoActivity;
-import it.gadg.contagiapp.modelli.Evento;
-import it.gadg.contagiapp.modelli.GruppoRicerca;
+import it.gadg.contagiapp.modelli.ListaEvento;
 
 public class ListaEventiActivity extends AppCompatActivity {
 
@@ -132,7 +128,7 @@ public class ListaEventiActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                             }else{
-                                Intent intent = new Intent(getApplicationContext(), VisualizzaGruppoActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), VisualizzaEventoActivity.class);
                                 intent.putExtra("NomeEvento",eventi.get(position).nome);
                                 intent.putExtra("idEvento",eventi.get(position).id);
                                 startActivity(intent);

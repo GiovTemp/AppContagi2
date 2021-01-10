@@ -126,4 +126,8 @@ public class MainActivity extends Activity {
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }
+
+    public void registraContatto(View view) {
+        //TODO scambiare informazioni tramite bluetooth ogetto(UID,rischio,data)
+    }
 }

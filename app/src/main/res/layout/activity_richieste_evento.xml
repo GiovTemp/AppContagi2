@@ -7,7 +7,7 @@
     tools:context=".evento.RichiesteEvento">
 
     <ListView
-        android:id="@+id/listaInviti"
+        android:id="@+id/listaRichieste"
         android:layout_width="386dp"
         android:layout_height="601dp"
         android:layout_marginStart="5dp"

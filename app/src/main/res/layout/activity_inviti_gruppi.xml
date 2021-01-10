@@ -7,7 +7,7 @@
     tools:context=".gruppo.InvitiGruppi">
 
     <ListView
-        android:id="@+id/listaRichieste"
+        android:id="@+id/listaInviti"
         android:layout_width="386dp"
         android:layout_height="601dp"
         android:layout_marginStart="5dp"
