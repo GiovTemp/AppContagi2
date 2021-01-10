@@ -52,11 +52,9 @@ public class GestisciGruppoActivity extends AppCompatActivity {
 
     public void invitaUtente(View view) {
 
-        //TODO implementare controllo su esistenza invito
 
         EmailInvito = findViewById(R.id.emailInvito);
         String email = EmailInvito.getText().toString();
-
 
         db.collection("Utenti")
                 .whereEqualTo("email", email)
@@ -71,21 +69,36 @@ public class GestisciGruppoActivity extends AppCompatActivity {
                         }
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                GruppoUtenti gU = new GruppoUtenti(idGruppo, document.getId());
-                                gU.ruolo = "0";
-                                gU.status = 0;
-                                db.collection("GruppoUtenti").add(gU).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                final String id = document.getId();
+
+                                db.collection("GruppoUtenti").whereEqualTo("UID",id).whereEqualTo("idGruppo",idGruppo).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(GestisciGruppoActivity.this, "Invito inviato correttamente",
-                                                    Toast.LENGTH_SHORT).show();
-                                        }else{
-                                               Toast.makeText(GestisciGruppoActivity.this, "Non siamo riusciti a completare l'operazione",
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        QuerySnapshot document = task.getResult();
+                                        if (document.size() == 0) {
+                                            GruppoUtenti gU = new GruppoUtenti(idGruppo, id);
+                                            gU.ruolo = "0";
+                                            gU.status = 0;
+                                            db.collection("GruppoUtenti").add(gU).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(GestisciGruppoActivity.this, "Invito inviato correttamente",
+                                                                Toast.LENGTH_SHORT).show();
+                                                    }else{
+                                                        Toast.makeText(GestisciGruppoActivity.this, "Non siamo riusciti a completare l'operazione",
+                                                                Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            Toast.makeText(GestisciGruppoActivity.this, "Invito già inviato",
                                                     Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
+
+
                             }
                         } else {
 
