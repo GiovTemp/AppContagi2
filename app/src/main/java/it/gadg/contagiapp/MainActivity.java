@@ -1,10 +1,12 @@
 package it.gadg.contagiapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,8 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
 
 import it.gadg.contagiapp.evento.CreaEventoActivity;
 import it.gadg.contagiapp.evento.InviaPartecipazioneEvento;
@@ -31,7 +31,13 @@ public class MainActivity extends Activity {
 
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
 
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private TextView richiestaPopup;
+    private Button siInAttesaPopup, noInAttesaPopup;
+
     FirebaseFirestore db;
+
     Button positivoB;
     Button negativoB;
     Button inAttesaB;
@@ -43,9 +49,11 @@ public class MainActivity extends Activity {
         mAuth= FirebaseAuth.getInstance();
         FirebaseUser u = mAuth.getCurrentUser();
         String id = u.getUid();
+
         positivoB = findViewById(R.id.positivoB);
         negativoB = findViewById(R.id.negativoB);
         inAttesaB = findViewById(R.id.inAttesaB);
+
         db = FirebaseFirestore.getInstance();
 
 
@@ -132,5 +140,64 @@ public class MainActivity extends Activity {
         Intent i = new Intent(getApplicationContext(), BtActivity.class);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+    }
+
+    public void createNewContactDialog(int i) {
+
+
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View contactPopupView  = getLayoutInflater().inflate(R.layout.popupmain, null);
+        richiestaPopup =  contactPopupView.findViewById(R.id.richiestaPopup);
+
+        if(i == 1){
+            String temp = "Confermi di essere positivo?";
+            richiestaPopup.setText(temp);
+        }
+           else if (i == 2){
+               String temp = "Confermi di essere in Attesa?";
+               richiestaPopup.setText(temp);
+           }
+              else if (i == 3){
+                 String temp = "Confermi di essere in Negativo?";
+                 richiestaPopup.setText(temp);
+
+              }
+
+        siInAttesaPopup =  contactPopupView.findViewById(R.id.siInAttesaPopup);
+        noInAttesaPopup =  contactPopupView.findViewById(R.id.noInAttesaPopup);
+
+        dialogBuilder.setView(contactPopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        siInAttesaPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        noInAttesaPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+
+
+
+    }
+
+    public void popupPositivo(View view) {
+         this.createNewContactDialog(1);
+    }
+
+    public void popupInAttesa(View view) {
+        this.createNewContactDialog(2);
+    }
+
+    public void popupNegativo(View view) {
+        this.createNewContactDialog(3);
     }
 }
