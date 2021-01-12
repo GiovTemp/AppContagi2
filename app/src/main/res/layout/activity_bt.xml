@@ -1,69 +1,109 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".BtActivity">
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:clickable="true"
+        android:onClick="on"
+        android:text="On"/>
 
     <Button
-        android:text="ON/OFF"
+        android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:id="@+id/btnONOFF"/>
+        android:layout_toEndOf="@+id/button1"
+        android:layout_toRightOf="@+id/button1"
+        android:onClick="visible"
+        android:text="Visible"/>
 
     <Button
-        android:text="Enable Discoverable"
+        android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnDiscoverable_on_off"
-        android:onClick="btnEnableDisable_Discoverable"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_toEndOf="@+id/button2"
+        android:layout_toRightOf="@+id/button2"
+        android:onClick="list"
+        android:text="List"/>
 
     <Button
+        android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnFindUnpairedDevices"
-        android:text="Discover"
-        android:onClick="btnDiscover"/>
+        android:onClick="off"
+        android:text="Off"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/button3"
+        android:layout_toRightOf="@+id/button3"
+        />
 
-    <ListView
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/btnStartConnection"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:id="@+id/lvNewDevices"/>
+    <CheckBox
+        android:id="@+id/cbServer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/listView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txtMessage"
+        android:layout_toLeftOf="@+id/button5"
+        android:text="Server"/>
 
     <Button
-        android:layout_marginTop="10dp"
+        android:id="@+id/button5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnFindUnpairedDevices"
-        android:id="@+id/btnStartConnection"
-        android:text="Start Connection"/>
+        android:onClick="openBT"
+        android:text="Open"
+        android:layout_alignBaseline="@+id/cbServer"
+        android:layout_alignBottom="@+id/cbServer"
+        android:layout_toRightOf="@+id/button1"
+        android:layout_toEndOf="@+id/button1"/>
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="closeBT"
+        android:text="Close"
+        android:layout_alignBaseline="@+id/button6"
+        android:layout_alignBottom="@+id/button6"
+        android:layout_toRightOf="@+id/button5"
+        android:layout_toEndOf="@+id/button5"/>
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtMessage"
+        android:layout_toEndOf="@+id/button3"
+        android:layout_toRightOf="@+id/button3"
+        android:onClick="sendBtnClick"
+        android:text="Send"/>
 
     <EditText
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter Text Here"
-        android:layout_below="@+id/lvNewDevices"
+        android:id="@+id/txtMessage"
+        android:layout_width="match_parent"
+        android:layout_height="@android:dimen/thumbnail_width"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/editText"/>
+        android:layout_below="@+id/button1"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:text="@string/demo_text"/>
 
-    <Button
+    <ListView
+        android:id="@+id/listView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SEND"
-        android:id="@+id/btnSend"
-        android:layout_toRightOf="@+id/editText"
-        android:layout_below="@+id/lvNewDevices"/>
-
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/button7"/>
 
 </RelativeLayout>

@@ -47,4 +47,5 @@
     <string name="data">Data</string>
     <string name="i_tuoi_eventi">i tuoi eventi</string>
     <string name="i_tuoi_gruppi">I tuoi gruppi</string>
+    <string name="demo_text">Write a message here...</string>
 </resources>
