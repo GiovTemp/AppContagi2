@@ -36,11 +36,15 @@ public class MainActivity extends Activity {
     private TextView richiestaPopup;
     private Button siInAttesaPopup, noInAttesaPopup;
 
+    public String id;
+
     FirebaseFirestore db;
 
     Button positivoB;
     Button negativoB;
     Button inAttesaB;
+
+    private int RISCHIO_POSITIVO=50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         mAuth= FirebaseAuth.getInstance();
         FirebaseUser u = mAuth.getCurrentUser();
-        String id = u.getUid();
+        id = u.getUid();
 
         positivoB = findViewById(R.id.positivoB);
         negativoB = findViewById(R.id.negativoB);
@@ -142,7 +146,7 @@ public class MainActivity extends Activity {
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }
 
-    public void createNewContactDialog(int i) {
+    public void createNewContactDialog(final int i) {
 
 
         dialogBuilder = new AlertDialog.Builder(this);
@@ -173,6 +177,38 @@ public class MainActivity extends Activity {
         siInAttesaPopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(i==1){
+                   //TODO Modifica nel db l'etichetta in "positivo" trovo le etivhette sul file del drive
+
+                    db.collection("Utenti").document(id).update("etichetta", "positivo").addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            recreate();
+                            if(task.isSuccessful()){
+                                db.collection("Utenti").document(id).update("rischio", RISCHIO_POSITIVO).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        recreate();
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(getApplicationContext(), "Richiesta accettata correttamente", Toast.LENGTH_LONG).show();
+                                            recreate();
+                                        }else{
+                                            Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                        }
+
+                                    }
+                                });
+                            }else{
+                                Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    });
+                }else if(i==2){
+                    //TODO Modifica nel db l'etichetta in "test" trovo le etivhette sul file del drive
+                }else if(i==3){
+                    //TODO Modifica nel db l'etichetta in "super" trovo le etivhette sul file del drive
+                }
 
             }
         });
@@ -180,7 +216,6 @@ public class MainActivity extends Activity {
         noInAttesaPopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 dialog.dismiss();
             }
         });
