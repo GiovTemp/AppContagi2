@@ -140,7 +140,7 @@ public class RichiesteEvento extends AppCompatActivity {
         @Override
         public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View rigarichiesta = layoutInflater.inflate(R.layout.rigarichiesta,parent,false);
+            final View rigarichiesta = layoutInflater.inflate(R.layout.rigarichiesta,parent,false);
             TextView NomeUtente = rigarichiesta.findViewById(R.id.NomeUtente);
             TextView idRichiesta = rigarichiesta.findViewById(R.id.idRichiestaPartecipazione);
             TextView Rischio = rigarichiesta.findViewById(R.id.RischioUtente);
@@ -152,32 +152,63 @@ public class RichiesteEvento extends AppCompatActivity {
 
             NomeUtente.setText(NomiUtenti[position]);
             idRichiesta.setText(idRichiesteUtenti[position]);
-            String temp = "Rischo positività : " + rischi[position] +"%";
+            final String temp = "Rischo positività : " + rischi[position] +"%";
             Rischio.setText(temp);
 
             final Button accetta = rigarichiesta.findViewById(R.id.accettaRichiesta);
             accetta.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
-                                               accettaInvito(idRichiesteUtenti[position]);
+                                               accettaInvito(idRichiesteUtenti[position], Integer.parseInt(rischi[position]));
 
                                            }
 
-                                           private void accettaInvito(String id) {
+                                           private void accettaInvito(final String id, final int rischio) {
 
+                                               //controllo che il rischio sia sotto la soglia accettabile
+                                               if(rischio<50){
+                                                   //aggiorno lo status della richiesta
+                                                   db.collection("PartecipazioneEvento").document(id).update("status", 1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                       @Override
+                                                       public void onComplete(@NonNull Task<Void> task) {
+                                                           recreate();
+                                                           if(task.isSuccessful()){
+                                                               //prendo l'id dell'evento
+                                                               db.collection("PartecipazioneEvento").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                   @Override
+                                                                   public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                       DocumentSnapshot document1 = task.getResult();
+                                                                       //prendo il docuemnto dell'evento
+                                                                       db.collection("Eventi").document((String) document1.get("idEvento")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                           @Override
+                                                                           public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                               DocumentSnapshot document2 = task.getResult();
+                                                                                //controllo il rischio dell'utnete , se è maggiore di quello dell'evento aggiorno il rischio dell'evento
+                                                                               if(rischio>(long)document2.get("rischio")){
+                                                                                   //aggiorno il rischio dell'evento
+                                                                                   db.collection("Eventi").document(document2.getId()).update("rischio", rischio).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                       @Override
+                                                                                       public void onComplete(@NonNull Task<Void> task) {
+                                                                                           Toast.makeText(getApplicationContext(), "Richiesta accettata correttamente", Toast.LENGTH_LONG).show();
+                                                                                       }
+                                                                                   });
+                                                                               }
+                                                                           }
+                                                                       });
 
-                                                           db.collection("PartecipazioneEvento").document(id).update("status", 1).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                               @Override
-                                                               public void onComplete(@NonNull Task<Void> task) {
-                                                                   recreate();
-                                                                   if(task.isSuccessful()){
-                                                                       Toast.makeText(getApplicationContext(), "Richiesta accettata correttamente", Toast.LENGTH_LONG).show();
-                                                                   }else{
-                                                                       Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
                                                                    }
+                                                               });
 
-                                                               }
-                                                           });
+                                                           }else{
+                                                               Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                                           }
+
+                                                       }
+                                                   });
+                                               }else{
+                                                   Toast.makeText(getApplicationContext(), "Il rischio è troppo alto alto,aspetta che si abbassi per accettarlo", Toast.LENGTH_LONG).show();
+                                               }
+                                                     
 
 
 

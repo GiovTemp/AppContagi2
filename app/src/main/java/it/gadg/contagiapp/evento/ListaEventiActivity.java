@@ -73,8 +73,10 @@ public class ListaEventiActivity extends AppCompatActivity {
                                 DocumentSnapshot document = task.getResult();
                                 if (document != null) {
                                     x.nome=document.getString("nome");
+                                    x.luogo=document.getString("nomeLuogo");
+                                    x.data=document.getString("data");
+                                    x.ora = document.getString("oraInizio");
                                     salvaEvento(x);
-                                    System.out.println(x.nome);
 
                                 }
                             } else {
@@ -110,10 +112,6 @@ public class ListaEventiActivity extends AppCompatActivity {
 
                     }
 
-                    System.out.println(Arrays.toString(nomi));
-                    System.out.println(Arrays.toString(ruoli));
-                    System.out.println(Arrays.toString(idEventi));
-
                     listView = findViewById(R.id.listaEventi);
                     ListaEventiActivity.Adapter adapter = new ListaEventiActivity.Adapter(getApplicationContext(),nomi,ruoli,idEventi);
                     listView.setAdapter(adapter);
@@ -124,12 +122,18 @@ public class ListaEventiActivity extends AppCompatActivity {
                             if(eventi.get(position).ruolo.equals("1")){
                                 Intent intent = new Intent(getApplicationContext(), GestisciEvento.class);
                                 intent.putExtra("NomeEvento",eventi.get(position).nome);
+                                intent.putExtra("LuogoEvento",eventi.get(position).luogo);
+                                intent.putExtra("DataEvento",eventi.get(position).data);
+                                intent.putExtra("OraEvento",eventi.get(position).ora);
                                 intent.putExtra("idEvento",eventi.get(position).id);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                             }else{
                                 Intent intent = new Intent(getApplicationContext(), VisualizzaEventoActivity.class);
                                 intent.putExtra("NomeEvento",eventi.get(position).nome);
+                                intent.putExtra("LuogoEvento",eventi.get(position).luogo);
+                                intent.putExtra("DataEvento",eventi.get(position).data);
+                                intent.putExtra("OraEvento",eventi.get(position).ora);
                                 intent.putExtra("idEvento",eventi.get(position).id);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);

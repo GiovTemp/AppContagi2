@@ -254,7 +254,7 @@ public class MainActivity extends Activity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         recreate();
                                         if(task.isSuccessful()){
-                                            Toast.makeText(getApplicationContext(), "Risultati essere negativo", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "Risulti essere negativo", Toast.LENGTH_LONG).show();
                                             recreate();
                                         }else{
                                             Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();

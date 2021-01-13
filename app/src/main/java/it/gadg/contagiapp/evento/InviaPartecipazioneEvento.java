@@ -48,55 +48,72 @@ public class InviaPartecipazioneEvento extends AppCompatActivity {
 
         idGruppo = findViewById(R.id.idEventoRichiesta);
         final String id = idGruppo.getText().toString();
-        db.collection("PartecipazioneEvento").whereEqualTo("UID",u.getUid()).whereEqualTo("idEvento",id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Utenti").document(u.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                QuerySnapshot document = task.getResult();
-               if(document.size()>0){
-                    idGruppo.setText("");
-                    Toast.makeText(getApplicationContext(), "Richiesta già inoltrata", Toast.LENGTH_LONG).show();
-                }else{
-                   try {
-                        db.collection("Eventi").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    if (document.exists()) {
-                                        PartecipazioneEvento pE = new PartecipazioneEvento(id, u.getUid());
-                                        pE.status = 0;
-                                        pE.role = "0";
-                                        db.collection("PartecipazioneEvento").add(pE).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        long rischio = (long) document.get("rischio");
+                        if (rischio < 50) {
+                            db.collection("PartecipazioneEvento").whereEqualTo("UID",u.getUid()).whereEqualTo("idEvento",id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    QuerySnapshot document = task.getResult();
+                                    if(document.size()>0){
+                                        idGruppo.setText("");
+                                        Toast.makeText(getApplicationContext(), "Richiesta già inoltrata", Toast.LENGTH_LONG).show();
+                                    }else{
+                                        try {
+                                            db.collection("Eventi").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        if (document.exists()) {
+                                                            PartecipazioneEvento pE = new PartecipazioneEvento(id, u.getUid());
+                                                            pE.status = 0;
+                                                            pE.role = "0";
+                                                            db.collection("PartecipazioneEvento").add(pE).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
 
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                                if (task.isSuccessful()) {
-                                                    idGruppo.setText("");
-                                                    Toast.makeText(getApplicationContext(), "Richiesta inoltrata correttamente", Toast.LENGTH_LONG).show();
-                                                } else {
-                                                    Toast.makeText(getApplicationContext(), "Errore,riprova più tardi", Toast.LENGTH_LONG).show();
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        idGruppo.setText("");
+                                                                        Toast.makeText(getApplicationContext(), "Richiesta inoltrata correttamente", Toast.LENGTH_LONG).show();
+                                                                    } else {
+                                                                        Toast.makeText(getApplicationContext(), "Errore,riprova più tardi", Toast.LENGTH_LONG).show();
 
+                                                                    }
+                                                                }
+
+                                                            });
+
+                                                        } else {
+                                                            Toast.makeText(getApplicationContext(), "Evento non trovato", Toast.LENGTH_LONG).show();
+                                                        }
+
+
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "Evento non trovato", Toast.LENGTH_LONG).show();
+                                                    }
                                                 }
-                                            }
 
-                                        });
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            Toast.makeText(getApplicationContext(), "Id Evento non valido", Toast.LENGTH_LONG).show();
+                                        }
 
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Evento non trovato", Toast.LENGTH_LONG).show();
                                     }
-
-
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Evento non trovato", Toast.LENGTH_LONG).show();
                                 }
-                            }
+                            });
 
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), "Id Evento non valido", Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Il tuo rischio è troppo alto ,non puoi inviare richieste", Toast.LENGTH_LONG).show();
+
+                        }
                     }
-
                 }
             }
         });

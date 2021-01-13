@@ -40,5 +40,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/RuoloEventoGestione" />
 
+    <Button
+        android:id="@+id/calendario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="aggEventoCalendario"
+        android:text="Aggiungi Evento al Calendario"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/richiesteEvento"
+        app:layout_constraintVertical_bias="0.431" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

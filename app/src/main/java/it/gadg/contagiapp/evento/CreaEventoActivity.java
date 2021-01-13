@@ -21,6 +21,7 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
@@ -98,43 +99,56 @@ public class CreaEventoActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"data non Valida", Toast.LENGTH_SHORT).show();}
             else if(!oraValido(ora)){
                 Toast.makeText(getApplicationContext(),"orario non valido, Inserire ore e minuti in modo corretto", Toast.LENGTH_SHORT).show();
-             }
-        else {
+             }else {
+            db.collection("Utenti").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                           long rischio = (long) document.get("rischio");
+                           if(rischio<50){
+                               final Evento e = new Evento(nomeEvento.getText().toString(),nomeLuogo,idLuogo,dataEvento.getText().toString(), oraEvento.getText().toString(), (int) rischio);
+                               db.collection("Eventi").add(e).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                   @Override
+                                   public void onComplete(@NonNull Task<DocumentReference> task) {
+                                       if (task.isSuccessful()) {
+                                           DocumentReference docRef = task.getResult();
+                                           String key = docRef.getId();
 
-        //TODO implementazione autofill google maps
-        //TODO get coordinate da google mas
+                                           PartecipazioneEvento pE = new PartecipazioneEvento(key,user.getUid());
+                                           db.collection("PartecipazioneEvento").add(pE).addOnCompleteListener(new OnCompleteListener<DocumentReference>(){
 
+                                               @Override
+                                               public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                   if (task.isSuccessful()) {
+                                                       Toast.makeText(getApplicationContext(), "Evento creato correttamente", Toast.LENGTH_LONG).show();
 
-        final Evento e = new Evento(nomeEvento.getText().toString(),nomeLuogo,idLuogo,dataEvento.getText().toString(), oraEvento.getText().toString(),1);
-        db.collection("Eventi").add(e).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentReference> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentReference docRef = task.getResult();
-                                        String key = docRef.getId();
+                                                       finish();
+                                                   }else{
+                                                       Toast.makeText(getApplicationContext(), "Errore creazione evento", Toast.LENGTH_LONG).show();
 
-                                        PartecipazioneEvento pE = new PartecipazioneEvento(key,user.getUid());
-                                        db.collection("PartecipazioneEvento").add(pE).addOnCompleteListener(new OnCompleteListener<DocumentReference>(){
+                                                   }
+                                               }
 
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(getApplicationContext(), "Evento creato correttamente", Toast.LENGTH_LONG).show();
+                                           });
 
-                                                    finish();
-                                                }else{
-                                                    Toast.makeText(getApplicationContext(), "Errore creazione evento", Toast.LENGTH_LONG).show();
+                                       }
+                                   }
+                               });
+                           }else{
+                               Toast.makeText(getApplicationContext(), "Il tuo rischio è troppo alto , non puoi creare l'evento", Toast.LENGTH_LONG).show();
+                           }
 
-                                                }
-                            }
-
-                        });
-
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Utente non trovato", Toast.LENGTH_LONG).show();
+                        }
+                    }
                 }
-            }
-        });
+            });
 
-    }}
+        }
+    }
 
     private boolean oraValido(String ora) {
 
