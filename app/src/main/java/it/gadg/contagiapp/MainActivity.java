@@ -25,6 +25,7 @@ import it.gadg.contagiapp.gruppo.CreaGruppoActivity;
 import it.gadg.contagiapp.gruppo.InvitiGruppi;
 import it.gadg.contagiapp.gruppo.ListaGruppiActivity;
 import it.gadg.contagiapp.splash.Splash;
+import it.gadg.contagiapp.utente.ModificaUtenteActivity;
 
 
 public class MainActivity extends Activity {
@@ -286,14 +287,24 @@ public class MainActivity extends Activity {
     }
 
     public void popupPositivo(View view) {
-         this.createNewContactDialog(1);
+
+        this.createNewContactDialog(1);
     }
 
     public void popupInAttesa(View view) {
+
         this.createNewContactDialog(2);
     }
 
     public void popupNegativo(View view) {
+
         this.createNewContactDialog(3);
+    }
+
+    public void modificaUtente(View view) {
+        Intent i = new Intent(getApplicationContext(), ModificaUtenteActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+
     }
 }
