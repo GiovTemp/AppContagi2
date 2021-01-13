@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private TextView richiestaPopup;
-    private Button siInAttesaPopup, noInAttesaPopup;
+    private Button siPopup, noPopup;
 
     public String id;
 
@@ -44,7 +44,9 @@ public class MainActivity extends Activity {
     Button negativoB;
     Button inAttesaB;
 
-    private int RISCHIO_POSITIVO=50;
+    private int RISCHIO_POSITIVO=100;
+    private int RISCHIO_TEST=50;
+    private int RISCHIO_NEGATIVO=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,30 +169,31 @@ public class MainActivity extends Activity {
 
               }
 
-        siInAttesaPopup =  contactPopupView.findViewById(R.id.siInAttesaPopup);
-        noInAttesaPopup =  contactPopupView.findViewById(R.id.noInAttesaPopup);
+        siPopup =  contactPopupView.findViewById(R.id.siPopup);
+        noPopup =  contactPopupView.findViewById(R.id.noPopup);
 
         dialogBuilder.setView(contactPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
 
-        siInAttesaPopup.setOnClickListener(new View.OnClickListener() {
+        siPopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(i==1){
-                   //TODO Modifica nel db l'etichetta in "positivo" trovo le etivhette sul file del drive
 
+                 //Se sei positivo cambia la tua etichetta da "test" in "positivo"
                     db.collection("Utenti").document(id).update("etichetta", "positivo").addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             recreate();
                             if(task.isSuccessful()){
+                                //Se sei positivo cambia il tuo "rischio" di contagio a "100" %
                                 db.collection("Utenti").document(id).update("rischio", RISCHIO_POSITIVO).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         recreate();
                                         if(task.isSuccessful()){
-                                            Toast.makeText(getApplicationContext(), "Richiesta accettata correttamente", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "Risulti positivo", Toast.LENGTH_LONG).show();
                                             recreate();
                                         }else{
                                             Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
@@ -204,18 +207,76 @@ public class MainActivity extends Activity {
 
                         }
                     });
-                }else if(i==2){
-                    //TODO Modifica nel db l'etichetta in "test" trovo le etivhette sul file del drive
-                }else if(i==3){
-                    //TODO Modifica nel db l'etichetta in "super" trovo le etivhette sul file del drive
+                }
+
+                else if(i==2){
+
+                    //Se sei in attesa di un test l'etichetta cambierà in "test"
+                    db.collection("Utenti").document(id).update("etichetta", "test").addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            recreate();
+                            if(task.isSuccessful()){
+                                //Se sei in attesa di un test cambia il tuo "rischio" di contagio a "50" %
+                                db.collection("Utenti").document(id).update("rischio", RISCHIO_TEST).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        recreate();
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(getApplicationContext(), "Risulti in Attesa", Toast.LENGTH_LONG).show();
+                                            recreate();
+                                        }else{
+                                            Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                        }
+
+                                    }
+                                });
+                            }else{
+                                Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    });
+
+                }
+
+                else if(i==3){
+
+                    //Se sei negativo cambia la tua etichetta da "test" in "negativo"
+                    db.collection("Utenti").document(id).update("etichetta", "super").addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            recreate();
+                            if(task.isSuccessful()){
+                                //Se sei negativo cambia il tuo "rischio" di contagio a "0" %
+                                db.collection("Utenti").document(id).update("rischio", RISCHIO_NEGATIVO).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        recreate();
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(getApplicationContext(), "Risultati essere negativo", Toast.LENGTH_LONG).show();
+                                            recreate();
+                                        }else{
+                                            Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                        }
+
+                                    }
+                                });
+                            }else{
+                                Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    });
                 }
 
             }
         });
 
-        noInAttesaPopup.setOnClickListener(new View.OnClickListener() {
+        noPopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 dialog.dismiss();
             }
         });
