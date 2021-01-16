@@ -11,9 +11,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -318,5 +323,15 @@ public class ChatUtils {
         handler.sendMessage(message);
 
         setState(STATE_CONNECTED);
+
+        //invio automatico messaggio
+        //invio automatico delle informazioni per registrare il contatto
+        FirebaseAuth mAuth = null; //dichiaro variabile per l'auenticazione firebase
+        FirebaseUser u = mAuth.getCurrentUser();
+        Date date = new Date(); // Ogetto che contiene la data
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String info = u.getUid()+"-"+formatter.format(date);
+        this.write(info.getBytes());
+
     }
 }
