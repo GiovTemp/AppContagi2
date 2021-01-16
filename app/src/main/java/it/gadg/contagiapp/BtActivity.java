@@ -43,6 +43,8 @@ public class BtActivity extends AppCompatActivity {
     private ChatUtils chatUtils;
 
     private ListView listMainChat;
+    private EditText edCreateMessage;
+    private Button btnSendMessage;
 
     private ArrayAdapter<String> adapterMainChat;
 
@@ -121,7 +123,24 @@ public class BtActivity extends AppCompatActivity {
 
     private void init() {
         listMainChat = findViewById(R.id.list_conversation);
+        edCreateMessage = findViewById(R.id.ed_enter_message);
+        btnSendMessage = findViewById(R.id.btn_send_msg);
+
         adapterMainChat = new ArrayAdapter<String>(context, R.layout.message_layout);
+        listMainChat.setAdapter(adapterMainChat);
+
+        btnSendMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String message = edCreateMessage.getText().toString();
+                if (!message.isEmpty()) {
+                    edCreateMessage.setText("");
+                    chatUtils.write(message.getBytes());
+                }
+            }
+        });
+
+
 
     }
 
