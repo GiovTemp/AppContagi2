@@ -55,6 +55,8 @@ public class BtActivity extends AppCompatActivity {
     public static final int MESSAGE_DEVICE_NAME = 3;
     public static final int MESSAGE_TOAST = 4;
 
+    public String info;
+
     public static final String DEVICE_NAME = "deviceName";
     public static final String TOAST = "toast";
     private String connectedDevice;
@@ -111,22 +113,20 @@ public class BtActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bt);
         mAuth= FirebaseAuth.getInstance();
         context = this;
-
-
+        //invio automatico delle informazioni per registrare il contatto
+        FirebaseUser u = mAuth.getCurrentUser();
+        Date date = new Date(); // Ogetto che contiene la data
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        info = u.getUid()+"-"+formatter.format(date);
+        chatUtils = new ChatUtils(context, handler);
         init();
         initBluetooth();
-        chatUtils = new ChatUtils(context, handler);
+
     }
 
     private void init() {
         listMainChat = findViewById(R.id.list_conversation);
         adapterMainChat = new ArrayAdapter<String>(context, R.layout.message_layout);
-
-        //invio automatico delle informazioni per registrare il contatto
-        FirebaseUser u = mAuth.getCurrentUser();
-        Date date = new Date(); // Ogetto che contiene la data
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        String info = u.getUid()+"-"+formatter.format(date);
         chatUtils.write(info.getBytes());
     }
 
