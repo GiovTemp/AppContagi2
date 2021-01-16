@@ -1,6 +1,5 @@
 package it.gadg.contagiapp;
 
-
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
@@ -11,22 +10,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.UUID;
 
-
-/**
- * Created by Qaifi on 4/5/2018.
- */
-
-public class ChatUtils {
+public class GestioneConnessione {
     private Context context;
     private final Handler handler;
     private BluetoothAdapter bluetoothAdapter;
@@ -44,7 +34,7 @@ public class ChatUtils {
 
     private int state;
 
-    public ChatUtils(Context context, Handler handler) {
+    public GestioneConnessione(Context context, Handler handler) {
         this.context = context;
         this.handler = handler;
 
@@ -213,7 +203,7 @@ public class ChatUtils {
                 return;
             }
 
-            synchronized (ChatUtils.this) {
+            synchronized (GestioneConnessione.this) {
                 connectThread = null;
             }
 
@@ -257,6 +247,7 @@ public class ChatUtils {
             try {
                 bytes = inputStream.read(buffer);
 
+
                 handler.obtainMessage(BtActivity.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
 
             } catch (IOException e) {
@@ -267,9 +258,8 @@ public class ChatUtils {
         public void write(byte[] buffer) {
             try {
                 outputStream.write(buffer);
-                handler.obtainMessage(BtActivity.MESSAGE_WRITE, -1, -1, buffer).sendToTarget();
             } catch (IOException e) {
-
+                e.printStackTrace();
             }
         }
 
@@ -277,7 +267,7 @@ public class ChatUtils {
             try {
                 socket.close();
             } catch (IOException e) {
-
+                e.printStackTrace();
             }
         }
     }
@@ -285,21 +275,21 @@ public class ChatUtils {
     private void connectionLost() {
         Message message = handler.obtainMessage(BtActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(BtActivity.TOAST, "Connection Lost");
+        bundle.putString(BtActivity.TOAST, "Connessione Chiusa");
         message.setData(bundle);
         handler.sendMessage(message);
 
-        ChatUtils.this.start();
+        GestioneConnessione.this.start();
     }
 
     private synchronized void connectionFailed() {
         Message message = handler.obtainMessage(BtActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(BtActivity.TOAST, "Cant connect to the device");
+        bundle.putString(BtActivity.TOAST, "Connesione Fallita");
         message.setData(bundle);
         handler.sendMessage(message);
 
-        ChatUtils.this.start();
+        GestioneConnessione.this.start();
     }
 
     private synchronized void connected(BluetoothSocket socket, BluetoothDevice device) {
