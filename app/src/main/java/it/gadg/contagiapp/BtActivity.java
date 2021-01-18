@@ -148,7 +148,7 @@ public class BtActivity extends AppCompatActivity {
                 try{
                     SQLiteDatabase myDb = openOrCreateDatabase("Contatti",MODE_PRIVATE,null);
                     myDb.execSQL("CREATE TABLE IF NOT EXISTS contattiRegistrati(uid TEXT,data DATE)");
-                    myDb.execSQL("INSERT INTO contattiRegistrati(uid,data) VALUES( " + " ' " + message + "'," + "datetime())");
+                    myDb.execSQL("INSERT INTO contattiRegistrati(uid,data) VALUES( " + "'" + infoContatto + "'," + "datetime())");
                     gestioneConnessione.stop();
                     //Mostrare un avviso a schermo della registrazione effettuata correttamente
                     Toast.makeText(getApplicationContext(), "Contatto Registrato con successo", Toast.LENGTH_LONG).show();

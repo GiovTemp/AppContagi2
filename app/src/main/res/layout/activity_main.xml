@@ -21,13 +21,13 @@
         android:id="@+id/button3"
         android:layout_width="120dp"
         android:layout_height="51dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="24dp"
         android:onClick="logout"
         android:text="@string/logout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/LabelRischio" />
 
     <Button
         android:id="@+id/button6"
@@ -91,13 +91,14 @@
         android:id="@+id/positivoB"
         android:layout_width="118dp"
         android:layout_height="38dp"
+        android:layout_marginStart="12dp"
         android:onClick="popupPositivo"
         android:text="Sono Positivo"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iscrEvento"
-        app:layout_constraintVertical_bias="0.159" />
+        app:layout_constraintVertical_bias="0.071" />
 
     <Button
         android:id="@+id/negativoB"
@@ -110,7 +111,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iscrEvento"
-        app:layout_constraintVertical_bias="0.159" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <Button
         android:id="@+id/inAttesaB"
@@ -122,9 +123,10 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/negativoB"
+        app:layout_constraintHorizontal_bias="0.72"
         app:layout_constraintStart_toEndOf="@+id/positivoB"
         app:layout_constraintTop_toBottomOf="@+id/iscrEvento"
-        app:layout_constraintVertical_bias="0.114" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/registraContatto"
@@ -134,19 +136,42 @@
         android:text="Registra Contatto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inAttesaB"
-        app:layout_constraintVertical_bias="0.241" />
+        app:layout_constraintVertical_bias="0.099" />
 
     <Button
         android:id="@+id/button10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:onClick="modificaUtente"
         android:text="Modifica profilo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registraContatto" />
+
+    <TextView
+        android:id="@+id/LabelRischio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Rischio:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/aggRischio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="aggRischio"
+        android:text="Aggiorna Richsio"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registraContatto" />
+        app:layout_constraintTop_toBottomOf="@+id/button10" />
 </androidx.constraintlayout.widget.ConstraintLayout>
