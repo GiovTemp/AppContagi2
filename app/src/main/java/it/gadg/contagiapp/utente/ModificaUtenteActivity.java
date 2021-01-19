@@ -187,13 +187,13 @@ public class ModificaUtenteActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                 for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                                    System.out.println("ELiminazione");
+
                                     if (document.get("ruolo").equals("0")) {
                                         db.collection("GruppoUtenti").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    System.out.println("ELiminazione riuscita");
+
                                                 } else {
                                                     Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
                                                 }
