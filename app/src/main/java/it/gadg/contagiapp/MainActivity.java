@@ -91,6 +91,7 @@ public class MainActivity extends Activity {
                         utenteLoggato = new User(document.get("nome").toString(),document.get("cognome").toString(),document.get("email").toString());
                         utenteLoggato.etichetta = (String) document.get("etichetta");
                         utenteLoggato.rischio = (Long) document.get("rischio");
+                        utenteLoggato.uid = document.getId();
 
                         String temp ="Rischio : "+ utenteLoggato.rischio;
 
@@ -115,6 +116,11 @@ public class MainActivity extends Activity {
 
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        //Pulsante back disabilitato
     }
 
     public void logout(View view) {
@@ -169,11 +175,20 @@ public class MainActivity extends Activity {
     }
 
     public void registraContatto(View view) {
-        //TODO scambiare informazioni tramite bluetooth ogetto(UID,rischio,data)
+
         Intent i = new Intent(getApplicationContext(), BtActivity.class);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
+    public void modificaUtente(View view) {
+        Intent i = new Intent(getApplicationContext(), ModificaUtenteActivity.class);
+        i.putExtra("Utente",utenteLoggato);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+    }
+
 
     public void createNewContactDialog(final int i) {
 
@@ -320,12 +335,6 @@ public class MainActivity extends Activity {
         this.createNewContactDialog(3);
     }
 
-    public void modificaUtente(View view) {
-        Intent i = new Intent(getApplicationContext(), ModificaUtenteActivity.class);
-        startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
-    }
 
     public void aggRischio(View view) {
         AggiornaRischioThread t = new AggiornaRischioThread();
@@ -383,6 +392,7 @@ public class MainActivity extends Activity {
 
                                     }
                                     rischio = rischio/n;
+                                    toastSuccess(getApplicationContext());
                                 }catch (Exception e){
                                     toast(getApplicationContext());
                                 }
@@ -409,20 +419,24 @@ public class MainActivity extends Activity {
                 });
             }
 
-            stop();
+
         }
 
-
-        public void stop(){
-
-            Toast.makeText(getApplicationContext(), "Rischio aggiornato correttamente", Toast.LENGTH_LONG).show();
-        }
 
         public void toast(final Context context) {
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(new Runnable() {
                 public void run() {
                     Toast.makeText(context, "Nessun Contatto trovato", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+        public void toastSuccess(final Context context) {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                public void run() {
+                    Toast.makeText(context, "Rischio aggiornato correttamente", Toast.LENGTH_LONG).show();
                 }
             });
         }

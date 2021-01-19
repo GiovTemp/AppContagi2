@@ -7,6 +7,7 @@ import it.gadg.contagiapp.MainActivity;
 import it.gadg.contagiapp.R;
 import it.gadg.contagiapp.autenticazione.RegisterActivity;
 import it.gadg.contagiapp.modelli.User;
+import it.gadg.contagiapp.splash.Splash;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,11 +18,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,9 +34,12 @@ public class ModificaUtenteActivity extends AppCompatActivity {
 
     EditText nuovoNome;
     EditText nuovoCognome;
-    EditText nuovaEmail;
-    EditText nuovaPassword;
 
+    EditText passwordMod;
+    User utenteLoggato;
+    FirebaseFirestore db;
+
+    int flag = 0;
 
     private FirebaseAuth mAuth;
 
@@ -42,46 +49,88 @@ public class ModificaUtenteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_modifica_utente);
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        nuovoNome = findViewById(R.id.nuovoNome);
+        nuovoCognome = findViewById(R.id.nuovoCognome);
+
+        passwordMod = findViewById(R.id.passwordMod);
+
+        utenteLoggato = (User) getIntent().getSerializableExtra("Utente");
+
+
+        nuovoNome.setText(utenteLoggato.nome);
+        nuovoCognome.setText(utenteLoggato.cognome);
+
+
     }
 
 
     public void ModificaUtenteButton(View view) {
 
-        nuovoNome = findViewById(R.id.nuovoNome);
-        nuovoCognome= findViewById(R.id.nuovoCognome);
-        nuovaEmail = findViewById(R.id.nuovaEmail);
-        nuovaPassword = findViewById(R.id.nuovaPassword);
 
-
-        String email = nuovaEmail.getText().toString();
-        String password = nuovaPassword.getText().toString();
         String nome = nuovoNome.getText().toString();
         String cognome = nuovoCognome.getText().toString();
 
+
         // Validazioni Dati
-        if(!nomeValido(nome) )
-            Toast.makeText(getApplicationContext(),"Nome non Valido, inserire solo caratteri", Toast.LENGTH_SHORT).show();
-        else if(!cognomeValido(cognome)){
-            Toast.makeText(getApplicationContext(),"Cognome non Valido, inserire solo caratteri", Toast.LENGTH_SHORT).show();
-        }else if(!emailValida(email)){
-            Toast.makeText(getApplicationContext(),"Email non Valida", Toast.LENGTH_SHORT).show();
+        if (!nomeValido(nome))
+            Toast.makeText(getApplicationContext(), "Nome non Valido, inserire solo caratteri", Toast.LENGTH_SHORT).show();
+        else if (!cognomeValido(cognome)) {
+            Toast.makeText(getApplicationContext(), "Cognome non Valido, inserire solo caratteri", Toast.LENGTH_SHORT).show();
+        } else if (!passwordMod.getText().toString().equals("")) {
+            this.editFirebaseUser(nome, cognome);
+        } else {
+            Toast.makeText(getApplicationContext(), "Inserisci password", Toast.LENGTH_LONG).show();
         }
-        else if(!passwordValida(password)){
-            Toast.makeText(getApplicationContext(),"Password non Valida: minimo 7 caratteri, inserire almeno @#$%^&+= e una maiuscola ", Toast.LENGTH_LONG).show();
-        }else {
-            this.editFirebaseUser(email,password,nome,cognome);
-    }
-}
 
-    private void editFirebaseUser(String email, String password, String nome, String cognome) {
 
     }
 
-    private boolean nomeValido(String nome){
+    private void editFirebaseUser(final String nome, final String cognome) {
+
+        mAuth.signInWithEmailAndPassword(utenteLoggato.email, passwordMod.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    db.collection("Utenti").document(utenteLoggato.uid).update("nome", nome).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            recreate();
+                            if (task.isSuccessful()) {
+                                db.collection("Utenti").document(utenteLoggato.uid).update("cognome", cognome).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        recreate();
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getApplicationContext(), "Dati aggiornati correttamente", Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                        }
+
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    });
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Password errata", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+    }
+
+    private boolean nomeValido(String nome) {
 
 
         // Regex per controllare se il nome è valdio.
-        String regex = "^[A-Za-z]\\w{3,29}$";
+        String regex = "^[A-Za-z]\\w{2,29}$";
 
         // Compila il ReGex
         Pattern p = Pattern.compile(regex);
@@ -101,7 +150,7 @@ public class ModificaUtenteActivity extends AppCompatActivity {
     }
 
     // Controllo sul cognome
-    private boolean cognomeValido(String cognome){
+    private boolean cognomeValido(String cognome) {
 
 
         // Regex per controllare se il cognome è valido.
@@ -124,53 +173,111 @@ public class ModificaUtenteActivity extends AppCompatActivity {
         return m.matches();
     }
 
+    public void eliminaProfilo(View view) {
 
-    private boolean emailValida(String email){
-        {
-            // Regex per controllare se il cognome è valido.
-            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
-                    "[a-zA-Z0-9_+&*-]+)*@" +
-                    "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                    "A-Z]{2,7}$";
+        if((!passwordMod.getText().toString().equals(""))) {
 
-            // Compila il ReGex
-            Pattern pat = Pattern.compile(emailRegex);
+            mAuth.signInWithEmailAndPassword(utenteLoggato.email, passwordMod.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
 
-            // Se l'email è vuota
-            // return false
-            if (email == null)
-                return false;
+                        db.collection("GruppoUtenti").whereEqualTo("UID", utenteLoggato.uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 
-            // Return se l'email corrisponde con la stringa Regex
-            return pat.matcher(email).matches();
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                    System.out.println("ELiminazione");
+                                    if (document.get("ruolo").equals("0")) {
+                                        db.collection("GruppoUtenti").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    System.out.println("ELiminazione riuscita");
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                                }
+
+                                            }
+                                        });
+                                    } else {
+                                        stop();
+                                    }
+
+
+                                }
+                            }
+                        });
+
+
+                    if (flag == 0) {
+                        db.collection("PartecipazioneEvento").whereEqualTo("UID", utenteLoggato.uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                    if (document.get("ruolo").equals("0")) {
+                                        db.collection("PartecipazioneEvento").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                                }
+
+                                            }
+                                        });
+                                    } else {
+                                        stop();
+                                    }
+
+
+                                }
+                            }
+                        });
+
+                    }
+
+
+                    if (flag == 0) {
+                        db.collection("Utenti").document(utenteLoggato.uid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            mAuth.signOut();
+                                            Toast.makeText(getApplicationContext(), "Utente , eliminato correttamente", Toast.LENGTH_LONG).show();
+                                            Intent i = new Intent(getApplicationContext(), Splash.class);
+                                            startActivity(i);
+
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+                        });
+
+                    }
+
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Password Errata", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+        }else{
+            Toast.makeText(getApplicationContext(), "Inserisci la password", Toast.LENGTH_LONG).show();
         }
     }
 
-    private boolean passwordValida(String password){
-        {
-
-            // Regex per controllare se la password è valida.
-            String regex = "^(?=.*[0-9])"
-                    + "(?=.*[a-z])(?=.*[A-Z])"
-                    + "(?=.*[@#$%^&+=])"
-                    + "(?=\\S+$).{8,20}$";
-
-            // Compila il ReGex
-            Pattern p = Pattern.compile(regex);
-
-            // Se la password è vuota
-            // return false
-            if (password == null)
-                return false;
-
-
-            // Pattern class contiene il metodo matcher()
-            //per trovare la corrispondenza tra un dato e la password
-            Matcher m = p.matcher(password);
-
-            // Return se la password corrisponde con la stringa Regex
-            return m.matches();
-
-        }
-    }}
+    private void stop() {
+        flag = 1;
+        Toast.makeText(getApplicationContext(), "Non puoi elimare il tuo profilo finchè ci saranno gruppi o eventi di cui sei admin", Toast.LENGTH_LONG).show();
+    }
+}
 

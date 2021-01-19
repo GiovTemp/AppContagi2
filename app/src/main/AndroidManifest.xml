@@ -18,6 +18,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".BtActivity" />
         <activity android:name=".evento.VisualizzaEventoActivity" />
+        <activity android:name=".utente.ModificaUtenteActivity" />
         <activity android:name=".evento.RichiesteEvento" />
         <activity android:name=".evento.GestisciEvento" />
         <activity android:name=".evento.InviaPartecipazioneEvento" />
