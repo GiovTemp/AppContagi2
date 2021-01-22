@@ -25,9 +25,34 @@
         android:text="Aggiungi Evento al Calendario"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NomeEventoVisualizza"
-        app:layout_constraintVertical_bias="0.431" />
+        app:layout_constraintVertical_bias="0.227" />
+
+    <Button
+        android:id="@+id/abbandona"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="abbandonaEvento"
+        android:text="Abbandona Evento"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button14" />
+
+    <Button
+        android:id="@+id/button14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="condividiEvento"
+        android:text="Condividi Evento"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendarioVisualizza"
+        app:layout_constraintVertical_bias="0.362" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

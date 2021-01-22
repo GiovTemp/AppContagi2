@@ -11,12 +11,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import it.gadg.contagiapp.MainActivity;
 import it.gadg.contagiapp.R;
 import it.gadg.contagiapp.modelli.GruppoUtenti;
 
@@ -28,6 +30,7 @@ public class GestisciGruppoActivity extends AppCompatActivity {
     TextView RuoloGruppoGestione;
     EditText EmailInvito;
     String idGruppo;
+    int flag=0;
 
 
     @Override
@@ -112,4 +115,51 @@ public class GestisciGruppoActivity extends AppCompatActivity {
 
 
     }
+
+    public void eliminaGruppo(View view) {
+
+        db.collection("GruppoUtenti").whereEqualTo("idGruppo", idGruppo).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    db.collection("GruppoUtenti").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (!task.isSuccessful()) {
+                                flag=1;
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        if(flag==0){
+            db.collection("Gruppi").document(idGruppo).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(getApplicationContext(), "Gruppo eliminato correttamente", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            });
+        }else{
+            Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    public void listaMembri(View view) {
+        Intent intent = new Intent(getApplicationContext(), MembriGruppo.class);
+        intent.putExtra("idGruppo",idGruppo);
+        intent.putExtra("ruolo",1);
+        startActivity(intent);
+    }
+
 }

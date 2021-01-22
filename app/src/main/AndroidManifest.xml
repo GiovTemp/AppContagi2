@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="it.gadg.contagiapp">
+
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".gruppo.MembriGruppo"></activity>
         <activity android:name=".BtActivity" />
         <activity android:name=".evento.VisualizzaEventoActivity" />
         <activity android:name=".utente.ModificaUtenteActivity" />
@@ -29,7 +30,7 @@
         <activity android:name=".evento.ListaEventiActivity" />
         <activity android:name=".evento.CreaEventoActivity" />
         <activity android:name=".gruppo.CreaGruppoActivity" />
-        <activity android:name=".DeviceListActivity"/>
+        <activity android:name=".DeviceListActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"

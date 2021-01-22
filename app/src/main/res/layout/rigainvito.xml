@@ -13,7 +13,7 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/NomeGruppoInvito"
+            android:id="@+id/NomeMembro"
             android:layout_width="339dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

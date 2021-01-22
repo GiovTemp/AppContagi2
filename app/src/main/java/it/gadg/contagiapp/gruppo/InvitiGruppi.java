@@ -5,13 +5,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -117,7 +115,7 @@ public class InvitiGruppi extends AppCompatActivity {
         String IdGruppi[];
 
         Adapter (Context c,String NomiGruppi[] , String IdGruppi[]){
-            super(c,R.layout.rigagruppo,R.id.NomeGruppoInvito,NomiGruppi);
+            super(c,R.layout.rigagruppo,R.id.NomeMembro,NomiGruppi);
             this.context = c;
             this.NomiGruppi=NomiGruppi;
             this.IdGruppi=IdGruppi;
@@ -130,7 +128,7 @@ public class InvitiGruppi extends AppCompatActivity {
         public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rigainvito = layoutInflater.inflate(R.layout.rigainvito,parent,false);
-            TextView NomeGruppoInvito = rigainvito.findViewById(R.id.NomeGruppoInvito);
+            TextView NomeGruppoInvito = rigainvito.findViewById(R.id.NomeMembro);
             TextView idGruppoInvito = rigainvito.findViewById(R.id.idGruppoInvito);
 
             NomeGruppoInvito.setText(NomiGruppi[position]);

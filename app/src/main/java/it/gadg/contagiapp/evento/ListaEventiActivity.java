@@ -27,10 +27,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import it.gadg.contagiapp.R;
-import it.gadg.contagiapp.gruppo.VisualizzaGruppoActivity;
 import it.gadg.contagiapp.modelli.ListaEvento;
 
 public class ListaEventiActivity extends AppCompatActivity {
@@ -158,7 +156,7 @@ public class ListaEventiActivity extends AppCompatActivity {
         String IdEventi[];
 
         Adapter (Context c,String NomiEventi[] , String RuoliEventi[], String IdEventi[]){
-            super(c,R.layout.rigagruppo,R.id.NomeGruppoInvito,NomiEventi);
+            super(c,R.layout.rigagruppo,R.id.NomeMembro,NomiEventi);
             this.context = c;
             this.NomiEventi=NomiEventi;
             this.RuoliEventi=RuoliEventi;

@@ -114,9 +114,6 @@ public class ListaGruppiActivity extends AppCompatActivity {
 
                     }
 
-                    System.out.println(Arrays.toString(nomi));
-                    System.out.println(Arrays.toString(ruoli));
-                    System.out.println(Arrays.toString(idGruppi));
 
                     listView = findViewById(R.id.listaGruppi);
                     Adapter adapter = new Adapter(getApplicationContext(),nomi,ruoli,idGruppi);
@@ -160,7 +157,7 @@ public class ListaGruppiActivity extends AppCompatActivity {
         String IdGruppi[];
 
         Adapter (Context c,String NomiGruppi[] , String RuoliGruppi[], String IdGruppi[]){
-            super(c,R.layout.rigagruppo,R.id.NomeGruppoInvito,NomiGruppi);
+            super(c,R.layout.rigagruppo,R.id.NomeMembro,NomiGruppi);
             this.context = c;
             this.NomiGruppi=NomiGruppi;
             this.RuoliGruppi=RuoliGruppi;
@@ -174,8 +171,8 @@ public class ListaGruppiActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             LayoutInflater layoutInflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rigagruppo = layoutInflater.inflate(R.layout.rigagruppo,parent,false);
-            TextView nomeGruppoRiga = rigagruppo.findViewById(R.id.NomeGruppoInvito);
-            TextView ruoloGruppoRiga = rigagruppo.findViewById(R.id.RuoloGruppoRiga);
+            TextView nomeGruppoRiga = rigagruppo.findViewById(R.id.NomeMembro);
+            TextView ruoloGruppoRiga = rigagruppo.findViewById(R.id.RischioMembro);
             TextView idGruppoRiga = rigagruppo.findViewById(R.id.idGruppoInvito);
 
             nomeGruppoRiga.setText(NomiGruppi[position]);
