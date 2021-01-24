@@ -16,7 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".gruppo.MembriGruppo"></activity>
+        <activity android:name=".HomeGruppiActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".HomeEventiActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".gruppo.MembriGruppo" />
         <activity android:name=".BtActivity" />
         <activity android:name=".evento.VisualizzaEventoActivity" />
         <activity android:name=".utente.ModificaUtenteActivity" />
@@ -35,7 +40,8 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".autenticazione.RegisterActivity" />
+        <activity android:name=".autenticazione.RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".autenticazione.Login"
             android:label="@string/app_name"

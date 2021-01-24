@@ -9,16 +9,23 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -39,7 +46,7 @@ import it.gadg.contagiapp.splash.Splash;
 import it.gadg.contagiapp.utente.ModificaUtenteActivity;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
 
@@ -48,6 +55,12 @@ public class MainActivity extends Activity {
     private TextView richiestaPopup;
     private TextView LabelRischio;
     private Button siPopup, noPopup;
+
+    //Variabili menù hamburger
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
+    TextView textView;
 
     public String id;
 
@@ -68,6 +81,25 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+        /*---------------------MENU------------------------*/
+        drawerLayout=findViewById(R.id.drawer_layout);
+        navigationView=findViewById(R.id.nav_view);
+        textView=findViewById(R.id.textView);
+        toolbar=findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+
+
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+
 
 
         positivoB = findViewById(R.id.positivoB);
@@ -119,75 +151,64 @@ public class MainActivity extends Activity {
     }
 
     @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.nav_home:
+                break;
+
+            case R.id.nav_gruppi:
+                this.homegruppi();
+                break;
+
+            case R.id.nav_eventi:
+                this.homeeventi();
+                break;
+
+            case R.id.nav_contatto:
+                this.registraContatto();
+                break;
+
+            case R.id.nav_profilo:
+                this.modificaUtente();
+                break;
+
+            case R.id.nav_logout:
+                this.logout();
+                break;
+        }
+
+        return true;
+    }
+
+    @Override
     public void onBackPressed() {
         //Pulsante back disabilitato
     }
 
-    public void logout(View view) {
-        mAuth.signOut();
-        if (null == FirebaseAuth.getInstance().getCurrentUser()) {
-            Toast.makeText(getApplicationContext(), "Logout riuscito.",
-                    Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(getApplicationContext(), Splash.class);
-            startActivity(i);
-        } else {
-            Toast.makeText(getApplicationContext(), "Logout fallito.",
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
 
 
-    public void creaEvento(View view) {
-        Intent i = new Intent(getApplicationContext(), CreaEventoActivity.class);
-        startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
-    }
-
-    public void creaGruppo(View view) {
-        Intent i = new Intent(getApplicationContext(), CreaGruppoActivity.class);
+    public void homeEventi(View view) {
+        Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    public void ListaEventi(View view) {
-        Intent i = new Intent(getApplicationContext(), ListaEventiActivity.class);
+
+    public void homeGruppi(View view) {
+        Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    public void ListaGruppi(View view) {
-        Intent i = new Intent(getApplicationContext(), ListaGruppiActivity.class);
-        startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
 
-    public void ListaInviti(View view) {
-        Intent i = new Intent(getApplicationContext(), InvitiGruppi.class);
-        startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
-
-    public void cercaEvento(View view) {
-        Intent i = new Intent(getApplicationContext(), InviaPartecipazioneEvento.class);
-        startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
-
-    public void registraContatto(View view) {
-
-        Intent i = new Intent(getApplicationContext(), BtActivity.class);
-        startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
-
-    public void modificaUtente(View view) {
-        Intent i = new Intent(getApplicationContext(), ModificaUtenteActivity.class);
-        i.putExtra("Utente",utenteLoggato);
-        startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    public void aggRischio(View view) {
+        AggiornaRischioThread t = new AggiornaRischioThread();
+        t.run();
 
     }
+
 
 
     public void createNewContactDialog(final int i) {
@@ -336,12 +357,6 @@ public class MainActivity extends Activity {
     }
 
 
-    public void aggRischio(View view) {
-        AggiornaRischioThread t = new AggiornaRischioThread();
-        t.run();
-
-    }
-
     public class AggiornaRischioThread implements Runnable {
 
         public long rischio =0;
@@ -442,5 +457,54 @@ public class MainActivity extends Activity {
         }
 
 
+    }
+
+
+
+
+
+
+
+    //FUNZIONI MENU
+
+
+    public void registraContatto() {
+
+        Intent i = new Intent(getApplicationContext(), BtActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    public void modificaUtente() {
+        Intent i = new Intent(getApplicationContext(), ModificaUtenteActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+    }
+
+    private void homegruppi() {
+        Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    private void homeeventi() {
+        Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+
+    public void logout() {
+        mAuth.signOut();
+        if (null == FirebaseAuth.getInstance().getCurrentUser()) {
+            Toast.makeText(getApplicationContext(), "Logout riuscito.",
+                    Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(getApplicationContext(), Splash.class);
+            startActivity(i);
+        } else {
+            Toast.makeText(getApplicationContext(), "Logout fallito.",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }

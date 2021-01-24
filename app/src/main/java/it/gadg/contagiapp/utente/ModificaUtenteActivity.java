@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -51,16 +52,33 @@ public class ModificaUtenteActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        nuovoNome = findViewById(R.id.nuovoNome);
-        nuovoCognome = findViewById(R.id.nuovoCognome);
 
-        passwordMod = findViewById(R.id.passwordMod);
+        db.collection("Utenti")
+                .document(mAuth.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 
-        utenteLoggato = (User) getIntent().getSerializableExtra("Utente");
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        DocumentSnapshot document = task.getResult();
+                        utenteLoggato = new User(document.get("nome").toString(), document.get("cognome").toString(), document.get("email").toString());
+                        utenteLoggato.etichetta = (String) document.get("etichetta");
+                        utenteLoggato.rischio = (Long) document.get("rischio");
+                        utenteLoggato.uid = document.getId();
+
+                        nuovoNome = findViewById(R.id.nuovoNome);
+                        nuovoCognome = findViewById(R.id.nuovoCognome);
+
+                        passwordMod = findViewById(R.id.passwordMod);
 
 
-        nuovoNome.setText(utenteLoggato.nome);
-        nuovoCognome.setText(utenteLoggato.cognome);
+                        nuovoNome.setText(utenteLoggato.nome);
+                        nuovoCognome.setText(utenteLoggato.cognome);
+
+                    }
+                });
+
+
 
 
     }
@@ -175,7 +193,7 @@ public class ModificaUtenteActivity extends AppCompatActivity {
 
     public void eliminaProfilo(View view) {
 
-        if((!passwordMod.getText().toString().equals(""))) {
+        if ((!passwordMod.getText().toString().equals(""))) {
 
             mAuth.signInWithEmailAndPassword(utenteLoggato.email, passwordMod.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
@@ -210,67 +228,67 @@ public class ModificaUtenteActivity extends AppCompatActivity {
                         });
 
 
-                    if (flag == 0) {
-                        db.collection("PartecipazioneEvento").whereEqualTo("UID", utenteLoggato.uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        if (flag == 0) {
+                            db.collection("PartecipazioneEvento").whereEqualTo("UID", utenteLoggato.uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 
-                            @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                                    if (document.get("ruolo").equals("0")) {
-                                        db.collection("PartecipazioneEvento").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                        if (document.get("ruolo").equals("0")) {
+                                            db.collection("PartecipazioneEvento").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                                    }
+
+                                                }
+                                            });
+                                        } else {
+                                            stop();
+                                        }
+
+
+                                    }
+                                }
+                            });
+
+                        }
+
+
+                        if (flag == 0) {
+                            db.collection("Utenti").document(utenteLoggato.uid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-
-                                                } else {
-                                                    Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
-                                                }
+                                                mAuth.signOut();
+                                                Toast.makeText(getApplicationContext(), "Utente , eliminato correttamente", Toast.LENGTH_LONG).show();
+                                                Intent i = new Intent(getApplicationContext(), Splash.class);
+                                                startActivity(i);
 
                                             }
                                         });
                                     } else {
-                                        stop();
+                                        Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
                                     }
 
-
                                 }
-                            }
-                        });
+                            });
 
-                    }
+                        }
 
-
-                    if (flag == 0) {
-                        db.collection("Utenti").document(utenteLoggato.uid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            mAuth.signOut();
-                                            Toast.makeText(getApplicationContext(), "Utente , eliminato correttamente", Toast.LENGTH_LONG).show();
-                                            Intent i = new Intent(getApplicationContext(), Splash.class);
-                                            startActivity(i);
-
-                                        }
-                                    });
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
-                                }
-
-                            }
-                        });
-
-                    }
-
-                    }else{
+                    } else {
                         Toast.makeText(getApplicationContext(), "Password Errata", Toast.LENGTH_LONG).show();
                     }
                 }
             });
 
-        }else{
+        } else {
             Toast.makeText(getApplicationContext(), "Inserisci la password", Toast.LENGTH_LONG).show();
         }
     }

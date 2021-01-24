@@ -90,5 +90,6 @@ public class Login extends AppCompatActivity {
     public void reqReg(View view) {
         Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 }
