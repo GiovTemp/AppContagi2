@@ -6,9 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@drawable/bg_home"
     tools:context=".MainActivity"
 
-   >
+    >
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
@@ -28,22 +29,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-
 
             <androidx.cardview.widget.CardView
                 android:layout_width="130dp"
-                android:layout_height="151dp"
+                android:layout_height="135dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginBottom="20dp"
@@ -62,28 +51,28 @@
                     android:fontFamily="@font/baloo"
                     android:text="Registra Contatto"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="19sp" />
+                    android:textColor="@color/quantum_grey700"
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/img"
                     android:layout_width="match_parent"
                     android:layout_height="59dp"
                     android:layout_marginTop="15dp"
-                    app:srcCompat="@drawable/ic_register_contact" />
+                    app:srcCompat="@drawable/contacttracing" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="130dp"
-                android:layout_height="151dp"
-                android:layout_marginTop="56dp"
+                android:layout_height="135dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginEnd="40dp"
                 android:onClick="homeEventi"
                 app:cardCornerRadius="9dp"
                 app:cardElevation="9dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView2">
+                app:layout_constraintTop_toBottomOf="@+id/cardView6">
 
                 <TextView
                     android:id="@+id/textView3"
@@ -93,7 +82,7 @@
                     android:fontFamily="@font/baloo"
                     android:text="Eventi"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/quantum_grey700"
                     android:textSize="20sp" />
 
                 <ImageView
@@ -101,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="59dp"
                     android:layout_marginTop="15dp"
-                    app:srcCompat="@drawable/event" />
+                    app:srcCompat="@drawable/iconaevento" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -109,13 +98,13 @@
                 android:layout_width="345dp"
                 android:layout_height="193dp"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="70dp"
                 android:layout_marginEnd="40dp"
                 app:cardCornerRadius="7dp"
                 app:cardElevation="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/LabelRischio">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -123,16 +112,16 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/positivoB"
-                        android:layout_width="206dp"
-                        android:layout_height="63dp"
+                        android:layout_width="173dp"
+                        android:layout_height="50dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="10dp"
 
-                        android:layout_marginBottom="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="30dp"
                         android:onClick="popupPositivo"
                         android:visibility="invisible"
                         app:cardBackgroundColor="@color/design_default_color_error"
@@ -158,15 +147,15 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/inAttesaB"
-                        android:layout_width="206dp"
-                        android:layout_height="63dp"
+                        android:layout_width="173dp"
+                        android:layout_height="50dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginTop="70dp"
-                        android:layout_marginEnd="10dp"
+                        android:layout_marginEnd="20dp"
                         android:visibility="invisible"
                         app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="25dp"
@@ -185,22 +174,22 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:text="Ho effettuato il test"
-                                android:textColor="@color/colorLogoBlue"
+                                android:textColor="@color/quantum_grey700"
                                 android:textSize="18sp" />
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/negativoB"
-                        android:layout_width="206dp"
-                        android:layout_height="63dp"
+                        android:layout_width="173dp"
+                        android:layout_height="50dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginEnd="20dp"
                         android:onClick="popupNegativo"
                         android:visibility="invisible"
                         app:cardBackgroundColor="@color/colorPrimaryDark"
@@ -233,7 +222,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.238"
-                        app:srcCompat="@drawable/coronavirus" />
+                        app:srcCompat="@drawable/virus" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
@@ -241,21 +230,21 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView3"
                 android:layout_width="130dp"
-                android:layout_height="151dp"
+                android:layout_height="135dp"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="56dp"
+                android:layout_marginTop="40dp"
                 android:onClick="homeGruppi"
                 app:cardCornerRadius="9dp"
                 app:cardElevation="9dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView2">
+                app:layout_constraintTop_toBottomOf="@+id/cardView6">
 
                 <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="match_parent"
                     android:layout_height="59dp"
                     android:layout_marginTop="15dp"
-                    app:srcCompat="@drawable/group" />
+                    app:srcCompat="@drawable/iconagruppo" />
 
                 <TextView
                     android:id="@+id/textView"
@@ -265,27 +254,13 @@
                     android:fontFamily="@font/baloo"
                     android:text="Gruppi"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/quantum_grey700"
                     android:textSize="20sp" />
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/LabelRischio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:layout_marginBottom="10dp"
-                android:text="Rischio Contagio :"
-                android:textColor="@color/design_default_color_error"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/cardView2"
-                app:layout_constraintEnd_toEndOf="@+id/toolbar"
-                app:layout_constraintStart_toStartOf="@+id/toolbar"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <androidx.cardview.widget.CardView
                 android:layout_width="130dp"
-                android:layout_height="151dp"
+                android:layout_height="135dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="24dp"
                 android:onClick="aggRischio"
@@ -302,8 +277,8 @@
                     android:fontFamily="@font/baloo"
                     android:text="Aggiorna rischio"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp" />
+                    android:textColor="@color/quantum_grey700"
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/imgView3"
@@ -312,6 +287,19 @@
                     android:layout_marginTop="15dp"
                     app:srcCompat="@drawable/refresh" />
             </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView6"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="40dp"
+                app:cardElevation="9dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

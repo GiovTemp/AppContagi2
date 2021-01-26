@@ -37,7 +37,7 @@ import it.gadg.contagiapp.splash.Splash;
 import it.gadg.contagiapp.utente.ModificaUtenteActivity;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
 
@@ -77,23 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        /*---------------------MENU------------------------*/
-        drawerLayout=findViewById(R.id.drawer_layout);
-        navigationView=findViewById(R.id.nav_view);
-        textView=findViewById(R.id.positvoText);
-        toolbar=findViewById(R.id.toolbar);
-
-        setSupportActionBar(toolbar);
-
-
-        navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView.setNavigationItemSelectedListener(this);
-
-
 
         positivoB = findViewById(R.id.positivoB);
         negativoB = findViewById(R.id.negativoB);
@@ -127,11 +110,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             inAttesaB.setVisibility(View.VISIBLE);
                         } else if (utenteLoggato.etichetta.equals("test")) {
 
-                            imgTest.setImageResource(R.drawable.coronavirus2);
+
                             positivoB.setVisibility(View.VISIBLE);
                             negativoB.setVisibility(View.VISIBLE);
                         } else if (utenteLoggato.etichetta.equals("positivo")) {
-                            imgTest.setImageResource(R.drawable.coronavirus2);
+
                             inAttesaB.setVisibility(View.VISIBLE);
                         }
 
@@ -145,36 +128,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.nav_home:
-                break;
-
-            case R.id.nav_gruppi:
-                this.homegruppi();
-                break;
-
-            case R.id.nav_eventi:
-                this.homeeventi();
-                break;
-
-            case R.id.nav_contatto:
-                this.registraContatto();
-                break;
-
-            case R.id.nav_profilo:
-                this.modificaUtente();
-                break;
-
-            case R.id.nav_logout:
-                this.logout();
-                break;
-        }
-
-        return true;
-    }
 
     @Override
     public void onBackPressed() {
