@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import it.gadg.contagiapp.evento.CreaEventoActivity;
 import it.gadg.contagiapp.evento.InviaPartecipazioneEvento;
@@ -45,7 +44,7 @@ public class HomeEventiActivity extends AppCompatActivity implements NavigationV
         /*---------------------MENU------------------------*/
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
-        textView=findViewById(R.id.textView);
+        textView=findViewById(R.id.positvoText);
         toolbar=findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);

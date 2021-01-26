@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity"
-    tools:openDrawer="start"
+
    >
 
     <com.google.android.material.navigation.NavigationView
@@ -20,110 +20,301 @@
 
     </com.google.android.material.navigation.NavigationView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="412dp"
+        android:layout_height="677dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
 
-        <Button
-            android:id="@+id/homeEventi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="204dp"
-            android:onClick="homeEventi"
-            android:text="@string/i_tuoi_eventi"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.484"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="130dp"
+                android:layout_height="151dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="20dp"
+                android:onClick="registraContatto"
+                app:cardCornerRadius="9dp"
+                app:cardElevation="9dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView">
 
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="80dp"
+                    android:fontFamily="@font/baloo"
+                    android:text="Registra Contatto"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="19sp" />
 
-        <Button
-            android:id="@+id/homeGruppi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="296dp"
-            android:onClick="homeGruppi"
-            android:text="Gruppi"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="match_parent"
+                    android:layout_height="59dp"
+                    android:layout_marginTop="15dp"
+                    app:srcCompat="@drawable/ic_register_contact" />
+            </androidx.cardview.widget.CardView>
 
-        <Button
-            android:id="@+id/aggRischio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="384dp"
-            android:onClick="aggRischio"
-            android:text="Aggiorna rischio"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="130dp"
+                android:layout_height="151dp"
+                android:layout_marginTop="56dp"
+                android:layout_marginEnd="40dp"
+                android:onClick="homeEventi"
+                app:cardCornerRadius="9dp"
+                app:cardElevation="9dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
-        <Button
-            android:id="@+id/positivoB"
-            android:layout_width="118dp"
-            android:layout_height="38dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginBottom="180dp"
-            android:onClick="popupPositivo"
-            android:text="Sono Positivo"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="80dp"
+                    android:fontFamily="@font/baloo"
+                    android:text="Eventi"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/negativoB"
-            android:layout_width="125dp"
-            android:layout_height="39dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="184dp"
-            android:onClick="popupNegativo"
-            android:text="Sono Negativo"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="59dp"
+                    android:layout_marginTop="15dp"
+                    app:srcCompat="@drawable/event" />
+            </androidx.cardview.widget.CardView>
 
-        <Button
-            android:id="@+id/inAttesaB"
-            android:layout_width="139dp"
-            android:layout_height="53dp"
-            android:layout_marginBottom="180dp"
-            android:onClick="popupInAttesa"
-            android:text="Ho fatto un test"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/negativoB"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/positivoB" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
+                android:layout_width="345dp"
+                android:layout_height="193dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="40dp"
+                app:cardCornerRadius="7dp"
+                app:cardElevation="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/LabelRischio">
 
-        <TextView
-            android:id="@+id/LabelRischio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Rischio:"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.157" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/positivoB"
+                        android:layout_width="206dp"
+                        android:layout_height="63dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="10dp"
+
+                        android:layout_marginBottom="20dp"
+                        android:onClick="popupPositivo"
+                        android:visibility="invisible"
+                        app:cardBackgroundColor="@color/design_default_color_error"
+                        app:cardCornerRadius="25dp"
+                        app:cardElevation="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/inAttesaText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="Sono positivo"
+                                android:textColor="#fff"
+                                android:textSize="18sp" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/inAttesaB"
+                        android:layout_width="206dp"
+                        android:layout_height="63dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="70dp"
+                        android:layout_marginEnd="10dp"
+                        android:visibility="invisible"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="25dp"
+                        app:cardElevation="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:onClick="popupInAttesa">
+
+                            <TextView
+                                android:id="@+id/positvoText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="Ho effettuato il test"
+                                android:textColor="@color/colorLogoBlue"
+                                android:textSize="18sp" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/negativoB"
+                        android:layout_width="206dp"
+                        android:layout_height="63dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:onClick="popupNegativo"
+                        android:visibility="invisible"
+                        app:cardBackgroundColor="@color/colorPrimaryDark"
+                        app:cardCornerRadius="25dp"
+                        app:cardElevation="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/textView2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="Sono negativo"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <ImageView
+                        android:id="@+id/imgTest"
+                        android:layout_width="123dp"
+                        android:layout_height="195dp"
+                        android:layout_marginStart="4dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.238"
+                        app:srcCompat="@drawable/coronavirus" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView3"
+                android:layout_width="130dp"
+                android:layout_height="151dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="56dp"
+                android:onClick="homeGruppi"
+                app:cardCornerRadius="9dp"
+                app:cardElevation="9dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView2">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="59dp"
+                    android:layout_marginTop="15dp"
+                    app:srcCompat="@drawable/group" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="80dp"
+                    android:fontFamily="@font/baloo"
+                    android:text="Gruppi"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/LabelRischio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="10dp"
+                android:text="Rischio Contagio :"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/cardView2"
+                app:layout_constraintEnd_toEndOf="@+id/toolbar"
+                app:layout_constraintStart_toStartOf="@+id/toolbar"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="130dp"
+                android:layout_height="151dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="24dp"
+                android:onClick="aggRischio"
+                app:cardCornerRadius="9dp"
+                app:cardElevation="9dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView3">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="80dp"
+                    android:fontFamily="@font/baloo"
+                    android:text="Aggiorna rischio"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/imgView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="59dp"
+                    android:layout_marginTop="15dp"
+                    app:srcCompat="@drawable/refresh" />
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

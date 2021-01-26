@@ -1,6 +1,5 @@
 package it.gadg.contagiapp;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,10 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +19,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,14 +32,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.List;
-
-import it.gadg.contagiapp.evento.CreaEventoActivity;
-import it.gadg.contagiapp.evento.InviaPartecipazioneEvento;
-import it.gadg.contagiapp.evento.ListaEventiActivity;
-import it.gadg.contagiapp.gruppo.CreaGruppoActivity;
-import it.gadg.contagiapp.gruppo.InvitiGruppi;
-import it.gadg.contagiapp.gruppo.ListaGruppiActivity;
 import it.gadg.contagiapp.modelli.User;
 import it.gadg.contagiapp.splash.Splash;
 import it.gadg.contagiapp.utente.ModificaUtenteActivity;
@@ -66,9 +57,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     FirebaseFirestore db;
 
-    Button positivoB;
-    Button negativoB;
-    Button inAttesaB;
+    CardView positivoB;
+    CardView negativoB;
+    CardView inAttesaB;
+
+    ImageView imgTest;
 
     private int RISCHIO_POSITIVO = 100;
     private int RISCHIO_TEST = 50;
@@ -87,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /*---------------------MENU------------------------*/
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
-        textView=findViewById(R.id.textView);
+        textView=findViewById(R.id.positvoText);
         toolbar=findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -106,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         negativoB = findViewById(R.id.negativoB);
         inAttesaB = findViewById(R.id.inAttesaB);
         LabelRischio = findViewById(R.id.LabelRischio);
+        imgTest = findViewById(R.id.imgTest);
 
         //Estraggo l'utente
         mAuth = FirebaseAuth.getInstance();
@@ -125,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         utenteLoggato.rischio = (Long) document.get("rischio");
                         utenteLoggato.uid = document.getId();
 
-                        String temp ="Rischio : "+ utenteLoggato.rischio;
+                        String temp =LabelRischio.getText().toString()+ utenteLoggato.rischio + "%";
 
                         LabelRischio.setText(temp);
 
@@ -133,10 +127,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             inAttesaB.setVisibility(View.VISIBLE);
                         } else if (utenteLoggato.etichetta.equals("test")) {
 
+                            imgTest.setImageResource(R.drawable.coronavirus2);
                             positivoB.setVisibility(View.VISIBLE);
                             negativoB.setVisibility(View.VISIBLE);
                         } else if (utenteLoggato.etichetta.equals("positivo")) {
-
+                            imgTest.setImageResource(R.drawable.coronavirus2);
                             inAttesaB.setVisibility(View.VISIBLE);
                         }
 
@@ -186,6 +181,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Pulsante back disabilitato
     }
 
+
+
+    public void registraContatto(View view) {
+        Intent i = new Intent(getApplicationContext(), BtActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
 
 
 
@@ -355,7 +357,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         this.createNewContactDialog(3);
     }
-
 
     public class AggiornaRischioThread implements Runnable {
 

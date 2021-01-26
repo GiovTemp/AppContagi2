@@ -42,7 +42,7 @@ public class HomeGruppiActivity extends AppCompatActivity implements NavigationV
         /*---------------------MENU------------------------*/
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
-        textView=findViewById(R.id.textView);
+        textView=findViewById(R.id.positvoText);
         toolbar=findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
