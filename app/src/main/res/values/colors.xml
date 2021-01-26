@@ -4,6 +4,11 @@
     <color name="colorPrimaryDark">#6e8b25</color>
     <color name="colorLogoBlue">#3e4797</color>
 
+    <color name="colorYellow">#f39c12</color>
+
+    <color name="colorLigthRed">#f58a97</color>
+
+
 
 
     <color name="white">#ffffff</color>

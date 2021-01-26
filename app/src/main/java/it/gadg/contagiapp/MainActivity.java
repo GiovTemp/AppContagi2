@@ -20,6 +20,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,7 +38,7 @@ import it.gadg.contagiapp.splash.Splash;
 import it.gadg.contagiapp.utente.ModificaUtenteActivity;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
 
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog dialog;
     private TextView richiestaPopup;
     private TextView LabelRischio;
-    private Button siPopup, noPopup;
+    private CardView siPopup, noPopup;
 
     //Variabili menù hamburger
     DrawerLayout drawerLayout;
@@ -67,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
     private int RISCHIO_TEST = 50;
     private int RISCHIO_NEGATIVO = 0;
 
+    private int RISCHIO_ROSSO=49;
+    private int RISCHIO_GIALLO=24;
+
     User utenteLoggato;
 
     @Override
@@ -76,6 +80,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+
+
+
+        /*---------------------MENU------------------------*/
+        drawerLayout=findViewById(R.id.drawer_layout);
+        navigationView=findViewById(R.id.nav_view);
+        textView=findViewById(R.id.positvoText);
+        toolbar=findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+
+
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
 
 
         positivoB = findViewById(R.id.positivoB);
@@ -104,6 +126,12 @@ public class MainActivity extends AppCompatActivity {
 
                         String temp =LabelRischio.getText().toString()+ utenteLoggato.rischio + "%";
 
+                        if(utenteLoggato.rischio>RISCHIO_ROSSO){
+                            LabelRischio.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorLigthRed));
+                        }else if ((utenteLoggato.rischio>RISCHIO_GIALLO)){
+                            LabelRischio.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorYellow));
+                        }
+
                         LabelRischio.setText(temp);
 
                         if (utenteLoggato.etichetta.equals("super") || utenteLoggato.etichetta.equals("sicuro") || utenteLoggato.etichetta.equals("incerto")) {
@@ -128,6 +156,39 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.nav_home:
+                break;
+
+            case R.id.nav_gruppi:
+                this.homegruppi();
+                break;
+
+            case R.id.nav_eventi:
+                this.homeeventi();
+                break;
+
+            case R.id.nav_contatto:
+                this.registraContatto();
+                break;
+
+            case R.id.nav_profilo:
+                this.modificaUtente();
+                break;
+
+            case R.id.nav_logout:
+                this.logout();
+                break;
+        }
+
+        return true;
+    }
 
     @Override
     public void onBackPressed() {

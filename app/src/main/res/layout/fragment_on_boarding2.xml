@@ -25,31 +25,32 @@
         android:id="@+id/contagiAPP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
         android:text="@string/contagiapp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintHorizontal_bias="0"
-        android:layout_marginTop="25dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
 
         />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/loginSplash"
+        android:layout_marginEnd="30dp"
         android:onClick="splashAuth"
+        android:text="@string/loginSplash"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
-        app:layout_constraintHorizontal_bias="1"
-        android:layout_marginEnd="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/contagiAPP"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toEndOf="@+id/contagiAPP"
         app:layout_constraintTop_toTopOf="@+id/contagiAPP"
 
@@ -59,36 +60,36 @@
         android:id="@+id/TitoloSchermata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/lorem"
-        android:textSize="42sp"
-        android:fontFamily="sans-serif-light"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintVertical_bias="0"
         android:layout_marginEnd="30dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/lorem"
+        android:textColor="@color/white"
+        android:textSize="42sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
 
-        />
+        app:layout_constraintVertical_bias="0" />
 
 
     <TextView
         android:id="@+id/sottotitoloSchermata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ipsum"
-        android:textSize="56sp"
-        android:fontFamily="sans-serif-condensed"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintVertical_bias="0"
         android:layout_marginEnd="30dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/ipsum"
+        android:textColor="@color/white"
+        android:textSize="56sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@+id/TitoloSchermata"
         app:layout_constraintTop_toBottomOf="@+id/TitoloSchermata"
+        app:layout_constraintVertical_bias="0"
 
         />
 
@@ -98,17 +99,17 @@
         android:layout_height="135dp"
         android:layout_marginTop="5dp"
         android:text="@string/faketext"
-        android:textSize="16sp"
+        android:textColor="@color/white"
 
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/sottotitoloSchermata"
         app:layout_constraintTop_toBottomOf="@+id/sottotitoloSchermata"
-        app:layout_constraintVertical_bias="0.184"
 
 
-        />
+        app:layout_constraintVertical_bias="0.184" />
 
     <ImageView
         android:layout_width="50dp"
