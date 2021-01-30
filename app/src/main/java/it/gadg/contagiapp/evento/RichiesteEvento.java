@@ -3,10 +3,12 @@ package it.gadg.contagiapp.evento;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,6 +53,9 @@ public class RichiesteEvento extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_richieste_evento);
+
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
 
         Intent intent = getIntent();
         String id =intent.getStringExtra("idEvento");

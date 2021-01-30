@@ -1,9 +1,13 @@
 package it.gadg.contagiapp.gruppo;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -36,8 +40,33 @@ public class CreaGruppoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crea_gruppo);
 
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
+
+        // the action bar
+        ActionBar actionBar = getSupportActionBar();
+        // mostra il pulsante per tornare indietro
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
     }
+
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public void CGruppoButton(View view) {
 
@@ -59,7 +88,7 @@ public class CreaGruppoActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<DocumentReference> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Gruppo utente creato correttamente", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Gruppo creato correttamente", Toast.LENGTH_LONG).show();
 
                                 finish();
                             }else{

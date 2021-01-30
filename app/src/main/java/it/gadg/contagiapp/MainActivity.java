@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
 
 
 
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         positivoB = findViewById(R.id.positivoB);
-        negativoB = findViewById(R.id.negativoB);
+        negativoB = findViewById(R.id.invitabutton);
         inAttesaB = findViewById(R.id.inAttesaB);
         LabelRischio = findViewById(R.id.LabelRischio);
         imgTest = findViewById(R.id.imgTest);
@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void homeGruppi(View view) {
         Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);
         startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
     }
 
 
@@ -500,7 +500,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void homegruppi() {
         Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);
         startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
     }
 
     private void homeeventi() {

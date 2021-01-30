@@ -2,12 +2,16 @@ package it.gadg.contagiapp.gruppo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -47,6 +51,15 @@ public class InvitiGruppi extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inviti_gruppi);
+
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
+
+        // the action bar
+        ActionBar actionBar = getSupportActionBar();
+        // mostra il pulsante per tornare indietro
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         mAuth= FirebaseAuth.getInstance();
         user= mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
@@ -79,7 +92,8 @@ public class InvitiGruppi extends AppCompatActivity {
                         });
                     }
             }else{
-                    Toast.makeText(getApplicationContext(), "Non hai inviti", Toast.LENGTH_LONG).show();
+                    setContentView(R.layout.no_inviti);
+
                 }
             }
 
@@ -108,6 +122,21 @@ public class InvitiGruppi extends AppCompatActivity {
 
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     class Adapter extends ArrayAdapter<String> {
         Context context;

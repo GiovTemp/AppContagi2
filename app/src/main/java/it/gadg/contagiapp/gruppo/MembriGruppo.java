@@ -2,13 +2,17 @@ package it.gadg.contagiapp.gruppo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -56,6 +60,14 @@ public class MembriGruppo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_membri_gruppo);
 
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
+
+        // the action bar
+        ActionBar actionBar = getSupportActionBar();
+        // mostra il pulsante per tornare indietro
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
@@ -67,36 +79,41 @@ public class MembriGruppo extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 flag = queryDocumentSnapshots.size();
-                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                if(flag>1){
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
-                    String id = document.getString("UID");
-                    if (!id.equals(mAuth.getUid())) {
+                        String id = document.getString("UID");
+                        if (!id.equals(mAuth.getUid())) {
 
 
-                        final MembroGruppo x = new MembroGruppo();
-                        x.uid = id;
+                            final MembroGruppo x = new MembroGruppo();
+                            x.uid = id;
 
-                        db.collection("Utenti").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    if (document != null) {
-                                        x.nome = document.getString("nome");
-                                        x.cognome = document.getString("cognome");
-                                        x.nome = document.getString("nome");
-                                        x.rischio = (long) document.get("rischio");
-                                        salvaUtente(x);
+                            db.collection("Utenti").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document != null) {
+                                            x.nome = document.getString("nome");
+                                            x.cognome = document.getString("cognome");
+                                            x.nome = document.getString("nome");
+                                            x.rischio = (long) document.get("rischio");
+                                            salvaUtente(x);
 
+                                        }
+                                    } else {
+                                        Log.d("Errore", "get failed with ", task.getException());
                                     }
-                                } else {
-                                    Log.d("Errore", "get failed with ", task.getException());
                                 }
-                            }
 
-                        });
+                            });
+                        }
                     }
+                }else{
+                    setContentView(R.layout.no_membri);
                 }
+
 
             }
 
@@ -118,15 +135,13 @@ public class MembriGruppo extends AppCompatActivity {
 
                     cognomi = new String[m.size()];
                     for (int j = 0; j < m.size(); j++) {
-                        cognomi[j] = m.get(j).nome;
+                        cognomi[j] = m.get(j).cognome;
                     }
 
                     rischi = new String[m.size()];
                     for (int j = 0; j < m.size(); j++) {
                         rischi[j] = String.valueOf(m.get(j).rischio);
                     }
-
-                    System.out.println("ciao"+Arrays.toString(nomi));
 
                     listView = findViewById(R.id.listaMembri);
                     MembriGruppo.Adapter adapter = new MembriGruppo.Adapter(getApplicationContext(), nomi, cognomi, rischi, idUtenti);
@@ -137,6 +152,23 @@ public class MembriGruppo extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     class Adapter extends ArrayAdapter<String> {
         Context context;
@@ -169,7 +201,8 @@ public class MembriGruppo extends AppCompatActivity {
             String temp = NomiUtenti[position] + " " + CognomiUtenti[position];
             idMembro.setText(IdUtenti[position]);
             nomeMembro.setText(temp);
-            rischioMembro.setText(Rischi[position]);
+            temp = "Rischio : "+Rischi[position];
+            rischioMembro.setText(temp);
             final Button btn = rigamembro.findViewById(R.id.espelliMembro);
             if (permessi==1){
                 btn.setVisibility(View.VISIBLE);

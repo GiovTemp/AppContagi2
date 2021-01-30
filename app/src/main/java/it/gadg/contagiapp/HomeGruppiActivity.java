@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,8 +37,13 @@ public class HomeGruppiActivity extends AppCompatActivity implements NavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_gruppi);
-        mAuth = FirebaseAuth.getInstance();
 
+
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
+
+
+        mAuth = FirebaseAuth.getInstance();
 
 
         /*---------------------MENU------------------------*/
@@ -55,6 +62,12 @@ public class HomeGruppiActivity extends AppCompatActivity implements NavigationV
 
         navigationView.setNavigationItemSelectedListener(this);
 
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
     }
 
 
@@ -112,7 +125,7 @@ public class HomeGruppiActivity extends AppCompatActivity implements NavigationV
     private void home() {
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
     }
 
 

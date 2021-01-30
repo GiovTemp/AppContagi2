@@ -2,9 +2,11 @@ package it.gadg.contagiapp.evento;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.EventLog;
 import android.util.Log;
@@ -41,6 +43,10 @@ public class InviaPartecipazioneEvento extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invia_partecipazione_evento);
+
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
+
     }
 
     public void inviaRichiesta(View view) {

@@ -1,10 +1,14 @@
 package it.gadg.contagiapp.gruppo;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,7 +31,7 @@ public class GestisciGruppoActivity extends AppCompatActivity {
     FirebaseFirestore db;
 
     TextView NomeGruppoGestione;
-    TextView RuoloGruppoGestione;
+
     EditText EmailInvito;
     String idGruppo;
     int flag=0;
@@ -38,19 +42,44 @@ public class GestisciGruppoActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gestisci_gruppo);
+
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
+
+        // the action bar
+        ActionBar actionBar = getSupportActionBar();
+        // mostra il pulsante per tornare indietro
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         Intent intent = getIntent();
         String temp =intent.getStringExtra("NomeGruppo");
         NomeGruppoGestione = findViewById(R.id.NomeGruppoGestione);
         NomeGruppoGestione.setText(temp);
 
-        RuoloGruppoGestione = findViewById(R.id.RuoloGruppoGestione);
-        RuoloGruppoGestione.setText("sei admin");
+        setTitle(temp);
+
 
         idGruppo = intent.getStringExtra("idGruppo");
 
         db = FirebaseFirestore.getInstance();
 
 
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void invitaUtente(View view) {

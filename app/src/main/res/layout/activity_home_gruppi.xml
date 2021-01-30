@@ -7,15 +7,14 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".HomeGruppiActivity"
-    tools:openDrawer="start"
-
-    >
+      >
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/colorPrimaryDark"
         app:headerLayout="@layout/header"
         app:menu="@menu/main_menu">
 
@@ -23,55 +22,115 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_home2">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
+            android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            app:theme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewCreaGruppo"
+            android:layout_width="130dp"
+            android:layout_height="135dp"
+            android:layout_marginTop="60dp"
             android:onClick="creaGruppo"
-            android:text="@string/crea_gruppo"
+            app:cardCornerRadius="9dp"
+            app:cardElevation="9dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.505"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeEventi" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-        <Button
-            android:id="@+id/button7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            <ImageView
+                android:id="@+id/imageViewCreaGruppo"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_marginTop="15dp"
+                app:srcCompat="@drawable/create" />
+
+            <TextView
+                android:id="@+id/textCreaGruppo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:fontFamily="@font/baloo"
+                android:text="Crea Gruppo"
+                android:textAlignment="center"
+                android:textColor="@color/quantum_grey700"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewListaGruppi"
+            android:layout_width="130dp"
+            android:layout_height="135dp"
+            android:layout_marginTop="40dp"
             android:onClick="ListaGruppi"
-            android:text="@string/i_tuoi_gruppi"
+            app:cardCornerRadius="9dp"
+            app:cardElevation="9dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button4" />
+            app:layout_constraintTop_toBottomOf="@+id/cardViewCreaGruppo">
 
-        <Button
-            android:id="@+id/button8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_marginTop="15dp"
+                app:srcCompat="@drawable/checklist" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:fontFamily="@font/baloo"
+                android:text="Lista Gruppi"
+                android:textAlignment="center"
+                android:textColor="@color/quantum_grey700"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewInvitiGruppi"
+            android:layout_width="130dp"
+            android:layout_height="135dp"
+            android:layout_marginTop="40dp"
             android:onClick="ListaInviti"
-            android:text="i tuoi Inviti"
+            app:cardCornerRadius="9dp"
+            app:cardElevation="9dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button7" />
+            app:layout_constraintTop_toBottomOf="@+id/cardViewListaGruppi">
 
+            <ImageView
+                android:id="@+id/imageViewInviti"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_marginTop="15dp"
+                app:srcCompat="@drawable/invitation" />
+
+            <TextView
+                android:id="@+id/textViewInviti"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:fontFamily="@font/baloo"
+                android:text="Inviti Ricevuti"
+                android:textAlignment="center"
+                android:textColor="@color/quantum_grey700"
+                android:textSize="19sp" />
+        </androidx.cardview.widget.CardView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

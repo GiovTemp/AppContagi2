@@ -2,13 +2,17 @@ package it.gadg.contagiapp.gruppo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -46,15 +50,21 @@ public class ListaGruppiActivity extends AppCompatActivity {
     ArrayList<GruppoRicerca> gr = new ArrayList<>();
     int flag;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_gruppi);
+
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
+
+        // the action bar
+        ActionBar actionBar = getSupportActionBar();
+        // mostra il pulsante per tornare indietro
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         mAuth= FirebaseAuth.getInstance();
         user= mAuth.getCurrentUser();
@@ -65,29 +75,35 @@ public class ListaGruppiActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         flag=queryDocumentSnapshots.size();
-                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        if(flag==0){
+                            setContentView(R.layout.no_gruppi);
+                        }else{
+                            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
-                            String id = document.getString("idGruppo");
-                            String ruolo = document.getString("ruolo");
-                            final GruppoRicerca x = new GruppoRicerca(id, ruolo);
+                                String id = document.getString("idGruppo");
+                                String ruolo = document.getString("ruolo");
+                                final GruppoRicerca x = new GruppoRicerca(id, ruolo);
 
-                            db.collection("Gruppi").document((String) document.get("idGruppo")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document != null) {
-                                            x.setNome(document.getString("Nome"));
-                                            salvaGruppo(x);
+                                db.collection("Gruppi").document((String) document.get("idGruppo")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document != null) {
+                                                x.setNome(document.getString("Nome"));
 
+                                                salvaGruppo(x);
+
+                                            }
+                                        } else {
+                                            Log.d("Errore", "get failed with ", task.getException());
                                         }
-                                    } else {
-                                        Log.d("Errore", "get failed with ", task.getException());
                                     }
-                                }
 
-                            });
+                                });
+                            }
                         }
+
             }
 
             private void salvaGruppo(GruppoRicerca x) {
@@ -146,6 +162,22 @@ public class ListaGruppiActivity extends AppCompatActivity {
 
 
         }
+
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 
 
 

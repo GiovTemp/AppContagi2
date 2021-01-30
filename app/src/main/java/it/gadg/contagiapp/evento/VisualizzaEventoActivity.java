@@ -2,8 +2,10 @@ package it.gadg.contagiapp.evento;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.view.View;
@@ -36,6 +38,10 @@ public class VisualizzaEventoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualizza_evento);
+
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
+
         db = FirebaseFirestore.getInstance();
         mAuth= FirebaseAuth.getInstance();
         Intent intent = getIntent();

@@ -2,6 +2,7 @@ package it.gadg.contagiapp.evento;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import it.gadg.contagiapp.MainActivity;
 import it.gadg.contagiapp.R;
@@ -41,6 +42,8 @@ public class GestisciEvento extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gestisci_evento);
 
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
         db = FirebaseFirestore.getInstance();
 
         Intent intent = getIntent();
@@ -49,6 +52,7 @@ public class GestisciEvento extends AppCompatActivity {
         dataEvento = intent.getStringExtra("DataEvento");
         oraEvento = intent.getStringExtra("OraEvento");
 
+        setTitle(titoloEvento);
         NomeEventoGestione = findViewById(R.id.NomeEventoGestione);
         NomeEventoGestione.setText(titoloEvento);
 

@@ -194,7 +194,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/negativoB"
+                        android:id="@+id/invitabutton"
                         android:layout_width="173dp"
                         android:layout_height="50dp"
                         android:layout_alignParentStart="true"
@@ -242,7 +242,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView3"
+                android:id="@+id/cardViewListaGruppi"
                 android:layout_width="130dp"
                 android:layout_height="135dp"
                 android:layout_marginStart="40dp"
@@ -281,7 +281,7 @@
                 app:cardCornerRadius="9dp"
                 app:cardElevation="9dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView3">
+                app:layout_constraintTop_toBottomOf="@+id/cardViewListaGruppi">
 
                 <TextView
                     android:id="@+id/textView6"
