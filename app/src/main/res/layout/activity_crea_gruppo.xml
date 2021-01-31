@@ -71,7 +71,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
                 <ImageView
-                    android:id="@+id/imgView_userIcon"
+                    android:id="@+id/imgView_dataEvento"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@color/colorPrimaryDark"
@@ -83,14 +83,14 @@
                     android:id="@+id/nGruppo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/imgView_userIcon"
+                    android:layout_alignBottom="@+id/imgView_dataEvento"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="1dp"
                     android:layout_marginTop="-1dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_toRightOf="@+id/imgView_userIcon"
+                    android:layout_toRightOf="@+id/imgView_dataEvento"
                     android:background="@color/editTextBG"
-                    android:hint="Nome Evento"
+                    android:hint="Nome Gruppo"
                     android:paddingLeft="20dp"
                     android:textSize="15sp" />
 

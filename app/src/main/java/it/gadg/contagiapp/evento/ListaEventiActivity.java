@@ -63,32 +63,37 @@ public class ListaEventiActivity extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 flag=queryDocumentSnapshots.size();
-                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                if(flag>0){
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
-                    String id = document.getString("idEvento");
-                    String ruolo = document.getString("role");
-                    final ListaEvento x = new ListaEvento(id,ruolo);
+                        String id = document.getString("idEvento");
+                        String ruolo = document.getString("role");
+                        final ListaEvento x = new ListaEvento(id,ruolo);
 
-                    db.collection("Eventi").document((String) document.get("idEvento")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document != null) {
-                                    x.nome=document.getString("nome");
-                                    x.luogo=document.getString("nomeLuogo");
-                                    x.data=document.getString("data");
-                                    x.ora = document.getString("oraInizio");
-                                    salvaEvento(x);
+                        db.collection("Eventi").document((String) document.get("idEvento")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document != null) {
+                                        x.nome=document.getString("nome");
+                                        x.luogo=document.getString("nomeLuogo");
+                                        x.data=document.getString("data");
+                                        x.ora = document.getString("oraInizio");
+                                        salvaEvento(x);
 
+                                    }
+                                } else {
+                                    Log.d("Errore", "get failed with ", task.getException());
                                 }
-                            } else {
-                                Log.d("Errore", "get failed with ", task.getException());
                             }
-                        }
 
-                    });
+                        });
+                    }
+                }else{
+                    setContentView(R.layout.no_eventi);
                 }
+
             }
 
             private void salvaEvento(ListaEvento x) {
@@ -108,9 +113,9 @@ public class ListaEventiActivity extends AppCompatActivity {
                     ruoli = new String[eventi.size()];
                     for (int j = 0; j < eventi.size(); j++) {
                         if(eventi.get(j).ruolo.equals("1")){
-                            ruoli[j] = "admin";
+                            ruoli[j] = "amministratore";
                         }else{
-                            ruoli[j] = "utente normale";
+                            ruoli[j] = "partecipante";
                         }
 
                     }
@@ -152,6 +157,12 @@ public class ListaEventiActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 
 
     class Adapter extends ArrayAdapter<String> {

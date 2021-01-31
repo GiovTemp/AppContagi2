@@ -63,6 +63,12 @@ public class GestisciEvento extends AppCompatActivity {
 
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
     public void richiesteEvento(View view) {
         Intent intent = new Intent(getApplicationContext(), RichiesteEvento.class);
         intent.putExtra("idEvento",idEvento);

@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void homeEventi(View view) {
         Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);
         startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
     }
 
 
@@ -506,7 +506,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void homeeventi() {
         Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);
         startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
     }
 
 

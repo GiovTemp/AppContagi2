@@ -55,6 +55,12 @@ public class VisualizzaEventoActivity extends AppCompatActivity {
         NomeEventoVisualizza.setText(titoloEvento);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
     public void aggEventoCalendario(View view) {
 
 

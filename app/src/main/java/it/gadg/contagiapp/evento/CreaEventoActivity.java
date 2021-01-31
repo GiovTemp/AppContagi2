@@ -4,7 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.os.Build;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -67,9 +68,15 @@ public class CreaEventoActivity extends AppCompatActivity {
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
         assert autocompleteFragment != null;
         autocompleteFragment.setTypeFilter(TypeFilter.ESTABLISHMENT);
-
+        autocompleteFragment.setHint("Luogo Evento");
+        ((EditText)autocompleteFragment.getView().findViewById(R.id.places_autocomplete_search_input)).setHintTextColor(getResources().getColor(R.color.hint));
+        autocompleteFragment.getView().findViewById(R.id.places_autocomplete_search_button).setVisibility(View.GONE);
         autocompleteFragment.setCountries("IT");
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.NAME));
+
+        ((EditText)autocompleteFragment.getView().findViewById(R.id.places_autocomplete_search_input)).setTextSize(15.0f);
+
+        autocompleteFragment.getView().setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.editTextBG));
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -86,6 +93,12 @@ public class CreaEventoActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     public void creaEvento(View view) {
@@ -180,6 +193,7 @@ public class CreaEventoActivity extends AppCompatActivity {
 
     private boolean dataValida(String data) {
         // TODO Conversione stringa in data
+
         String regex = "^(1[0-2]|0[1-9])/(3[01]"
                 + "|[12][0-9]|0[1-9])/[0-9]{4}$";
         Pattern pattern = Pattern.compile(regex);
