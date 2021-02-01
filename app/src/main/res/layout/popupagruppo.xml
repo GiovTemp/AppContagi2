@@ -1,16 +1,19 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+
     <TextView
         android:id="@+id/richiestaPopup"
         android:layout_width="320dp"
         android:layout_height="105dp"
         android:fontFamily="@font/baloo"
-        android:text="Confermi di essere in attesa del test?"
+        android:text="Sei sicuro di voler abbandonare il gruppo?"
         android:textAlignment="center"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +25,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/siPopup"
+        android:id="@+id/siAbbandono"
         android:layout_width="139dp"
 
         android:layout_height="65dp"
@@ -52,7 +55,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/noPopup"
+        android:id="@+id/noAbbandono"
         android:layout_width="139dp"
 
         android:layout_height="65dp"
@@ -88,5 +91,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noPopup" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

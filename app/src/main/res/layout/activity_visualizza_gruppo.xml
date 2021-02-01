@@ -80,7 +80,7 @@
             android:layout_margin="10dp"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:onClick="abbandonaGruppo">
+            android:onClick="ConfermaAbbandonoGruppo">
 
             <LinearLayout
                 android:layout_width="match_parent"

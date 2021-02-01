@@ -1,12 +1,14 @@
 package it.gadg.contagiapp.evento;
 
 import androidx.annotation.NonNull;
+import android.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import it.gadg.contagiapp.MainActivity;
 import it.gadg.contagiapp.R;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -27,6 +29,7 @@ import java.util.Calendar;
 public class GestisciEvento extends AppCompatActivity {
 
     FirebaseFirestore db;
+
     TextView NomeEventoGestione;
     TextView RuoloEventoGestione;
     String idEvento;

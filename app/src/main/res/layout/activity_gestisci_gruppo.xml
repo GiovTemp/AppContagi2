@@ -85,7 +85,7 @@
             android:layout_margin="10dp"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:onClick="eliminaGruppo">
+            android:onClick="ConfermaEliminazioneGruppo">
 
             <LinearLayout
                 android:layout_width="match_parent"

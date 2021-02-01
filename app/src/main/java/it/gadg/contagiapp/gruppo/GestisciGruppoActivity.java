@@ -3,10 +3,11 @@ package it.gadg.contagiapp.gruppo;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
+import android.app.AlertDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,8 +31,10 @@ public class GestisciGruppoActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
 
+    private AlertDialog.Builder PopupEliminazioneGruppo;
+    private AlertDialog dialog;
     TextView NomeGruppoGestione;
-
+    private CardView siEliminazione, noEliminazione;
     EditText EmailInvito;
     String idGruppo;
     int flag=0;
@@ -145,7 +148,7 @@ public class GestisciGruppoActivity extends AppCompatActivity {
 
     }
 
-    public void eliminaGruppo(View view) {
+    public void eliminaGruppo() {
 
         db.collection("GruppoUtenti").whereEqualTo("idGruppo", idGruppo).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 
@@ -190,5 +193,41 @@ public class GestisciGruppoActivity extends AppCompatActivity {
         intent.putExtra("ruolo",1);
         startActivity(intent);
     }
+
+     public void ConfermaEliminazioneGruppo(View view) {
+
+
+        PopupEliminazioneGruppo = new AlertDialog.Builder(this);
+        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupegruppo, null);
+
+
+
+
+        siEliminazione = contactPopupView.findViewById(R.id.siEliminazione);
+        noEliminazione= contactPopupView.findViewById(R.id.noEliminazione);
+
+        PopupEliminazioneGruppo.setView(contactPopupView);
+        dialog = PopupEliminazioneGruppo.create();
+        dialog.show();
+
+         siEliminazione.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eliminaGruppo();
+                dialog.dismiss();
+            }
+    });
+
+         noEliminazione.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+
+
+    }
+
 
 }

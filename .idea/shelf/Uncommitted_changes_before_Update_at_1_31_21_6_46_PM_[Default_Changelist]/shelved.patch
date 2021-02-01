@@ -1,0 +1,196 @@
+Index: app/src/main/res/layout/popupmain.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:orientation=\"vertical\">\n\n    <TextView\n        android:id=\"@+id/richiestaPopup\"\n        android:layout_width=\"320dp\"\n        android:layout_height=\"105dp\"\n        android:fontFamily=\"@font/baloo\"\n        android:text=\"Confermi di essere in attesa del test?\"\n        android:textAlignment=\"center\"\n        android:textSize=\"30sp\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintHorizontal_bias=\"0.484\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toTopOf=\"parent\"\n        app:layout_constraintVertical_bias=\"0.309\" />\n\n\n    <androidx.cardview.widget.CardView\n        android:id=\"@+id/siPopup\"\n        android:layout_width=\"139dp\"\n\n        android:layout_height=\"65dp\"\n        android:layout_marginStart=\"10dp\"\n        android:layout_marginTop=\"40dp\"\n        app:cardBackgroundColor=\"@color/colorPrimaryDark\"\n        app:cardCornerRadius=\"25dp\"\n        app:cardElevation=\"10dp\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toBottomOf=\"@+id/richiestaPopup\">\n\n        <RelativeLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"match_parent\">\n\n            <TextView\n\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_centerInParent=\"true\"\n                android:fontFamily=\"@font/baloo\"\n                android:text=\"SI\"\n                android:textColor=\"@color/white\"\n                android:textSize=\"30sp\" />\n\n        </RelativeLayout>\n    </androidx.cardview.widget.CardView>\n\n    <androidx.cardview.widget.CardView\n        android:id=\"@+id/noPopup\"\n        android:layout_width=\"139dp\"\n\n        android:layout_height=\"65dp\"\n        android:layout_marginTop=\"40dp\"\n        android:layout_marginEnd=\"10dp\"\n        app:cardBackgroundColor=\"@color/design_default_color_error\"\n        app:cardCornerRadius=\"25dp\"\n        app:cardElevation=\"10dp\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintTop_toBottomOf=\"@+id/richiestaPopup\">\n\n        <RelativeLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"match_parent\">\n\n            <TextView\n\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_centerInParent=\"true\"\n                android:fontFamily=\"@font/baloo\"\n                android:text=\"NO\"\n                android:textColor=\"@color/white\"\n                android:textSize=\"30sp\" />\n\n        </RelativeLayout>\n    </androidx.cardview.widget.CardView>\n\n    <TextView\n        android:id=\"@+id/textView7\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginTop=\"20dp\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintTop_toBottomOf=\"@+id/noPopup\" />\n\n</androidx.constraintlayout.widget.ConstraintLayout>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/popupmain.xml	(revision 0ee7082f1c51caeb7b1fe9d007fb49bcb65147b7)
++++ app/src/main/res/layout/popupmain.xml	(date 1611684889000)
+@@ -1,18 +1,20 @@
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout
++    xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    android:orientation="vertical">
++    android:orientation="vertical"
++    >
+ 
+     <TextView
+         android:id="@+id/richiestaPopup"
+         android:layout_width="320dp"
+         android:layout_height="105dp"
+-        android:fontFamily="@font/baloo"
+         android:text="Confermi di essere in attesa del test?"
+         android:textAlignment="center"
+-        android:textSize="30sp"
++        android:textSize="24sp"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="0.484"
+@@ -20,73 +22,25 @@
+         app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintVertical_bias="0.309" />
+ 
+-
+-    <androidx.cardview.widget.CardView
++    <Button
+         android:id="@+id/siPopup"
+-        android:layout_width="139dp"
+-
+-        android:layout_height="65dp"
+-        android:layout_marginStart="10dp"
+-        android:layout_marginTop="40dp"
+-        app:cardBackgroundColor="@color/colorPrimaryDark"
+-        app:cardCornerRadius="25dp"
+-        app:cardElevation="10dp"
++        android:layout_width="105dp"
++        android:layout_height="57dp"
++        android:layout_marginStart="44dp"
++        android:text="SI"
++        app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/richiestaPopup">
+-
+-        <RelativeLayout
+-            android:layout_width="match_parent"
+-            android:layout_height="match_parent">
+-
+-            <TextView
+-
+-                android:layout_width="wrap_content"
+-                android:layout_height="wrap_content"
+-                android:layout_centerInParent="true"
+-                android:fontFamily="@font/baloo"
+-                android:text="SI"
+-                android:textColor="@color/white"
+-                android:textSize="30sp" />
++        app:layout_constraintTop_toBottomOf="@+id/richiestaPopup"
++        app:layout_constraintVertical_bias="0.234" />
+ 
+-        </RelativeLayout>
+-    </androidx.cardview.widget.CardView>
+-
+-    <androidx.cardview.widget.CardView
++    <Button
+         android:id="@+id/noPopup"
+-        android:layout_width="139dp"
+-
+-        android:layout_height="65dp"
+-        android:layout_marginTop="40dp"
+-        android:layout_marginEnd="10dp"
+-        app:cardBackgroundColor="@color/design_default_color_error"
+-        app:cardCornerRadius="25dp"
+-        app:cardElevation="10dp"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/richiestaPopup">
+-
+-        <RelativeLayout
+-            android:layout_width="match_parent"
+-            android:layout_height="match_parent">
+-
+-            <TextView
+-
+-                android:layout_width="wrap_content"
+-                android:layout_height="wrap_content"
+-                android:layout_centerInParent="true"
+-                android:fontFamily="@font/baloo"
+-                android:text="NO"
+-                android:textColor="@color/white"
+-                android:textSize="30sp" />
+-
+-        </RelativeLayout>
+-    </androidx.cardview.widget.CardView>
+-
+-    <TextView
+-        android:id="@+id/textView7"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_marginTop="20dp"
++        android:layout_width="105dp"
++        android:layout_height="57dp"
++        android:layout_marginEnd="44dp"
++        android:text="NO"
++        app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/noPopup" />
+-
+-</androidx.constraintlayout.widget.ConstraintLayout>
++        app:layout_constraintTop_toBottomOf="@+id/richiestaPopup"
++        app:layout_constraintVertical_bias="0.234" />
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"testRunner\" value=\"PLATFORM\" />\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"gradleJvm\" value=\"1.8\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n          </set>\n        </option>\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 0ee7082f1c51caeb7b1fe9d007fb49bcb65147b7)
++++ .idea/gradle.xml	(date 1611684889000)
+@@ -15,6 +15,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.drawerlayout.widget.DrawerLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:id=\"@+id/drawer_layout\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:fitsSystemWindows=\"true\"\n    android:background=\"@drawable/bg_home\"\n    tools:context=\".MainActivity\"\n\n    >\n\n    <com.google.android.material.navigation.NavigationView\n        android:id=\"@+id/nav_view\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"match_parent\"\n        android:layout_gravity=\"start\"\n        app:headerLayout=\"@layout/header\"\n        app:menu=\"@menu/main_menu\">\n\n    </com.google.android.material.navigation.NavigationView>\n\n\n\n    <ScrollView\n        android:layout_width=\"412dp\"\n        android:layout_height=\"677dp\">\n\n        <androidx.constraintlayout.widget.ConstraintLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\">\n\n            <androidx.appcompat.widget.Toolbar\n                android:id=\"@+id/toolbar\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:background=\"@android:color/transparent\"\n                android:minHeight=\"?attr/actionBarSize\"\n                android:theme=\"?attr/actionBarTheme\"\n                app:layout_constraintBottom_toBottomOf=\"parent\"\n                app:layout_constraintStart_toStartOf=\"parent\"\n                app:layout_constraintTop_toTopOf=\"parent\"\n                app:layout_constraintVertical_bias=\"0.0\" />\n\n\n            <androidx.cardview.widget.CardView\n                android:layout_width=\"130dp\"\n                android:layout_height=\"135dp\"\n                android:layout_marginTop=\"24dp\"\n                android:layout_marginEnd=\"40dp\"\n                android:layout_marginBottom=\"20dp\"\n                android:onClick=\"registraContatto\"\n                app:cardCornerRadius=\"9dp\"\n                app:cardElevation=\"9dp\"\n                app:layout_constraintBottom_toBottomOf=\"parent\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                app:layout_constraintTop_toBottomOf=\"@+id/cardView\">\n\n                <TextView\n                    android:id=\"@+id/textView5\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"80dp\"\n                    android:fontFamily=\"@font/baloo\"\n                    android:text=\"Registra Contatto\"\n                    android:textAlignment=\"center\"\n                    android:textColor=\"@color/quantum_grey700\"\n                    android:textSize=\"18sp\" />\n\n                <ImageView\n                    android:id=\"@+id/img\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"59dp\"\n                    android:layout_marginTop=\"15dp\"\n                    app:srcCompat=\"@drawable/contacttracing\" />\n            </androidx.cardview.widget.CardView>\n\n            <androidx.cardview.widget.CardView\n                android:id=\"@+id/cardView\"\n                android:layout_width=\"130dp\"\n                android:layout_height=\"135dp\"\n                android:layout_marginTop=\"40dp\"\n                android:layout_marginEnd=\"40dp\"\n                android:onClick=\"homeEventi\"\n                app:cardCornerRadius=\"9dp\"\n                app:cardElevation=\"9dp\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                app:layout_constraintTop_toBottomOf=\"@+id/cardView6\">\n\n                <TextView\n                    android:id=\"@+id/textView3\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"80dp\"\n                    android:fontFamily=\"@font/baloo\"\n                    android:text=\"Eventi\"\n                    android:textAlignment=\"center\"\n                    android:textColor=\"@color/quantum_grey700\"\n                    android:textSize=\"20sp\" />\n\n                <ImageView\n                    android:id=\"@+id/imageView4\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"59dp\"\n                    android:layout_marginTop=\"15dp\"\n                    app:srcCompat=\"@drawable/iconaevento\" />\n            </androidx.cardview.widget.CardView>\n\n            <androidx.cardview.widget.CardView\n                android:id=\"@+id/cardView2\"\n                android:layout_width=\"345dp\"\n                android:layout_height=\"193dp\"\n                android:layout_marginStart=\"40dp\"\n                android:layout_marginTop=\"70dp\"\n                android:layout_marginEnd=\"40dp\"\n                app:cardCornerRadius=\"7dp\"\n                app:cardElevation=\"8dp\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                app:layout_constraintStart_toStartOf=\"parent\"\n                app:layout_constraintTop_toTopOf=\"parent\">\n\n                <androidx.constraintlayout.widget.ConstraintLayout\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"match_parent\">\n\n                    <androidx.cardview.widget.CardView\n                        android:id=\"@+id/positivoB\"\n                        android:layout_width=\"173dp\"\n                        android:layout_height=\"50dp\"\n                        android:layout_alignParentStart=\"true\"\n                        android:layout_alignParentLeft=\"true\"\n                        android:layout_alignParentEnd=\"true\"\n                        android:layout_alignParentRight=\"true\"\n                        android:layout_alignParentBottom=\"true\"\n\n                        android:layout_marginEnd=\"20dp\"\n                        android:layout_marginBottom=\"30dp\"\n                        android:onClick=\"popupPositivo\"\n                        android:visibility=\"invisible\"\n                        app:cardBackgroundColor=\"@color/design_default_color_error\"\n                        app:cardCornerRadius=\"25dp\"\n                        app:cardElevation=\"10dp\"\n                        app:layout_constraintBottom_toBottomOf=\"parent\"\n                        app:layout_constraintEnd_toEndOf=\"parent\">\n\n                        <RelativeLayout\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"match_parent\">\n\n                            <TextView\n                                android:id=\"@+id/inAttesaText\"\n                                android:layout_width=\"wrap_content\"\n                                android:layout_height=\"wrap_content\"\n                                android:layout_centerInParent=\"true\"\n                                android:text=\"Sono positivo\"\n                                android:textColor=\"#fff\"\n                                android:textSize=\"18sp\" />\n                        </RelativeLayout>\n                    </androidx.cardview.widget.CardView>\n\n                    <androidx.cardview.widget.CardView\n                        android:id=\"@+id/inAttesaB\"\n                        android:layout_width=\"173dp\"\n                        android:layout_height=\"50dp\"\n                        android:layout_alignParentStart=\"true\"\n                        android:layout_alignParentLeft=\"true\"\n                        android:layout_alignParentEnd=\"true\"\n                        android:layout_alignParentRight=\"true\"\n                        android:layout_alignParentBottom=\"true\"\n                        android:layout_marginTop=\"70dp\"\n                        android:layout_marginEnd=\"20dp\"\n                        android:visibility=\"invisible\"\n                        app:cardBackgroundColor=\"@color/white\"\n                        app:cardCornerRadius=\"25dp\"\n                        app:cardElevation=\"10dp\"\n                        app:layout_constraintEnd_toEndOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\">\n\n                        <RelativeLayout\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"match_parent\"\n                            android:onClick=\"popupInAttesa\">\n\n                            <TextView\n                                android:id=\"@+id/positvoText\"\n                                android:layout_width=\"wrap_content\"\n                                android:layout_height=\"wrap_content\"\n                                android:layout_centerInParent=\"true\"\n                                android:text=\"Ho effettuato il test\"\n                                android:textColor=\"@color/quantum_grey700\"\n                                android:textSize=\"18sp\" />\n                        </RelativeLayout>\n                    </androidx.cardview.widget.CardView>\n\n                    <androidx.cardview.widget.CardView\n                        android:id=\"@+id/negativoB\"\n                        android:layout_width=\"173dp\"\n                        android:layout_height=\"50dp\"\n                        android:layout_alignParentStart=\"true\"\n                        android:layout_alignParentLeft=\"true\"\n                        android:layout_alignParentEnd=\"true\"\n                        android:layout_alignParentRight=\"true\"\n                        android:layout_alignParentBottom=\"true\"\n                        android:layout_marginTop=\"30dp\"\n                        android:layout_marginEnd=\"20dp\"\n                        android:onClick=\"popupNegativo\"\n                        android:visibility=\"invisible\"\n                        app:cardBackgroundColor=\"@color/colorPrimaryDark\"\n                        app:cardCornerRadius=\"25dp\"\n                        app:cardElevation=\"10dp\"\n                        app:layout_constraintEnd_toEndOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\">\n\n                        <RelativeLayout\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"match_parent\">\n\n                            <TextView\n                                android:id=\"@+id/textView2\"\n                                android:layout_width=\"wrap_content\"\n                                android:layout_height=\"wrap_content\"\n                                android:layout_centerInParent=\"true\"\n                                android:text=\"Sono negativo\"\n                                android:textColor=\"@color/white\"\n                                android:textSize=\"18sp\" />\n                        </RelativeLayout>\n                    </androidx.cardview.widget.CardView>\n\n                    <ImageView\n                        android:id=\"@+id/imgTest\"\n                        android:layout_width=\"123dp\"\n                        android:layout_height=\"195dp\"\n                        android:layout_marginStart=\"4dp\"\n                        app:layout_constraintBottom_toBottomOf=\"parent\"\n                        app:layout_constraintStart_toStartOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\"\n                        app:layout_constraintVertical_bias=\"0.238\"\n                        app:srcCompat=\"@drawable/virus\" />\n                </androidx.constraintlayout.widget.ConstraintLayout>\n\n            </androidx.cardview.widget.CardView>\n\n            <androidx.cardview.widget.CardView\n                android:id=\"@+id/cardView3\"\n                android:layout_width=\"130dp\"\n                android:layout_height=\"135dp\"\n                android:layout_marginStart=\"40dp\"\n                android:layout_marginTop=\"40dp\"\n                android:onClick=\"homeGruppi\"\n                app:cardCornerRadius=\"9dp\"\n                app:cardElevation=\"9dp\"\n                app:layout_constraintStart_toStartOf=\"parent\"\n                app:layout_constraintTop_toBottomOf=\"@+id/cardView6\">\n\n                <ImageView\n                    android:id=\"@+id/imageView3\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"59dp\"\n                    android:layout_marginTop=\"15dp\"\n                    app:srcCompat=\"@drawable/iconagruppo\" />\n\n                <TextView\n                    android:id=\"@+id/textView\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"80dp\"\n                    android:fontFamily=\"@font/baloo\"\n                    android:text=\"Gruppi\"\n                    android:textAlignment=\"center\"\n                    android:textColor=\"@color/quantum_grey700\"\n                    android:textSize=\"20sp\" />\n            </androidx.cardview.widget.CardView>\n\n            <androidx.cardview.widget.CardView\n                android:layout_width=\"130dp\"\n                android:layout_height=\"135dp\"\n                android:layout_marginStart=\"40dp\"\n                android:layout_marginTop=\"24dp\"\n                android:onClick=\"aggRischio\"\n                app:cardCornerRadius=\"9dp\"\n                app:cardElevation=\"9dp\"\n                app:layout_constraintStart_toStartOf=\"parent\"\n                app:layout_constraintTop_toBottomOf=\"@+id/cardView3\">\n\n                <TextView\n                    android:id=\"@+id/textView6\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"80dp\"\n                    android:fontFamily=\"@font/baloo\"\n                    android:text=\"Aggiorna rischio\"\n                    android:textAlignment=\"center\"\n                    android:textColor=\"@color/quantum_grey700\"\n                    android:textSize=\"18sp\" />\n\n                <ImageView\n                    android:id=\"@+id/imgView3\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"59dp\"\n                    android:layout_marginTop=\"15dp\"\n                    app:srcCompat=\"@drawable/refresh\" />\n            </androidx.cardview.widget.CardView>\n\n            <androidx.cardview.widget.CardView\n                android:id=\"@+id/cardView6\"\n                android:layout_width=\"0dp\"\n                android:layout_height=\"100dp\"\n                android:layout_marginStart=\"40dp\"\n                android:layout_marginTop=\"40dp\"\n                android:layout_marginEnd=\"40dp\"\n                app:cardCornerRadius=\"8dp\"\n                app:cardElevation=\"9dp\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                app:layout_constraintHorizontal_bias=\"1.0\"\n                app:layout_constraintStart_toStartOf=\"parent\"\n                app:layout_constraintTop_toBottomOf=\"@+id/cardView2\">\n\n                <androidx.constraintlayout.widget.ConstraintLayout\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"match_parent\">\n\n                    <ImageView\n                        android:id=\"@+id/imageView5\"\n                        android:layout_width=\"101dp\"\n                        android:layout_height=\"71dp\"\n                        android:layout_marginTop=\"10dp\"\n                        android:layout_marginEnd=\"10dp\"\n                        app:layout_constraintEnd_toEndOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\"\n                        app:srcCompat=\"@drawable/warning\" />\n\n                    <TextView\n                        android:id=\"@+id/textView10\"\n                        android:layout_width=\"181dp\"\n                        android:layout_height=\"25dp\"\n                        android:layout_marginStart=\"15dp\"\n                        android:layout_marginTop=\"20dp\"\n                        android:fontFamily=\"@font/baloo\"\n                        android:text=\"Livello rischio contagio\"\n                        android:textAlignment=\"center\"\n                        android:textSize=\"16sp\"\n                        app:layout_constraintStart_toStartOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\" />\n\n                    <TextView\n                        android:id=\"@+id/LabelRischio\"\n                        android:layout_width=\"178dp\"\n                        android:layout_height=\"25dp\"\n                        android:layout_marginStart=\"16dp\"\n                        android:layout_marginTop=\"10dp\"\n                        android:fontFamily=\"@font/baloo\"\n                        android:textAlignment=\"center\"\n                        android:textSize=\"20sp\"\n                        app:layout_constraintStart_toStartOf=\"parent\"\n                        app:layout_constraintTop_toBottomOf=\"@+id/textView10\" />\n\n                </androidx.constraintlayout.widget.ConstraintLayout>\n\n            </androidx.cardview.widget.CardView>\n\n        </androidx.constraintlayout.widget.ConstraintLayout>\n    </ScrollView>\n\n\n</androidx.drawerlayout.widget.DrawerLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision 0ee7082f1c51caeb7b1fe9d007fb49bcb65147b7)
++++ app/src/main/res/layout/activity_main.xml	(date 1611684889000)
+@@ -86,7 +86,7 @@
+                 app:cardCornerRadius="9dp"
+                 app:cardElevation="9dp"
+                 app:layout_constraintEnd_toEndOf="parent"
+-                app:layout_constraintTop_toBottomOf="@+id/cardView6">
++                app:layout_constraintTop_toBottomOf="@+id/siPopup">
+ 
+                 <TextView
+                     android:id="@+id/textView3"
+@@ -251,7 +251,7 @@
+                 app:cardCornerRadius="9dp"
+                 app:cardElevation="9dp"
+                 app:layout_constraintStart_toStartOf="parent"
+-                app:layout_constraintTop_toBottomOf="@+id/cardView6">
++                app:layout_constraintTop_toBottomOf="@+id/siPopup">
+ 
+                 <ImageView
+                     android:id="@+id/imageView3"
+@@ -303,7 +303,7 @@
+             </androidx.cardview.widget.CardView>
+ 
+             <androidx.cardview.widget.CardView
+-                android:id="@+id/cardView6"
++                android:id="@+id/siPopup"
+                 android:layout_width="0dp"
+                 android:layout_height="100dp"
+                 android:layout_marginStart="40dp"
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" default=\"true\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision 0ee7082f1c51caeb7b1fe9d007fb49bcb65147b7)
++++ .idea/misc.xml	(date 1611684889000)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">

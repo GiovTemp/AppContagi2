@@ -86,7 +86,7 @@
                 app:cardCornerRadius="9dp"
                 app:cardElevation="9dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView6">
+                app:layout_constraintTop_toBottomOf="@+id/siPopup">
 
                 <TextView
                     android:id="@+id/textView3"
@@ -220,7 +220,7 @@
                                 android:id="@+id/textView2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
+                                android:layout_centerHorizontal="true"
                                 android:text="Sono negativo"
                                 android:textColor="@color/white"
                                 android:textSize="18sp" />
@@ -251,7 +251,7 @@
                 app:cardCornerRadius="9dp"
                 app:cardElevation="9dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView6">
+                app:layout_constraintTop_toBottomOf="@+id/siPopup">
 
                 <ImageView
                     android:id="@+id/imageView3"
@@ -303,7 +303,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView6"
+                android:id="@+id/siPopup"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="40dp"

@@ -3,8 +3,10 @@ package it.gadg.contagiapp.gruppo;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,7 +29,9 @@ import it.gadg.contagiapp.R;
 public class VisualizzaGruppoActivity extends AppCompatActivity {
 
     TextView NomeGruppoVisualizza;
-
+    private AlertDialog.Builder PopupAbbandonaGruppo;
+    private AlertDialog dialog;
+    private CardView siAbbandono, noAbbandono;
     FirebaseFirestore db;
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
     String idGruppo;
@@ -74,7 +78,7 @@ public class VisualizzaGruppoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void abbandonaGruppo(View view) {
+    public void abbandonaGruppo() {
         db.collection("GruppoUtenti").whereEqualTo("idGruppo", idGruppo).whereEqualTo("UID",mAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 
             @Override
@@ -103,4 +107,37 @@ public class VisualizzaGruppoActivity extends AppCompatActivity {
         intent.putExtra("ruolo",0);
         startActivity(intent);
     }
-}
+
+    public void ConfermaAbbandonoGruppo(View view) {
+
+
+        PopupAbbandonaGruppo = new AlertDialog.Builder(this);
+        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupagruppo, null);
+
+
+
+
+        siAbbandono = contactPopupView.findViewById(R.id.siAbbandono);
+        noAbbandono= contactPopupView.findViewById(R.id.noAbbandono);
+
+        PopupAbbandonaGruppo.setView(contactPopupView);
+        dialog = PopupAbbandonaGruppo.create();
+        dialog.show();
+
+        siAbbandono.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abbandonaGruppo();
+                dialog.dismiss();
+            }
+        });
+
+        noAbbandono.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+
+    } }
