@@ -56,7 +56,7 @@ public class GestisciGruppoActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String temp =intent.getStringExtra("NomeGruppo");
-        NomeGruppoGestione = findViewById(R.id.NomeGruppoGestione);
+        NomeGruppoGestione = findViewById(R.id.NomeEventoVisualizza);
         NomeGruppoGestione.setText(temp);
 
         setTitle(temp);
@@ -198,7 +198,7 @@ public class GestisciGruppoActivity extends AppCompatActivity {
 
 
         PopupEliminazioneGruppo = new AlertDialog.Builder(this);
-        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupegruppo, null);
+        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupeliminagruppo, null);
 
 
 

@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -112,7 +111,7 @@ public class VisualizzaGruppoActivity extends AppCompatActivity {
 
 
         PopupAbbandonaGruppo = new AlertDialog.Builder(this);
-        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupagruppo, null);
+        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupabbandonagruppo, null);
 
 
 

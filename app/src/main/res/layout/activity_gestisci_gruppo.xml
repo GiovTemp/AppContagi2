@@ -13,7 +13,7 @@
     tools:context=".gruppo.GestisciGruppoActivity">
 
     <TextView
-        android:id="@+id/NomeGruppoGestione"
+        android:id="@+id/NomeEventoVisualizza"
         android:layout_width="373dp"
         android:layout_height="61dp"
         android:layout_marginTop="10dp"
@@ -96,7 +96,7 @@
                 <ImageView
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:background="@drawable/cerchiobg"
+                    android:background="@drawable/cerchiobgred"
                     android:padding="10dp"
                     android:src="@drawable/ic_del" />
 
@@ -111,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="10dp"
-                    android:background="@color/colorPrimaryDark" />
+                    android:background="@color/design_default_color_error" />
 
                 <TextView
                     android:layout_width="wrap_content"

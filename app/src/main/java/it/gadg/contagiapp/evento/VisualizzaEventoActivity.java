@@ -32,6 +32,7 @@ public class VisualizzaEventoActivity extends AppCompatActivity {
     String dataEvento;
     String oraEvento;
     String idEvento;
+    TextView InfoGestione;
     FirebaseFirestore db;
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
     @Override
@@ -53,6 +54,11 @@ public class VisualizzaEventoActivity extends AppCompatActivity {
 
         NomeEventoVisualizza = findViewById(R.id.NomeEventoVisualizza);
         NomeEventoVisualizza.setText(titoloEvento);
+
+
+        InfoGestione = findViewById(R.id.infoEvento);
+        String temp=" il " + dataEvento +" dalle " + oraEvento + " presso : " +luogoEvento;
+        InfoGestione.setText(temp);
     }
 
     @Override

@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,9 @@ public class BtActivity extends AppCompatActivity {
 
        private Button salvaContatto;
     private Button inviaDati;
+
+    private TextView StatoConn;
+    private TextView StatoDati;
 
 
     private final int LOCATION_PERMISSION_REQUEST = 101;
@@ -73,6 +77,8 @@ public class BtActivity extends AppCompatActivity {
                             break;
                         case GestioneConnessione.STATE_CONNECTED:
                             setState("Connesso con : " + connectedDevice);
+                            StatoConn.setText("Connessione Riuscita");
+                            StatoConn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
                             break;
                     }
                     break;
@@ -84,6 +90,8 @@ public class BtActivity extends AppCompatActivity {
                     //leggo la stringa
                     if(inputBuffer.length()>0){
                         infoContatto = inputBuffer;
+                        StatoDati.setText("Dati ricevuti correttamente");
+                        StatoDati.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
                         Toast.makeText(context, "Dati ricevuti correttamente", Toast.LENGTH_SHORT).show();
                         //TODO settare visibilità pulsante conferma
                     }
@@ -110,7 +118,10 @@ public class BtActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bt);
 
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        StatoDati = findViewById(R.id.StatoDati);
+        StatoConn = findViewById(R.id.StatoConn);
+
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -150,17 +161,23 @@ public class BtActivity extends AppCompatActivity {
                 //context.deleteDatabase("Conttati");
                 //myDb.execSQL("DROP TABLE contattiRegistrati");
 
-                try{
-                    SQLiteDatabase myDb = openOrCreateDatabase("Contatti",MODE_PRIVATE,null);
-                    myDb.execSQL("CREATE TABLE IF NOT EXISTS contattiRegistrati(uid TEXT,data DATE)");
-                    myDb.execSQL("INSERT INTO contattiRegistrati(uid,data) VALUES( " + "'" + infoContatto + "'," + "datetime())");
+                if(StatoDati.getText().toString().equals("Dati non ricevuti")){
                     gestioneConnessione.stop();
-                    //Mostrare un avviso a schermo della registrazione effettuata correttamente
-                    Toast.makeText(getApplicationContext(), "Contatto Registrato con successo", Toast.LENGTH_LONG).show();
+                }else{
+                    try{
+                        SQLiteDatabase myDb = openOrCreateDatabase("Contatti",MODE_PRIVATE,null);
+                        myDb.execSQL("CREATE TABLE IF NOT EXISTS contattiRegistrati(uid TEXT,data DATE)");
+                        myDb.execSQL("INSERT INTO contattiRegistrati(uid,data) VALUES( " + "'" + infoContatto + "'," + "datetime())");
+                        gestioneConnessione.stop();
+                        //Mostrare un avviso a schermo della registrazione effettuata correttamente
+                        Toast.makeText(getApplicationContext(), "Contatto Registrato con successo", Toast.LENGTH_LONG).show();
 
-                }catch (Exception e){
-                    Toast.makeText(context, "Errore non siamo riusciti a salvare il contatto", Toast.LENGTH_LONG).show();
+                    }catch (Exception e){
+                        Toast.makeText(context, "Errore non siamo riusciti a salvare il contatto", Toast.LENGTH_LONG).show();
+                    }
                 }
+
+
 
 
 

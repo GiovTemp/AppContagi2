@@ -31,7 +31,7 @@ public class GestisciEvento extends AppCompatActivity {
     FirebaseFirestore db;
 
     TextView NomeEventoGestione;
-    TextView RuoloEventoGestione;
+    TextView InfoGestione;
     String idEvento;
     String titoloEvento;
     String luogoEvento;
@@ -59,8 +59,9 @@ public class GestisciEvento extends AppCompatActivity {
         NomeEventoGestione = findViewById(R.id.NomeEventoGestione);
         NomeEventoGestione.setText(titoloEvento);
 
-        RuoloEventoGestione = findViewById(R.id.RuoloEventoGestione);
-        RuoloEventoGestione.setText("sei admin");
+        InfoGestione = findViewById(R.id.infoEvento);
+        String temp=" il " + dataEvento +" dalle " + oraEvento + " presso : " +luogoEvento;
+        InfoGestione.setText(temp);
 
         idEvento = intent.getStringExtra("idEvento");
 

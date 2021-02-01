@@ -47,9 +47,9 @@
     <string name="str_menu_search_devices">Search Devices</string>
     <string name="str_menu_bluetooth_on">Switch on Bluetooth</string>
 
-    <string name="str_paired_devices">Paired Devices</string>
-    <string name="str_available_devices">Available Devices</string>
-    <string name="str_menu_scan_devices">Scan Devices</string>
+    <string name="str_paired_devices">Dispositivi accoppiati</string>
+    <string name="str_available_devices">Dispositivi disponibili</string>
+    <string name="str_menu_scan_devices">Ricerca Dispositivi</string>
     <string name="title_activity_prova">Prova</string>
     <string name="title_activity_ham">Ham</string>
 </resources>
