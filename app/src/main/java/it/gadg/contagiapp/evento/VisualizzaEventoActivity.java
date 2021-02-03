@@ -2,8 +2,10 @@ package it.gadg.contagiapp.evento;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,6 +35,9 @@ public class VisualizzaEventoActivity extends AppCompatActivity {
     String oraEvento;
     String idEvento;
     TextView InfoGestione;
+    private AlertDialog.Builder PopupAbbandonaEvento;
+    private AlertDialog dialog;
+    private CardView siAbbandonoE, noAbbandonoE;
     FirebaseFirestore db;
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
     @Override
@@ -84,7 +89,7 @@ public class VisualizzaEventoActivity extends AppCompatActivity {
 
     }
 
-    public void abbandonaEvento(View view) {
+    public void abbandonaEvento() {
         db.collection("PartecipazioneEvento").whereEqualTo("idEvento", idEvento).whereEqualTo("UID",mAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 
             @Override
@@ -120,6 +125,39 @@ public class VisualizzaEventoActivity extends AppCompatActivity {
 
         Intent shareIntent = Intent.createChooser(sendIntent, null);
         startActivity(shareIntent);
+
+    }
+    public void ConfermaAbbandonoEvento(View view) {
+
+
+        PopupAbbandonaEvento = new AlertDialog.Builder(this);
+        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupabbandonaevento, null);
+
+
+
+
+        siAbbandonoE = contactPopupView.findViewById(R.id.siAbbandonoE);
+        noAbbandonoE= contactPopupView.findViewById(R.id.noAbbandonoE);
+
+        PopupAbbandonaEvento.setView(contactPopupView);
+        dialog = PopupAbbandonaEvento.create();
+        dialog.show();
+
+        siAbbandonoE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abbandonaEvento();
+                dialog.dismiss();
+            }
+        });
+
+        noAbbandonoE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
 
     }
 

@@ -3,6 +3,7 @@ package it.gadg.contagiapp.evento;
 import androidx.annotation.NonNull;
 import android.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import it.gadg.contagiapp.MainActivity;
@@ -30,6 +31,9 @@ public class GestisciEvento extends AppCompatActivity {
 
     FirebaseFirestore db;
 
+    private AlertDialog.Builder PopupEliminazioneEvento;
+    private AlertDialog dialog;
+    private CardView siEliminazioneE, noEliminazioneE;
     TextView NomeEventoGestione;
     TextView InfoGestione;
     String idEvento;
@@ -97,7 +101,7 @@ public class GestisciEvento extends AppCompatActivity {
 
     }
 
-    public void eliminaEvento(View view) {
+    public void eliminaEvento() {
 
 
         db.collection("PartecipazioneEvento").whereEqualTo("idEvento", idEvento).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -151,6 +155,41 @@ public class GestisciEvento extends AppCompatActivity {
 
         Intent shareIntent = Intent.createChooser(sendIntent, null);
         startActivity(shareIntent);
+
+    }
+
+    public void ConfermaEliminazioneEvento(View view) {
+
+
+        PopupEliminazioneEvento = new AlertDialog.Builder(this);
+        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupeliminaevento, null);
+
+
+
+
+        siEliminazioneE = contactPopupView.findViewById(R.id.siEliminazioneE);
+        noEliminazioneE= contactPopupView.findViewById(R.id.noEliminazioneE);
+
+        PopupEliminazioneEvento.setView(contactPopupView);
+        dialog = PopupEliminazioneEvento.create();
+        dialog.show();
+
+        siEliminazioneE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eliminaEvento();
+                dialog.dismiss();
+            }
+        });
+
+        noEliminazioneE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+
 
     }
 }
