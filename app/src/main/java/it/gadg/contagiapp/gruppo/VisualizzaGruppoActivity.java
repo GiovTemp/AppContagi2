@@ -139,4 +139,5 @@ public class VisualizzaGruppoActivity extends AppCompatActivity {
             }
         });
 
-    } }
+    }
+}

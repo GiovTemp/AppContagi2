@@ -182,6 +182,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this.modificaUtente();
                 break;
 
+            case R.id.nav_impostazioni:
+                this.apriImpostazioni();
+                break;
+
             case R.id.nav_logout:
                 this.logout();
                 break;
@@ -189,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
+
 
     @Override
     public void onBackPressed() {
@@ -508,6 +513,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(i);
         overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
     }
+
+    private void apriImpostazioni() {
+        Intent i = new Intent(getApplicationContext(), Impostazioni.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
 
 
     public void logout() {

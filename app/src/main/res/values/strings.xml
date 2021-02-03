@@ -52,4 +52,10 @@
     <string name="str_menu_scan_devices">Ricerca Dispositivi</string>
     <string name="title_activity_prova">Prova</string>
     <string name="title_activity_ham">Ham</string>
+    <string name="title_activity_impostazioni">Impostazioni</string>
+    <string name="lang">Passa alla versione inglese</string>
+    <string name="impostazionisez2">Sistema</string>
+    <string name="elimina_il_tuo_profilo">Elimina il tuo profilo</string>
+
+
 </resources>

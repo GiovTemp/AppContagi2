@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Impostazioni">
+
+    <TextView
+        android:id="@+id/SistemaImp"
+        android:layout_width="209dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/impostazionisez2"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lang"
+        android:layout_width="244dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:onClick="cambiaLingua"
+        android:text="@string/lang"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SistemaImp" />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="244dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:onClick="info"
+        android:text="Info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lang" />
+
+    <TextView
+        android:id="@+id/delProf"
+        android:layout_width="244dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:onClick="cancellaProfilo"
+        android:text="@string/elimina_il_tuo_profilo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info" />
+</androidx.constraintlayout.widget.ConstraintLayout>

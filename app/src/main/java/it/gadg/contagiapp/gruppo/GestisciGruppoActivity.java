@@ -203,8 +203,8 @@ public class GestisciGruppoActivity extends AppCompatActivity {
 
 
 
-        siEliminazione = contactPopupView.findViewById(R.id.siEliminazione);
-        noEliminazione= contactPopupView.findViewById(R.id.noEliminazione);
+        siEliminazione = contactPopupView.findViewById(R.id.siCanc);
+        noEliminazione= contactPopupView.findViewById(R.id.noCanc);
 
         PopupEliminazioneGruppo.setView(contactPopupView);
         dialog = PopupEliminazioneGruppo.create();

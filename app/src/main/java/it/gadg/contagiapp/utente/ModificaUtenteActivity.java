@@ -40,8 +40,6 @@ public class ModificaUtenteActivity extends AppCompatActivity {
     User utenteLoggato;
     FirebaseFirestore db;
 
-    int flag = 0;
-
     private FirebaseAuth mAuth;
 
     @Override
@@ -191,111 +189,6 @@ public class ModificaUtenteActivity extends AppCompatActivity {
         return m.matches();
     }
 
-    public void eliminaProfilo(View view) {
 
-        if ((!passwordMod.getText().toString().equals(""))) {
-
-            mAuth.signInWithEmailAndPassword(utenteLoggato.email, passwordMod.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-
-                        db.collection("GruppoUtenti").whereEqualTo("UID", utenteLoggato.uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-
-                            @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-
-                                    if (document.get("ruolo").equals("0")) {
-                                        db.collection("GruppoUtenti").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-
-                                                } else {
-                                                    Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
-                                                }
-
-                                            }
-                                        });
-                                    } else {
-                                        stop();
-                                    }
-
-
-                                }
-                            }
-                        });
-
-
-                        if (flag == 0) {
-                            db.collection("PartecipazioneEvento").whereEqualTo("UID", utenteLoggato.uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-
-                                @Override
-                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                                        if (document.get("ruolo").equals("0")) {
-                                            db.collection("PartecipazioneEvento").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-
-                                                    } else {
-                                                        Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
-                                                    }
-
-                                                }
-                                            });
-                                        } else {
-                                            stop();
-                                        }
-
-
-                                    }
-                                }
-                            });
-
-                        }
-
-
-                        if (flag == 0) {
-                            db.collection("Utenti").document(utenteLoggato.uid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                mAuth.signOut();
-                                                Toast.makeText(getApplicationContext(), "Utente , eliminato correttamente", Toast.LENGTH_LONG).show();
-                                                Intent i = new Intent(getApplicationContext(), Splash.class);
-                                                startActivity(i);
-
-                                            }
-                                        });
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
-                                    }
-
-                                }
-                            });
-
-                        }
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Password Errata", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-
-        } else {
-            Toast.makeText(getApplicationContext(), "Inserisci la password", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void stop() {
-        flag = 1;
-        Toast.makeText(getApplicationContext(), "Non puoi elimare il tuo profilo finchè ci saranno gruppi o eventi di cui sei admin", Toast.LENGTH_LONG).show();
-    }
 }
 
