@@ -2,12 +2,15 @@ package it.gadg.contagiapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,9 +31,15 @@ public class Impostazioni extends AppCompatActivity {
     User utenteLoggato;
     FirebaseFirestore db;
 
+
+    private AlertDialog.Builder PopupInfo;
     private AlertDialog.Builder PopupCancella;
     private AlertDialog dialog;
     private CardView siCancella, noCancella;
+    SwitchCompat switchInglese;
+    SharedPreferences preferences;
+
+    boolean stateswitch1;
 
 
     int flag = 0;
@@ -40,6 +49,23 @@ public class Impostazioni extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_impostazioni);
+
+        preferences = getSharedPreferences("PREFS",0);
+        stateswitch1 = preferences.getBoolean("switch1", false);
+        switchInglese = (SwitchCompat)  findViewById(R.id.switchInglese);
+        switchInglese.setChecked(stateswitch1);
+
+        switchInglese.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                stateswitch1 = !stateswitch1;
+                switchInglese.setChecked(stateswitch1);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean("switch1",stateswitch1);
+                editor.apply();
+            }
+
+        });
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -212,4 +238,20 @@ public class Impostazioni extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Non puoi elimare il tuo profilo finchè ci saranno gruppi o eventi di cui sei admin", Toast.LENGTH_LONG).show();
     }
 
+    public void VisualizzazioneInfo(View view) {
+
+
+        PopupInfo = new AlertDialog.Builder(this);
+        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupinfo, null);
+
+
+
+
+        PopupInfo.setView(contactPopupView);
+        dialog = PopupInfo.create();
+        dialog.show();
+
+
+
+    }
 }

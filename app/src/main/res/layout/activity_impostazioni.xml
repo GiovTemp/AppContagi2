@@ -3,50 +3,92 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Impostazioni">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/SistemaImp"
-        android:layout_width="209dp"
-        android:layout_height="35dp"
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
-        android:text="@string/impostazionisez2"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/lang"
-        android:layout_width="244dp"
-        android:layout_height="66dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
-        android:onClick="cambiaLingua"
-        android:text="@string/lang"
+        android:layout_marginEnd="10dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SistemaImp" />
+        app:layout_constraintTop_toBottomOf="@+id/info" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchInglese" />
+
 
     <TextView
         android:id="@+id/info"
-        android:layout_width="244dp"
-        android:layout_height="66dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:onClick="info"
+        android:layout_width="403dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
+        android:onClick="VisualizzazioneInfo"
         android:text="Info"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lang" />
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
 
     <TextView
         android:id="@+id/delProf"
-        android:layout_width="244dp"
-        android:layout_height="66dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="403dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
         android:onClick="cancellaProfilo"
         android:text="@string/elimina_il_tuo_profilo"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/info" />
+        app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchInglese"
+        android:layout_width="403dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp"
+        android:text="Passare alla versione inglese"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/delProf"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
