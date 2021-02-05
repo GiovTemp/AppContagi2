@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     Toolbar toolbar;
     TextView textView;
+    TextView nomeMenu;
+    TextView emailMenu;
 
     public String id;
 
@@ -89,6 +91,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         textView=findViewById(R.id.positvoText);
         toolbar=findViewById(R.id.toolbar);
 
+        View headerLayout = navigationView.getHeaderView(0);
+        nomeMenu=headerLayout.findViewById(R.id.nomeMenu);
+        emailMenu=headerLayout.findViewById(R.id.emailMenu);
+
+
+
+
         setSupportActionBar(toolbar);
 
 
@@ -123,6 +132,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         utenteLoggato.etichetta = (String) document.get("etichetta");
                         utenteLoggato.rischio = (Long) document.get("rischio");
                         utenteLoggato.uid = document.getId();
+
+                        nomeMenu.setText(utenteLoggato.nome + " " +utenteLoggato.cognome);
+                        emailMenu.setText(utenteLoggato.email);
+
 
                         String temp =LabelRischio.getText().toString()+ utenteLoggato.rischio + "%";
 
@@ -212,6 +225,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void homeEventi(View view) {
         Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);
+        i.putExtra("nome",utenteLoggato.nome+" "+utenteLoggato.cognome);
+        i.putExtra("email",utenteLoggato.email);
         startActivity(i);
         overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
     }
@@ -219,6 +234,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void homeGruppi(View view) {
         Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);
+        i.putExtra("nome",utenteLoggato.nome+" "+utenteLoggato.cognome);
+        i.putExtra("email",utenteLoggato.email);
         startActivity(i);
         overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
     }
@@ -504,12 +521,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void homegruppi() {
         Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);
+        i.putExtra("nome",utenteLoggato.nome+" "+utenteLoggato.cognome);
+        i.putExtra("email",utenteLoggato.email);
         startActivity(i);
         overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
     }
 
     private void homeeventi() {
         Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);
+        i.putExtra("nome",utenteLoggato.nome+" "+utenteLoggato.cognome);
+        i.putExtra("email",utenteLoggato.email);
         startActivity(i);
         overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
     }

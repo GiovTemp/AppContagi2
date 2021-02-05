@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -50,6 +51,8 @@ public class Impostazioni extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_impostazioni);
 
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
         preferences = getSharedPreferences("PREFS",0);
         stateswitch1 = preferences.getBoolean("switch1", false);
         switchInglese = (SwitchCompat)  findViewById(R.id.switchInglese);
@@ -87,11 +90,16 @@ public class Impostazioni extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
     public void cambiaLingua(View view) {
     }
 
-    public void info(View view) {
-    }
 
     public void cancellaProfilo(View view) {
 

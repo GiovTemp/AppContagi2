@@ -2,6 +2,7 @@ package it.gadg.contagiapp.utente;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import it.gadg.contagiapp.MainActivity;
 import it.gadg.contagiapp.R;
@@ -50,6 +51,8 @@ public class ModificaUtenteActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
 
         db.collection("Utenti")
                 .document(mAuth.getUid())
@@ -79,6 +82,12 @@ public class ModificaUtenteActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
 

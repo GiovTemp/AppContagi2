@@ -31,6 +31,10 @@ public class HomeGruppiActivity extends AppCompatActivity implements NavigationV
     NavigationView navigationView;
     Toolbar toolbar;
     TextView textView;
+    TextView nomeMenu;
+    TextView emailMenu;
+    String nomeUtente;
+    String emailUtente;
 
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
     @Override
@@ -51,6 +55,15 @@ public class HomeGruppiActivity extends AppCompatActivity implements NavigationV
         navigationView=findViewById(R.id.nav_view);
         textView=findViewById(R.id.positvoText);
         toolbar=findViewById(R.id.toolbar);
+
+        View headerLayout = navigationView.getHeaderView(0);
+        nomeMenu=headerLayout.findViewById(R.id.nomeMenu);
+        Intent i = getIntent();
+        nomeUtente =i.getStringExtra("nome");
+        nomeMenu.setText(nomeUtente);
+        emailUtente=i.getStringExtra("email");
+        emailMenu=headerLayout.findViewById(R.id.emailMenu);
+        emailMenu.setText(emailUtente);
 
         setSupportActionBar(toolbar);
 
@@ -131,6 +144,8 @@ public class HomeGruppiActivity extends AppCompatActivity implements NavigationV
 
     private void homeeventi() {
         Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);
+        i.putExtra("nome",nomeUtente);
+        i.putExtra("email",emailUtente);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

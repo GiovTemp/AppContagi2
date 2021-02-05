@@ -2,51 +2,49 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/nav_home"
-
+            android:icon="@drawable/ic_home_menu"
             android:title="Home" />
-
         <item
             android:id="@+id/nav_gruppi"
-
+            android:icon="@drawable/ic_gruppi_menu"
             android:title="I tuoi gruppi" />
 
         <item
             android:id="@+id/nav_eventi"
-
+            android:icon="@drawable/ic_calendar"
             android:title="I tuoi eventi" />
 
         <item
             android:id="@+id/nav_contatto"
-
+            android:icon="@drawable/ic_contatto_menu"
             android:title="Registra Contatto" />
 
     </group>
 
-    <item android:title="Profilo">
 
-        <menu>
 
             <group android:checkableBehavior="single">
 
                 <item
                     android:id="@+id/nav_impostazioni"
-
+                    android:icon="@drawable/ic_impostazioni_menu"
                     android:title="Impostazioni" />
 
                 <item
                     android:id="@+id/nav_profilo"
-
+                    android:icon="@drawable/ic_modifica_menu"
                     android:title="Modifica Profilo" />
 
                 <item
                     android:id="@+id/nav_logout"
-
+                    android:icon="@drawable/ic_logout_menu"
                     android:title="Logout" />
             </group>
-        </menu>
-    </item>
+
+
 
 
 </menu>

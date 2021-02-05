@@ -6,56 +6,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
+    <TextView
         android:id="@+id/editTextTextMultiLine"
-        android:layout_width="345dp"
-        android:layout_height="357dp"
+        android:layout_width="340dp"
+        android:layout_height="113dp"
+        android:layout_marginStart="10dp"
+
+        android:layout_marginEnd="10dp"
         android:ems="10"
         android:gravity="start|top"
-        android:inputType="textMultiLine"
         android:text="ContagiAPP è un'app sviluppata per un progetto universitario, con lo scopo di migliorare il tracciamento dei casi del COVID-19"
         android:textAlignment="center"
-        android:textSize="23sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.401"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.323" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="186dp"
         android:layout_height="60dp"
         android:layout_marginTop="24dp"
+        android:fontFamily="@font/baloo"
         android:text="Gruppo G.A.D.G."
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextMultiLine"
-        app:layout_constraintHorizontal_bias="0.534"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="144dp"
+        android:layout_marginTop="22dp"
         android:text="Progetto a cura di:"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextTextMultiLine"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextMultiLine"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextMultiLine" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="31dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="30dp"
         android:text="Giovanni Tempesta"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
         android:id="@+id/textView13"
@@ -91,9 +91,18 @@
         android:id="@+id/imageView8"
         android:layout_width="103dp"
         android:layout_height="128dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintStart_toEndOf="@+id/textView15"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9"
         app:srcCompat="@drawable/logo_uniba" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="151dp"
+        android:layout_height="147dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

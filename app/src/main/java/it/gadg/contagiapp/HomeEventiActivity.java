@@ -31,6 +31,11 @@ public class HomeEventiActivity extends AppCompatActivity implements NavigationV
     NavigationView navigationView;
     Toolbar toolbar;
     TextView textView;
+    TextView nomeMenu;
+    TextView emailMenu;
+
+    String nomeUtente;
+    String emailUtente;
 
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
 
@@ -40,7 +45,7 @@ public class HomeEventiActivity extends AppCompatActivity implements NavigationV
         setContentView(R.layout.activity_home_eventi);
 
 
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
 
 
 
@@ -53,6 +58,15 @@ public class HomeEventiActivity extends AppCompatActivity implements NavigationV
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        View headerLayout = navigationView.getHeaderView(0);
+        nomeMenu=headerLayout.findViewById(R.id.nomeMenu);
+        Intent i = getIntent();
+        nomeUtente =i.getStringExtra("nome");
+        nomeMenu.setText(nomeUtente);
+        emailUtente=i.getStringExtra("email");
+        emailMenu=headerLayout.findViewById(R.id.emailMenu);
+        emailMenu.setText(emailUtente);
 
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
@@ -132,6 +146,8 @@ public class HomeEventiActivity extends AppCompatActivity implements NavigationV
 
     private void homegruppi() {
         Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);
+        i.putExtra("nome",nomeUtente);
+        i.putExtra("email",emailUtente);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
