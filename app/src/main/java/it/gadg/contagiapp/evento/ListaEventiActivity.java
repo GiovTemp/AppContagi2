@@ -113,9 +113,9 @@ public class ListaEventiActivity extends AppCompatActivity {
                     ruoli = new String[eventi.size()];
                     for (int j = 0; j < eventi.size(); j++) {
                         if(eventi.get(j).ruolo.equals("1")){
-                            ruoli[j] = "amministratore";
+                            ruoli[j] = getString(R.string.admin);
                         }else{
-                            ruoli[j] = "partecipante";
+                            ruoli[j] = getString(R.string.partecipante);
                         }
 
                     }

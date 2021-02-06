@@ -200,7 +200,7 @@ public class RichiesteEvento extends AppCompatActivity {
                                                                                    db.collection("Eventi").document(document2.getId()).update("rischio", rischio).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                        @Override
                                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                                           Toast.makeText(getApplicationContext(), "Richiesta accettata correttamente", Toast.LENGTH_LONG).show();
+                                                                                           Toast.makeText(getApplicationContext(), getResources().getString(R.string.reqAcc), Toast.LENGTH_LONG).show();
                                                                                        }
                                                                                    });
                                                                                }
@@ -211,13 +211,13 @@ public class RichiesteEvento extends AppCompatActivity {
                                                                });
 
                                                            }else{
-                                                               Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                                               Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                                                            }
 
                                                        }
                                                    });
                                                }else{
-                                                   Toast.makeText(getApplicationContext(), "Il rischio è troppo alto alto,aspetta che si abbassi per accettarlo", Toast.LENGTH_LONG).show();
+                                                   Toast.makeText(getApplicationContext(),  getResources().getString(R.string.tooHighRiskReq), Toast.LENGTH_LONG).show();
                                                }
                                                      
 
@@ -242,9 +242,9 @@ public class RichiesteEvento extends AppCompatActivity {
                                                                public void onComplete(@NonNull Task<Void> task) {
                                                                    recreate();
                                                                    if(task.isSuccessful()){
-                                                                       Toast.makeText(getApplicationContext(), "Richiesta rifiutata" , Toast.LENGTH_LONG).show();
+                                                                       Toast.makeText(getApplicationContext(),  getResources().getString(R.string.reqDef), Toast.LENGTH_LONG).show();
                                                                    }else{
-                                                                       Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                                                       Toast.makeText(getApplicationContext(),  getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                                                                    }
 
                                                                }

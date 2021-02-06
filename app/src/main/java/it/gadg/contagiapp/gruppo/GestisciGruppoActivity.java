@@ -99,7 +99,7 @@ public class GestisciGruppoActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.getResult().isEmpty()){
 
-                            Toast.makeText(GestisciGruppoActivity.this, "Utente non trovato",
+                            Toast.makeText(GestisciGruppoActivity.this, getResources().getString(R.string.utenteNonTrovato),
                                     Toast.LENGTH_SHORT).show();
                         }
                         if (task.isSuccessful()) {
@@ -118,16 +118,16 @@ public class GestisciGruppoActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentReference> task) {
                                                     if (task.isSuccessful()) {
-                                                        Toast.makeText(GestisciGruppoActivity.this, "Invito inviato correttamente",
+                                                        Toast.makeText(GestisciGruppoActivity.this, getResources().getString(R.string.invSucc),
                                                                 Toast.LENGTH_SHORT).show();
                                                     }else{
-                                                        Toast.makeText(GestisciGruppoActivity.this, "Non siamo riusciti a completare l'operazione",
+                                                        Toast.makeText(GestisciGruppoActivity.this, getResources().getString(R.string.errCompOp),
                                                                 Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                             });
                                         } else {
-                                            Toast.makeText(GestisciGruppoActivity.this, "Invito già inviato",
+                                            Toast.makeText(GestisciGruppoActivity.this, getResources().getString(R.string.invSendErr),
                                                     Toast.LENGTH_SHORT).show();
                                         }
                                     }
@@ -137,7 +137,7 @@ public class GestisciGruppoActivity extends AppCompatActivity {
                             }
                         } else {
 
-                            Toast.makeText(GestisciGruppoActivity.this, "Non siamo riusciti a completare l'operazione .",
+                            Toast.makeText(GestisciGruppoActivity.this, getResources().getString(R.string.errCompOp),
                                     Toast.LENGTH_LONG).show();
                         }
                     }
@@ -174,15 +174,15 @@ public class GestisciGruppoActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
-                        Toast.makeText(getApplicationContext(), "Gruppo eliminato correttamente", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.gruppoDel), Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                     }
 
                 }
             });
         }else{
-            Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
         }
 
     }

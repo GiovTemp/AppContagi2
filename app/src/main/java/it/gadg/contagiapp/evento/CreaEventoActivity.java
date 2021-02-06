@@ -68,7 +68,7 @@ public class CreaEventoActivity extends AppCompatActivity {
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
         assert autocompleteFragment != null;
         autocompleteFragment.setTypeFilter(TypeFilter.ESTABLISHMENT);
-        autocompleteFragment.setHint("Luogo Evento");
+        autocompleteFragment.setHint(getResources().getString(R.string.luogoEvento));
         ((EditText)autocompleteFragment.getView().findViewById(R.id.places_autocomplete_search_input)).setHintTextColor(getResources().getColor(R.color.hint));
         autocompleteFragment.getView().findViewById(R.id.places_autocomplete_search_button).setVisibility(View.GONE);
         autocompleteFragment.setCountries("IT");
@@ -114,9 +114,9 @@ public class CreaEventoActivity extends AppCompatActivity {
 
 
         if(!dataValida(data) ){
-            Toast.makeText(getApplicationContext(),"data non Valida", Toast.LENGTH_SHORT).show();}
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.dataErr), Toast.LENGTH_SHORT).show();}
             else if(!oraValido(ora)){
-                Toast.makeText(getApplicationContext(),"orario non valido, Inserire ore e minuti in modo corretto", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),getResources().getString(R.string.oraErr), Toast.LENGTH_SHORT).show();
              }else {
             db.collection("Utenti").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -140,11 +140,11 @@ public class CreaEventoActivity extends AppCompatActivity {
                                                @Override
                                                public void onComplete(@NonNull Task<DocumentReference> task) {
                                                    if (task.isSuccessful()) {
-                                                       Toast.makeText(getApplicationContext(), "Evento creato correttamente", Toast.LENGTH_LONG).show();
+                                                       Toast.makeText(getApplicationContext(), getResources().getString(R.string.eventSucc), Toast.LENGTH_LONG).show();
 
                                                        finish();
                                                    }else{
-                                                       Toast.makeText(getApplicationContext(), "Errore creazione evento", Toast.LENGTH_LONG).show();
+                                                       Toast.makeText(getApplicationContext(), getResources().getString(R.string.eventFail), Toast.LENGTH_LONG).show();
 
                                                    }
                                                }
@@ -155,11 +155,11 @@ public class CreaEventoActivity extends AppCompatActivity {
                                    }
                                });
                            }else{
-                               Toast.makeText(getApplicationContext(), "Il tuo rischio è troppo alto , non puoi creare l'evento", Toast.LENGTH_LONG).show();
+                               Toast.makeText(getApplicationContext(), getResources().getString(R.string.highRisk), Toast.LENGTH_LONG).show();
                            }
 
                         }else{
-                            Toast.makeText(getApplicationContext(), "Utente non trovato", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.utenteNonTrovato), Toast.LENGTH_LONG).show();
                         }
                     }
                 }

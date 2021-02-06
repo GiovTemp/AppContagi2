@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Lista Partecipanti"
+                    android:text="@string/lista_partecipanti"
                     android:textStyle="bold" />
 
                 <View
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Clicca qui per vedere la lista dei partecipanti"
+                    android:text="@string/cliccaListaPartecipanti"
                     android:textColor="@android:color/darker_gray" />
 
             </LinearLayout>
@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Elimina Gruppo"
+                    android:text="@string/elimina_gruppo"
                     android:textStyle="bold" />
 
                 <View
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Clicca qui per eliminare il gruppo"
+                    android:text="@string/cliccaquiElimina"
                     android:textColor="@android:color/darker_gray" />
 
             </LinearLayout>
@@ -158,7 +158,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Aggiungi Membro"
+                    android:text="@string/aggiungi_membro"
                     android:textStyle="bold" />
 
                 <View
@@ -174,7 +174,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:ems="10"
-                    android:hint="Email utente da invitare"
+                    android:hint="@string/emailInvito"
                     android:inputType="textEmailAddress" />
 
                 <androidx.cardview.widget.CardView
@@ -206,7 +206,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:text="Invita Utente"
+                            android:text="@string/invita_utente"
                             android:textColor="@color/white"
                             android:textSize="18sp" />
                     </RelativeLayout>

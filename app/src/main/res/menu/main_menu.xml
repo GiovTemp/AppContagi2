@@ -10,17 +10,17 @@
         <item
             android:id="@+id/nav_gruppi"
             android:icon="@drawable/ic_gruppi_menu"
-            android:title="I tuoi gruppi" />
+            android:title="@string/i_tuoi_gruppi_menu" />
 
         <item
             android:id="@+id/nav_eventi"
             android:icon="@drawable/ic_calendar"
-            android:title="I tuoi eventi" />
+            android:title="@string/i_tuoi_eventi_menu" />
 
         <item
             android:id="@+id/nav_contatto"
             android:icon="@drawable/ic_contatto_menu"
-            android:title="Registra Contatto" />
+            android:title="@string/registra_contatto" />
 
     </group>
 
@@ -31,12 +31,12 @@
                 <item
                     android:id="@+id/nav_impostazioni"
                     android:icon="@drawable/ic_impostazioni_menu"
-                    android:title="Impostazioni" />
+                    android:title="@string/impostazioni" />
 
                 <item
                     android:id="@+id/nav_profilo"
                     android:icon="@drawable/ic_modifica_menu"
-                    android:title="Modifica Profilo" />
+                    android:title="@string/modifica_profilo" />
 
                 <item
                     android:id="@+id/nav_logout"

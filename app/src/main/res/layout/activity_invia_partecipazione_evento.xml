@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/baloo"
-                    android:text="Iscriviti ad un evento"
+                    android:text="@string/iscriviti_ad_un_evento"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -90,7 +90,7 @@
                     android:layout_marginBottom="1dp"
                     android:layout_toRightOf="@+id/imgView_dataEvento"
                     android:background="@color/editTextBG"
-                    android:hint="Codice Evento"
+                    android:hint="@string/codice_evento"
                     android:paddingLeft="20dp"
                     android:textSize="15sp" />
 
@@ -105,7 +105,7 @@
                 android:background="@color/colorPrimaryDark"
                 android:fontFamily="sans-serif-medium"
                 android:onClick="inviaRichiesta"
-                android:text="Invia Richiesta"
+                android:text="@string/invia_richiesta"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

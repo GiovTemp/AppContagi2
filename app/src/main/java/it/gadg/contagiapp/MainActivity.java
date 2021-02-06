@@ -257,13 +257,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         richiestaPopup = contactPopupView.findViewById(R.id.richiestaPopup);
 
         if (i == 1) {
-            String temp = "Confermi di essere positivo?";
+            String temp = getString(R.string.confermi_di_essere_in_attesa_del_test);
             richiestaPopup.setText(temp);
         } else if (i == 2) {
-            String temp = "Confermi di essere in Attesa?";
+            String temp = getString(R.string.confermipos);
             richiestaPopup.setText(temp);
         } else if (i == 3) {
-            String temp = "Confermi di essere in Negativo?";
+            String temp = getString(R.string.confermineg);
             richiestaPopup.setText(temp);
 
         }
@@ -292,16 +292,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     public void onComplete(@NonNull Task<Void> task) {
                                         recreate();
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(getApplicationContext(), "Risulti positivo", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.risPos), Toast.LENGTH_LONG).show();
                                             recreate();
                                         } else {
-                                            Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                                         }
 
                                     }
                                 });
                             } else {
-                                Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                             }
 
                         }
@@ -320,16 +320,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     public void onComplete(@NonNull Task<Void> task) {
                                         recreate();
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(getApplicationContext(), "Risulti in Attesa", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.risWait), Toast.LENGTH_LONG).show();
                                             recreate();
                                         } else {
-                                            Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                                         }
 
                                     }
                                 });
                             } else {
-                                Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                             }
 
                         }
@@ -349,16 +349,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     public void onComplete(@NonNull Task<Void> task) {
                                         recreate();
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(getApplicationContext(), "Risulti essere negativo", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.risNeg), Toast.LENGTH_LONG).show();
                                             recreate();
                                         } else {
-                                            Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                                         }
 
                                     }
                                 });
                             } else {
-                                Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                             }
 
                         }
@@ -479,7 +479,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(new Runnable() {
                 public void run() {
-                    Toast.makeText(context, "Nessun Contatto trovato", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, getResources().getString(R.string.noContact), Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -488,7 +488,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(new Runnable() {
                 public void run() {
-                    Toast.makeText(context, "Rischio aggiornato correttamente", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, getResources().getString(R.string.riskAgg), Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -546,12 +546,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void logout() {
         mAuth.signOut();
         if (null == FirebaseAuth.getInstance().getCurrentUser()) {
-            Toast.makeText(getApplicationContext(), "Logout riuscito.",
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.logoutSucc),
                     Toast.LENGTH_SHORT).show();
             Intent i = new Intent(getApplicationContext(), Splash.class);
             startActivity(i);
         } else {
-            Toast.makeText(getApplicationContext(), "Logout fallito.",
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.logoutFail),
                     Toast.LENGTH_SHORT).show();
         }
     }

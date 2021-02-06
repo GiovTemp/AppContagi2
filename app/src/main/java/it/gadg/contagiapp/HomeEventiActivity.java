@@ -170,12 +170,12 @@ public class HomeEventiActivity extends AppCompatActivity implements NavigationV
     public void logout() {
         mAuth.signOut();
         if (null == FirebaseAuth.getInstance().getCurrentUser()) {
-            Toast.makeText(getApplicationContext(), "Logout riuscito.",
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.logoutSucc),
                     Toast.LENGTH_SHORT).show();
             Intent i = new Intent(getApplicationContext(), Splash.class);
             startActivity(i);
         } else {
-            Toast.makeText(getApplicationContext(), "Logout fallito.",
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.logoutFail),
                     Toast.LENGTH_SHORT).show();
         }
     }

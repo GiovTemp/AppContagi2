@@ -15,7 +15,7 @@
         android:layout_marginEnd="10dp"
         android:ems="10"
         android:gravity="start|top"
-        android:text="ContagiAPP è un'app sviluppata per un progetto universitario, con lo scopo di migliorare il tracciamento dei casi del COVID-19"
+        android:text="@string/testoInfo"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
-        android:text="Progetto a cura di:"
+        android:text="@string/progetto_a_cura_di"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine" />

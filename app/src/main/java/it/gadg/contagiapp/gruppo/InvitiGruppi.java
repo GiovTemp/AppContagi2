@@ -184,9 +184,9 @@ public class InvitiGruppi extends AppCompatActivity {
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     recreate();
                                                                     if(task.isSuccessful()){
-                                                                       Toast.makeText(getApplicationContext(), "Ora fai parte del gruppo :" + NomiGruppi[position], Toast.LENGTH_LONG).show();
+                                                                       Toast.makeText(getApplicationContext(), getResources().getString(R.string.invAcc)+" " + NomiGruppi[position], Toast.LENGTH_LONG).show();
                                                                     }else{
-                                                                        Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                                                                     }
 
                                                                 }
@@ -220,10 +220,10 @@ public class InvitiGruppi extends AppCompatActivity {
                                                                public void onComplete(@NonNull Task<Void> task) {
                                                                    recreate();
                                                                    if(task.isSuccessful()){
-                                                                       Toast.makeText(getApplicationContext(), "Invito rifiutato" +
+                                                                       Toast.makeText(getApplicationContext(), getResources().getString(R.string.invRef) +
                                                                                " :" + NomiGruppi[position], Toast.LENGTH_LONG).show();
                                                                    }else{
-                                                                       Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                                                       Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                                                                    }
 
                                                                }

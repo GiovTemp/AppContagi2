@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AppContagi</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Invalid email</string>
+    <string name="invalid_password">Password must contain at least 5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="nome">First name</string>
+    <string name="cognome">Last name</string>
+    <string name="email">Email</string>
+    <string name="registrati">Register</string>
+    <string name="background">Background</string>
+    <string name="immagine_prima_schermata">First screen image</string>
+    <string name="contagiapp">ContagiAPP</string>
+    <string name="lorem">Lorem</string>
+    <string name="ipsum">ipsum</string>
+    <string name="faketext">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</string>
+    <string name="tab">tab</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="loginSplash">Login/Register</string>
+    <string name="registrati_adesso">Register now</string>
+    <string name="password">Password</string>
+    <string name="title_activity_main">Dashboard</string>
+
+    <string name="crea_evento">Create Event</string>
+    <string name="crea_gruppo">Create Group</string>
+    <string name="nome_evento">Event name</string>
+    <string name="ora_inizio">Start time</string>
+    <string name="data">Date</string>
+    <string name="i_tuoi_eventi">Your events</string>
+    <string name="i_tuoi_gruppi">Your groups</string>
+
+    <string name="str_label_btn_send">Send</string>
+    <string name="str_menu_search_devices">Search Devices</string>
+    <string name="str_menu_bluetooth_on">Switch on Bluetooth</string>
+
+    <string name="str_paired_devices">Paired Devices</string>
+    <string name="str_available_devices">Available Devices</string>
+    <string name="str_menu_scan_devices">Search Devices</string>
+    <string name="title_activity_prova">Try</string>
+    <string name="title_activity_ham">Ham</string>
+    <string name="title_activity_impostazioni">Settings</string>
+    <string name="lang">Switch to Italian version</string>
+    <string name="impostazionisez2">System</string>
+    <string name="elimina_il_tuo_profilo">Delete your account</string>
+    <string name="passo1">Step 1 : Establish connection</string>
+    <string name="passo2">Step 2 : Send data</string>
+    <string name="ricezioneDati">Receiving data</string>
+    <string name="passo3">Step 3: Close connection</string>
+    <string name="clicca_su">Click on</string>
+    <string name="per_attivare_il_bluetooth">to activate Bluetooth</string>
+    <string name="e_aggiungi_il_dispostivo_del_contatto">and add the contact\'s device</string>
+    <string name="stato_connessione">Connection Status</string>
+    <string name="non_connesso">Not connected</string>
+    <string name="invia_i_tuoi_dati">Send your data</string>
+    <string name="dati_non_ricevuti">Data not received</string>
+    <string name="riavviaProcesso">If you can\'t receive data, try closing your connection and restarting the process</string>
+    <string name="chiudiConnessione">To close the connection shake the phone or click on the button below</string>
+    <string name="chiudiConn">Close connection</string>
+    <string name="data_evento">Event date</string>
+    <string name="ora_inizio_evento">Event starting time</string>
+    <string name="crea">Create</string>
+    <string name="nome_gruppo">Group name</string>
+    <string name="eventoCalendario">Clicca here to add the event to the Calendar</string>
+    <string name="condividi_evento">Share Event</string>
+    <string name="eliminaEvento">Click here to delete the event</string>
+    <string name="richieste_in_attesa">Pending requests</string>
+    <string name="richiesteRicevute">Click here to see received requests</string>
+    <string name="elimina_evento">Delete Event</string>
+    <string name="clicca_qui_per_eliminare_l_evento">Click here to delete the event</string>
+    <string name="lista_eventi">Events List</string>
+
+    <string name="lista_partecipanti">Participants list</string>
+    <string name="cliccaListaPartecipanti">Click here to see the participants list</string>
+    <string name="elimina_gruppo">Delete Group</string>
+    <string name="cliccaquiElimina">Click here to delete the group</string>
+    <string name="aggiungi_membro">Add Member</string>
+    <string name="emailInvito">Member\'s email</string>
+    <string name="invita_utente">Invite user</string>
+
+    <string name="iscriviti_ad_un_evento">Join an event</string>
+    <string name="lista_gruppi">Groups list</string>
+    <string name="inviti_ricevuti">Received invitations</string>
+    <string name="info">Info</string>
+    <string name="passare_alla_versione_inglese">Switch to the english version</string>
+
+    <string name="codice_evento">Event code</string>
+    <string name="invia_richiesta">Send request</string>
+    <string name="registra_contatto">Register contact</string>
+    <string name="sono_positivo">I am positive</string>
+    <string name="ho_effettuato_il_test">I did the test</string>
+    <string name="sono_negativo">I am negative</string>
+    <string name="gruppi">Groups</string>
+    <string name="aggiorna_rischio">Update risk</string>
+    <string name="livello_rischio_contagio">Infection risk level</string>
+
+    <string name="aggiungi_al_calendario">Add to the calender</string>
+    <string name="clicca_qui_per_condividere_l_evento">Click here to share the event</string>
+    <string name="cliccaAbbandona">Click here to abandon the event</string>
+    <string name="abbandona_evento">Abandon event</string>
+
+    <string name="abbandona_gruppo">Abandon Group</string>
+    <string name="clicca_qui_per_abbandonare_il_gruppo">Click here to abandon the group</string>     <string name="noEventi">You haven\'t joined any event</string>
+    <string name="noGruppi">You are not part of any group</string>
+    <string name="noInviti">No invite received</string>
+    <string name="noMembri">There are no members other than you</string>
+
+    <string name="seiSicuroEvento">Are you sure you want to abandon the event</string>
+    <string name="si">Yes</string>
+    <string name="no">No</string>
+    <string name="sei_sicuro_di_voler_abbandonare_il_gruppo">Are you sure you want to abandon the group?</string>
+    <string name="sei_sicuro_di_voler_eliminare_il_tuo_profilo">Are you sure you want to delete your profile</string>
+    <string name="sei_sicuro_di_voler_eliminare_l_evento">Are you sure you want to delete the event?</string>
+    <string name="sei_sicuro_di_voler_eliminare_il_gruppo">Are you sure you want to delete the group?</string>
+    <string name="testoInfo">ContagiAPP is an app developed as a university project, whose purpose is to improve COVID-19 cases tracking.</string>
+    <string name="progetto_a_cura_di">Project curated by:</string>
+    <string name="confermi_di_essere_in_attesa_del_test">Do you confirm to be waiting for your test?</string>
+    <string name="confermipos">Do you confirm to be positive?</string>
+    <string name="confermineg">Do you confirm to be negative?</string>
+    <string name="nome_gruppo_riga">Group Name</string>
+    <string name="ruolo">Role</string>
+    <string name="nome_evento_riga">Event name</string>
+    <string name="accetta">Accept</string>
+    <string name="rifiuta">Refuse</string>
+    <string name="espelli_membro">Kick Member</string>
+    <string name="rischio">Risk : </string>
+    <string name="nome_utente">Username</string>
+    <string name="i_tuoi_gruppi_menu">Your Groups</string>
+    <string name="i_tuoi_eventi_menu">Your Events</string>
+    <string name="impostazioni">Settings</string>
+    <string name="modifica_profilo">Edit profile</string>
+    <string name="eventi">Events</string>
+    <string name="luogoEvento">Event Location</string>
+
+    <string name="admin">Admin</string>
+    <string name="member">Member</string>
+    <string name="partecipante">Participant</string>
+    <string name="authSucc">Successful Authentication</string>
+    <string name="authFail">Failed Authentication</string>
+    <string name="nomeErr">Invalid name, please just enter characters</string>
+    <string name="cognomeErr">Invalid surname, please just enter characters</string>
+    <string name="emailErr">Invalid Email</string>
+    <string name="passErr"><![CDATA[Invalid Password: please enter at least 7 characters, at least one between @#$%^&+= and a Capital letter]]></string>
+    <string name="dataErr">Invalid date</string>
+    <string name="oraErr">Invalid time</string>
+    <string name="eventSucc">Event created correctly</string>
+    <string name="eventFail">Error during the creation of the event</string>
+    <string name="highRisk">Your risk is too high, you can\'t create an event</string>
+    <string name="utenteNonTrovato">User not found</string>
+    <string name="delEvento">Event deleted correctly</string>
+    <string name="err">Error, try later</string>
+    <string name="partecipa">Join now at</string>
+    <string name="codiceShare">Code to send the request :</string>
+    <string name="reqSendErr">Request already sent</string>
+    <string name="reqSucc">Request successfully sent</string>
+    <string name="eventNotFound">Event not found</string>
+    <string name="eventIdErr">Invalid Event Id </string>
+    <string name="highRiskReq">Your risk is too high, you can\'t send requests</string>
+    <string name="reqAcc">Request successfully accepted</string>
+    <string name="tooHighRiskReq">Your risk is too high, wait for it to drop to accept the request</string>
+    <string name="reqDef">Request successfully refused</string>
+    <string name="eventAbb">Event successfully abandoned</string>
+    <string name="gruppoCreaSucc">Group successfully created</string>
+    <string name="gruppoCreaFail">Group creation error</string>
+    <string name="invSucc">Invitation successfully sent</string>
+    <string name="errCompOp">We couldn\'t complete the operation</string>
+    <string name="invSendErr">Group successfully deleted</string>
+    <string name="gruppoDel">Invitation already sent</string>
+    <string name="invRef">Invitation refused</string>
+    <string name="invAcc">You\'re now part of the group :</string>
+    <string name="utenteBan">Member banned</string>
+    <string name="gruppoAbb">Group abandoned</string>
+    <string name="insPass">Enter password</string>
+    <string name="editSucc">Data successfully updated</string>
+    <string name="errPass">Wrong password</string>
+
+    <string name="notConnected">Not connected</string>
+    <string name="connInCorso">Connecting…</string>
+    <string name="connCon">Connected to :</string>
+    <string name="ConnSucc">Connection successful</string>
+    <string name="DatiRecSucc">Data successfully received</string>
+    <string name="DatiRecFail">Data not received</string>
+    <string name="contRegSucc">Contact successfully registered</string>
+    <string name="contRegErr">Error, we couldn\'t save the contact</string>
+    <string name="btNotFound">Bluetooth not found</string>
+    <string name="geoPerm">Geolocalization permission is necessary for the app operations</string>
+    <string name="concedi">Allow</string>
+    <string name="nega">Deny</string>
+    <string name="noDisp">No new devices found</string>
+    <string name="StartBt">Click on the device to start the chat</string>
+    <string name="ricInCorso">Searching…</string>
+
+    <string name="ConnFail">Connection failed</string>
+    <string name="ConnClose">Connection closed</string>
+    <string name="logoutSucc">Login Successful</string>
+    <string name="logoutFail">Login Failed</string>
+    <string name="delUser">User successfully deleted</string>
+    <string name="risPos">You are positive</string>
+    <string name="risWait">Waiting for a test result</string>
+    <string name="risNeg">You are negative</string>
+    <string name="noContact">No contact found</string>
+    <string name="riskAgg">Risk successfully updated</string>
+
+
+</resources>
+
+
+
+

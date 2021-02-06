@@ -16,7 +16,7 @@
             android:layout_width="339dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Nome Gruppo"
+            android:text="@string/nome_gruppo_riga"
             android:textColor="#000000"
             android:textStyle="bold" />
 

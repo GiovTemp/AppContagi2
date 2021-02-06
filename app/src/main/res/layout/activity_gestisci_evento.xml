@@ -85,7 +85,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:padding="5dp"
-                            android:text="Clicca qui per aggiungere l'evento al calendario"
+                            android:text="@string/eventoCalendario"
                             android:textColor="@android:color/darker_gray"
                             android:textSize="13sp" />
 
@@ -117,7 +117,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Condividi Evento"
+                            android:text="@string/condividi_evento"
                             android:textStyle="bold" />
 
                         <View
@@ -131,7 +131,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:padding="5dp"
-                            android:text="Clicca qui per eliminare l'evento"
+                            android:text="@string/eliminaEvento"
                             android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>
@@ -171,7 +171,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Richieste in attesa"
+                            android:text="@string/richieste_in_attesa"
                             android:textStyle="bold" />
 
                         <View
@@ -185,7 +185,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:padding="5dp"
-                            android:text="Clicca qui per vedere le richieste ricevute"
+                            android:text="@string/richiesteRicevute"
                             android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>
@@ -216,7 +216,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Elimina Evento"
+                            android:text="@string/elimina_evento"
                             android:textStyle="bold" />
 
                         <View
@@ -230,7 +230,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:padding="5dp"
-                            android:text="Clicca qui per eliminare l'evento"
+                            android:text="@string/clicca_qui_per_eliminare_l_evento"
                             android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>

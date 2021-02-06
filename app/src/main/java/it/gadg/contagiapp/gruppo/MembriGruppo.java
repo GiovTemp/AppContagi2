@@ -222,10 +222,10 @@ public class MembriGruppo extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (!task.isSuccessful()) {
-                                                Toast.makeText(getApplicationContext(), "Errore : riprova più tardi", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                                             } else {
                                                 recreate();
-                                                Toast.makeText(getApplicationContext(), "Utente espulso", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.utenteBan), Toast.LENGTH_LONG).show();
                                             }
                                         }
                                     });

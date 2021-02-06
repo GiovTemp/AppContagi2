@@ -62,7 +62,7 @@ public class VisualizzaEventoActivity extends AppCompatActivity {
 
 
         InfoGestione = findViewById(R.id.infoEvento);
-        String temp=" il " + dataEvento +" dalle " + oraEvento + " presso : " +luogoEvento;
+        String temp=" il " + dataEvento +" dalle " + oraEvento + "\n\npresso : " +luogoEvento;
         InfoGestione.setText(temp);
     }
 
@@ -99,11 +99,11 @@ public class VisualizzaEventoActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (!task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Errore : riprova più tardi", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                             }else{
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
-                                Toast.makeText(getApplicationContext(), "Evento abbandonato", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.eventAbb), Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -117,7 +117,7 @@ public class VisualizzaEventoActivity extends AppCompatActivity {
     public void condividiEvento(View view) {
 
 
-        String messaggio = "Partecipa adesso a " + titoloEvento +"\n\nCodice per inviare la richiesta : "+ idEvento;
+        String messaggio = getResources().getString(R.string.partecipa) +" " + titoloEvento +"\n\n"+getResources().getString(R.string.codiceShare) +" "+ idEvento;
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, messaggio);

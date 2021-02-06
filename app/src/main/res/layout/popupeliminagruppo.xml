@@ -14,7 +14,7 @@
             android:layout_width="320dp"
             android:layout_height="105dp"
             android:fontFamily="@font/baloo"
-            android:text="Sei sicuro di voler eliminare il gruppo?"
+            android:text="@string/sei_sicuro_di_voler_eliminare_il_gruppo"
             android:textAlignment="center"
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/baloo"
-                    android:text="SI"
+                    android:text="@string/si"
                     android:textColor="@color/white"
                     android:textSize="30sp" />
 
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/baloo"
-                    android:text="NO"
+                    android:text="@string/no"
                     android:textColor="@color/white"
                     android:textSize="30sp" />
 

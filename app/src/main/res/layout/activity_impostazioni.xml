@@ -20,19 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/info" />
 
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_margin="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="10dp"
-        android:background="@color/hint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchInglese" />
-
 
     <TextView
         android:id="@+id/info"
@@ -43,14 +30,14 @@
         android:layout_marginEnd="10dp"
         android:gravity="center"
         android:onClick="VisualizzazioneInfo"
-        android:text="Info"
+        android:text="@string/info"
         android:textAlignment="center"
         android:textColor="@color/hint"
         android:textSize="18sp"
         app:flow_verticalAlign="bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/delProf"
@@ -68,21 +55,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view3" />
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switchInglese"
-        android:layout_width="330dp"
-        android:layout_height="101dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="20dp"
-        android:text="Passare alla versione inglese"
-        android:textAlignment="center"
-        android:textColor="@color/hint"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/view5"

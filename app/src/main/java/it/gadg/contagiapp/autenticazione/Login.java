@@ -32,10 +32,7 @@ public class Login extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_login);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-        }
-
+       getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
     }
 
     @Override
@@ -73,23 +70,23 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("login", "signInWithEmail:success");
-                            Toast.makeText(getApplicationContext(), "Autenticazione riuscita",
+                            Toast.makeText(getApplicationContext(),getResources().getString(R.string.authSucc) ,
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("login", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Autenticazione fallita.",
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.authFail),
                                     Toast.LENGTH_SHORT).show();
 
                         }
 
-                        // ...
+
                     }
                 });
 
-        System.out.println(email + password);
+
     }
 
 

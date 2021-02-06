@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="80dp"
                     android:fontFamily="@font/baloo"
-                    android:text="Registra Contatto"
+                    android:text="@string/registra_contatto"
                     android:textAlignment="center"
                     android:textColor="@color/quantum_grey700"
                     android:textSize="18sp" />
@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="80dp"
                     android:fontFamily="@font/baloo"
-                    android:text="Eventi"
+                    android:text="@string/eventi"
                     android:textAlignment="center"
                     android:textColor="@color/quantum_grey700"
                     android:textSize="20sp" />
@@ -156,7 +156,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
-                                android:text="Sono positivo"
+                                android:text="@string/sono_positivo"
                                 android:textColor="#fff"
                                 android:textSize="18sp" />
                         </RelativeLayout>
@@ -190,7 +190,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
-                                android:text="Ho effettuato il test"
+                                android:text="@string/ho_effettuato_il_test"
                                 android:textColor="@color/quantum_grey700"
                                 android:textSize="18sp" />
                         </RelativeLayout>
@@ -224,7 +224,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
-                                android:text="Sono negativo"
+                                android:text="@string/sono_negativo"
                                 android:textColor="@color/white"
                                 android:textSize="18sp" />
                         </RelativeLayout>
@@ -269,7 +269,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="80dp"
                     android:fontFamily="@font/baloo"
-                    android:text="Gruppi"
+                    android:text="@string/gruppi"
                     android:textAlignment="center"
                     android:textColor="@color/quantum_grey700"
                     android:textSize="20sp" />
@@ -292,7 +292,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="80dp"
                     android:fontFamily="@font/baloo"
-                    android:text="Aggiorna rischio"
+                    android:text="@string/aggiorna_rischio"
                     android:textAlignment="center"
                     android:textColor="@color/quantum_grey700"
                     android:textSize="18sp" />
@@ -340,7 +340,7 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="20dp"
                         android:fontFamily="@font/baloo"
-                        android:text="Livello rischio contagio"
+                        android:text="@string/livello_rischio_contagio"
                         android:textAlignment="center"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"

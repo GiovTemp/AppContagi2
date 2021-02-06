@@ -54,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Lista Partecipanti"
+                    android:text="@string/lista_partecipanti"
                     android:textStyle="bold" />
 
                 <View
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Clicca qui per vedere la lista dei partecipanti"
+                    android:text="@string/cliccaListaPartecipanti"
                     android:textColor="@android:color/darker_gray" />
 
             </LinearLayout>
@@ -99,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Abbandona Gruppo"
+                    android:text="@string/abbandona_gruppo"
                     android:textStyle="bold" />
 
                 <View
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Clicca qui per eliminare il gruppo"
+                    android:text="@string/clicca_qui_per_abbandonare_il_gruppo"
                     android:textColor="@android:color/darker_gray" />
 
             </LinearLayout>

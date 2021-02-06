@@ -123,9 +123,9 @@ public class ListaGruppiActivity extends AppCompatActivity {
                     ruoli = new String[gr.size()];
                     for (int j = 0; j < gr.size(); j++) {
                         if(gr.get(j).ruolo.equals("1")){
-                            ruoli[j] = "amministratore";
+                            ruoli[j] = getString(R.string.admin);;
                         }else{
-                            ruoli[j] = "membro";
+                            ruoli[j] = getString(R.string.member);;
                         }
 
                     }

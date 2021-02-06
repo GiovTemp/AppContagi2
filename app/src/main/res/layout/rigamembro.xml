@@ -31,7 +31,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/design_default_color_error"
                 android:fontFamily="@font/baloo"
-                android:text="Espelli Membro"
+                android:text="@string/espelli_membro"
                 android:textColor="@color/white"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Rischio"
+                android:text="@string/rischio"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/NomeMembro" />
 
@@ -65,7 +65,7 @@
                 android:layout_height="27dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/baloo"
-                android:text="Nome Utente"
+                android:text="@string/nome_utente"
                 android:textColor="#000000"
                 android:textStyle="bold"
                 android:visibility="visible"

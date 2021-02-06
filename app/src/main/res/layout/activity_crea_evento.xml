@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/baloo"
-                    android:text="Crea Evento"
+                    android:text="@string/crea_evento"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -89,7 +89,7 @@
                     android:layout_marginBottom="1dp"
                     android:layout_toRightOf="@+id/imgView_dataEvento"
                     android:background="@color/editTextBG"
-                    android:hint="Data Evento"
+                    android:hint="@string/data_evento"
                     android:inputType="date"
                     android:paddingLeft="20dp"
                     android:textSize="15sp" />
@@ -129,7 +129,7 @@
                     android:layout_marginBottom="1dp"
                     android:layout_toRightOf="@+id/imgView_nomeEvento"
                     android:background="@color/editTextBG"
-                    android:hint="Nome Evento"
+                    android:hint="@string/nome_evento"
                     android:paddingLeft="20dp"
                     android:textSize="15sp" />
 
@@ -167,7 +167,7 @@
                     android:layout_marginBottom="1dp"
                     android:layout_toRightOf="@+id/imgView_oraEvento"
                     android:background="@color/editTextBG"
-                    android:hint="Ora Inizio Evento"
+                    android:hint="@string/ora_inizio_evento"
                     android:inputType="time"
                     android:paddingLeft="20dp"
                     android:textSize="15sp" />
@@ -225,7 +225,7 @@
                 android:background="@color/colorPrimaryDark"
                 android:fontFamily="sans-serif-medium"
                 android:onClick="creaEvento"
-                android:text="Crea"
+                android:text="@string/crea"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

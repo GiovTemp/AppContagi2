@@ -38,9 +38,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-        }
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -48,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void RegisterButton(View view) {
 
-        System.out.println("ciao");
+
         rEmail = findViewById(R.id.rEmail);
         rPassword= findViewById(R.id.rPassword);
         rNome = findViewById(R.id.rNome);
@@ -63,14 +62,14 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Validazioni Dati
         if(!nomeValido(nome) )
-            Toast.makeText(getApplicationContext(),"Nome non Valido, inserire solo caratteri", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.nomeErr), Toast.LENGTH_SHORT).show();
         else if(!cognomeValido(cognome)){
-            Toast.makeText(getApplicationContext(),"Cognome non Valido, inserire solo caratteri", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.cognomeErr), Toast.LENGTH_SHORT).show();
         }else if(!emailValida(email)){
-            Toast.makeText(getApplicationContext(),"Email non Valida", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.emailErr), Toast.LENGTH_SHORT).show();
         }
         else if(!passwordValida(password)){
-            Toast.makeText(getApplicationContext(),"Password non Valida: minimo 7 caratteri, inserire almeno @#$%^&+= e una maiuscola ", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),R.string.passErr, Toast.LENGTH_LONG).show();
         }else {
             this.createFirebaseUser(email,password,nome,cognome);
         }
@@ -96,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.i("Registrazione", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, getResources().getString(R.string.authFail),Toast.LENGTH_SHORT).show();
 
                         }
 

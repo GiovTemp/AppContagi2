@@ -64,7 +64,7 @@ public class GestisciEvento extends AppCompatActivity {
         NomeEventoGestione.setText(titoloEvento);
 
         InfoGestione = findViewById(R.id.infoEvento);
-        String temp=" il " + dataEvento +" dalle " + oraEvento + " presso : " +luogoEvento;
+        String temp=" il " + dataEvento +" dalle " + oraEvento + "\n\npresso : " +luogoEvento;
         InfoGestione.setText(temp);
 
         idEvento = intent.getStringExtra("idEvento");
@@ -128,15 +128,15 @@ public class GestisciEvento extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
-                        Toast.makeText(getApplicationContext(), "Evento eliminato correttamente", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.delEvento), Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                     }
 
                 }
             });
         }else{
-            Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
         }
 
 
@@ -147,7 +147,7 @@ public class GestisciEvento extends AppCompatActivity {
 
     public void condividiEvento(View view) {
 
-        String messaggio = "Partecipa adesso a " + titoloEvento +"\n\nCodice per inviare la richiesta : "+ idEvento;
+        String messaggio = getResources().getString(R.string.partecipa) +" " + titoloEvento +"\n\n"+getResources().getString(R.string.codiceShare) +" "+ idEvento;
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, messaggio);

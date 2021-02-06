@@ -56,6 +56,167 @@
     <string name="lang">Passa alla versione inglese</string>
     <string name="impostazionisez2">Sistema</string>
     <string name="elimina_il_tuo_profilo">Elimina il tuo profilo</string>
+    <string name="passo1">1° Passo : Stabilisci la connessione</string>
+    <string name="passo2">2° Passo : Invia i dati</string>
+    <string name="ricezioneDati">Ricezione dati</string>
+    <string name="passo3">3°Passo: Chiudi Connessione</string>
+    <string name="clicca_su">Clicca su</string>
+    <string name="per_attivare_il_bluetooth">per attivare il Bluetooth</string>
+    <string name="e_aggiungi_il_dispostivo_del_contatto">e aggiungi il dispostivo del contatto</string>
+    <string name="stato_connessione">Stato connessione</string>
+    <string name="non_connesso">Non Connesso</string>
+    <string name="invia_i_tuoi_dati">Invia i tuoi dati</string>
+    <string name="dati_non_ricevuti">Dati non ricevuti</string>
+    <string name="riavviaProcesso">Se non riesci a ricevere i dati ti consigliamo di chiudere la connessione e riavviare il processo</string>
+    <string name="chiudiConnessione">Per chiudere la connessione scuoti il telefono oppure clicca sul pulsante qui sotto</string>
+    <string name="chiudiConn">Chiudi Connessione</string>
+
+    <string name="data_evento">Data Evento</string>
+    <string name="ora_inizio_evento">Ora Inizio Evento</string>
+    <string name="crea">Crea</string>
+    <string name="nome_gruppo">Nome Gruppo</string>
+    <string name="eventoCalendario">Clicca qui per aggiungere l\'evento al calendario</string>
+    <string name="condividi_evento">Condividi Evento</string>
+    <string name="eliminaEvento">Clicca qui per eliminare l\'evento</string>
+    <string name="richieste_in_attesa">Richieste in attesa</string>
+    <string name="richiesteRicevute">Clicca qui per vedere le richieste ricevute</string>
+    <string name="elimina_evento">Elimina Evento</string>
+    <string name="clicca_qui_per_eliminare_l_evento">Clicca qui per eliminare l\'evento</string>
+
+
+    <string name="lista_partecipanti">Lista Partecipanti</string>
+    <string name="cliccaListaPartecipanti">Clicca qui per vedere la lista dei partecipanti</string>
+    <string name="elimina_gruppo">Elimina Gruppo</string>
+    <string name="cliccaquiElimina">Clicca qui per eliminare il gruppo</string>
+    <string name="aggiungi_membro">Aggiungi Membro</string>
+    <string name="emailInvito">Email utente da invitare</string>
+    <string name="invita_utente">Invita Utente</string>
+    <string name="lista_eventi">Lista Eventi</string>
+
+    <string name="iscriviti_ad_un_evento">Iscriviti ad un evento</string>
+    <string name="lista_gruppi">Lista Gruppi</string>
+    <string name="inviti_ricevuti">Inviti Ricevuti</string>
+    <string name="info">Info</string>
+    <string name="passare_alla_versione_inglese">Passare alla versione inglese</string>
+
+    <string name="codice_evento">Codice Evento</string>
+    <string name="invia_richiesta">Invia Richiesta</string>
+    <string name="registra_contatto">Registra Contatto</string>
+    <string name="sono_positivo">Sono positivo</string>
+    <string name="ho_effettuato_il_test">Ho effettuato il test</string>
+    <string name="sono_negativo">Sono negativo</string>
+    <string name="gruppi">Gruppi</string>
+    <string name="aggiorna_rischio">Aggiorna rischio</string>
+    <string name="livello_rischio_contagio">Livello rischio contagio</string>
+
+
+    <string name="aggiungi_al_calendario">Aggiungi al calendario</string>
+    <string name="clicca_qui_per_condividere_l_evento">Clicca qui per condividere l\'evento</string>
+    <string name="cliccaAbbandona">Clicca qui per abbandonare l\'evento</string>
+    <string name="abbandona_evento">Abbandona Evento</string>
+
+
+    <string name="abbandona_gruppo">Abbandona Gruppo</string>
+    <string name="clicca_qui_per_abbandonare_il_gruppo">Clicca qui per abbandonare il gruppo</string>
+    <string name="noEventi">Non sei iscritto a nessun evento</string>
+    <string name="noGruppi">Non fai parte di nessun gruppo</string>
+    <string name="noInviti">Nessun invito ricevuto</string>
+    <string name="noMembri">Non ci sono membri oltre te</string>
+
+    <string name="seiSicuroEvento">Sei sicuro di voler abbandonare l\'evento?</string>
+    <string name="si">SI</string>
+    <string name="no">NO</string>
+    <string name="sei_sicuro_di_voler_abbandonare_il_gruppo">Sei sicuro di voler abbandonare il gruppo?</string>
+    <string name="sei_sicuro_di_voler_eliminare_il_tuo_profilo">Sei sicuro di voler eliminare il tuo profilo?</string>
+    <string name="sei_sicuro_di_voler_eliminare_l_evento">Sei sicuro di voler eliminare l\'evento?</string>
+    <string name="sei_sicuro_di_voler_eliminare_il_gruppo">Sei sicuro di voler eliminare il gruppo?</string>
+    <string name="testoInfo">ContagiAPP è un\'app sviluppata per un progetto universitario, con lo scopo di migliorare il tracciamento dei casi del COVID-19</string>
+    <string name="progetto_a_cura_di">Progetto a cura di:</string>
+    <string name="confermi_di_essere_in_attesa_del_test">Confermi di essere in attesa del test?</string>
+    <string name="confermipos">Confermi di essere positivo?</string>
+    <string name="confermineg">Confermi di essere negativo?</string>
+    <string name="nome_gruppo_riga">Nome Gruppo</string>
+    <string name="ruolo">Ruolo</string>
+    <string name="nome_evento_riga">Nome Evento</string>
+    <string name="accetta">accetta</string>
+    <string name="rifiuta">Rifiuta</string>
+    <string name="espelli_membro">Espelli Membro</string>
+
+    <string name="nome_utente">Nome Utente</string>
+    <string name="rischio">Rischio : </string>
+    <string name="i_tuoi_gruppi_menu">I tuoi gruppi</string>
+    <string name="i_tuoi_eventi_menu">I tuoi eventi</string>
+    <string name="impostazioni">Impostazioni</string>
+    <string name="modifica_profilo">Modifica Profilo</string>
+    <string name="eventi">Eventi</string>
+    <string name="luogoEvento">Luogo Evento</string>
+    <string name="admin">Admin</string>
+    <string name="member">Membro</string>
+    <string name="partecipante">Partecipante</string>
+    <string name="authSucc">Autenticazione Riuscita</string>
+    <string name="authFail">Autenticazione Fallita</string>
+    <string name="nomeErr">Nome non valido, inserire solo caratteri</string>
+    <string name="cognomeErr">Cognome non valido inserire solo caratteri</string>
+    <string name="emailErr">Email non valida</string>
+    <string name="passErr"><![CDATA[Password non Valida: minimo 7 caratteri, inserire almeno @#$%^&+= e una maiuscola]]></string>
+    <string name="dataErr">Data non valida</string>
+    <string name="oraErr">Ora non valida</string>
+    <string name="eventSucc">Evento creato correttamente</string>
+    <string name="eventFail">Errore durante la creazione dell\'evento</string>
+    <string name="highRisk">Il tuo rischio è troppo alto , non puoi creare l\'evento</string>
+    <string name="utenteNonTrovato">Utente non trovato</string>
+    <string name="delEvento">Evento eliminato correttamente</string>
+    <string name="err">Errore, riprova più tardi</string>
+    <string name="partecipa">"Partecipa adesso a"</string>
+    <string name="codiceShare">"Codice per inviare la richiesta :"</string>
+    <string name="reqSendErr">Richiesta già inoltrata</string>
+    <string name="reqSucc">Richiesta inoltrtata correttamente</string>
+    <string name="eventNotFound">Evento non trovato</string>
+    <string name="eventIdErr">Evento Id Non valido</string>
+    <string name="highRiskReq">" Il tuo rischio è troppo alto ,non puoi inviare richieste"</string>
+    <string name="reqAcc">Richiesta accettata correttamente</string>
+    <string name="tooHighRiskReq">Il rischio è troppo alto ,aspetta che si abbassi per accettarlo</string>
+    <string name="reqDef">Richiesta rifiutata correttamente</string>
+    <string name="eventAbb">Evento abbandonato correttamente</string>
+    <string name="gruppoCreaSucc">Gruppo creato correttamente</string>
+    <string name="gruppoCreaFail">Errore creazione gruppo</string>
+    <string name="invSucc">Invito inviato correttamente</string>
+    <string name="errCompOp">Non siamo riusciti a completare l\'operazion</string>
+    <string name="invSendErr">Invito già inviato</string>
+    <string name="gruppoDel">Gruppo Eliminato correttamente</string>
+    <string name="invRef">Invito rifiutato</string>
+    <string name="invAcc">Ora fai parte del gruppo :</string>
+    <string name="utenteBan">Utente espulso</string>
+    <string name="gruppoAbb">Gruppo abbandonato</string>
+    <string name="insPass">Inserisci la password</string>
+    <string name="editSucc">Dati aggiornati correttamente</string>
+    <string name="errPass">Password errata</string>
+    <string name="notConnected">Non Connesso</string>
+    <string name="connInCorso">Connessione in corso…</string>
+    <string name="connCon">Connesso con :</string>
+    <string name="ConnSucc">Connessione Riuscita</string>
+    <string name="DatiRecSucc">Dati ricevuti correttamente</string>
+    <string name="DatiRecFail">Dati non ricevuti</string>
+    <string name="contRegSucc">Contatto registrato correttamente</string>
+    <string name="contRegErr">Errore non siamo riusciti a salvare il contatto</string>
+    <string name="btNotFound">Bluetooth non trovato</string>
+    <string name="geoPerm">Il permesso di geolicalizzazione è necessario per il funzionamento dell\'app .</string>
+    <string name="concedi">Concedi</string>
+    <string name="nega">Nega</string>
+    <string name="noDisp">Nessun nuovo dispositivo trovato</string>
+    <string name="StartBt">Clicca sul dispositivo per far partire la chat</string>
+    <string name="ricInCorso">Ricerca in corso…</string>
+
+    <string name="ConnFail">Connesione Fallita</string>
+    <string name="ConnClose">Connessione Chiusa</string>
+    <string name="logoutSucc">Logout Riuscito</string>
+    <string name="logoutFail">LogoutFallito</string>
+    <string name="delUser">Utente eliminato correttamente</string>
+    <string name="risPos">Risulti essere positivo</string>
+    <string name="risWait">Risulti essere in attesa</string>
+    <string name="risNeg">Risulti essere negativo</string>
+    <string name="noContact">Nessun Contatto trovato</string>
+    <string name="riskAgg">Rischio aggiornato correttamente</string>
 
 
 </resources>

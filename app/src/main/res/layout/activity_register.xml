@@ -24,7 +24,7 @@
         android:background="#11000000"
         android:drawableLeft="@drawable/ic_baseline_person_24"
         android:ems="10"
-        android:hint="Cognome"
+        android:hint="@string/cognome"
         android:inputType="textPersonName"
         android:textSize="16dp" />
 
@@ -45,7 +45,7 @@
         android:background="#11000000"
         android:drawableLeft="@drawable/ic_baseline_person_24"
         android:ems="10"
-        android:hint="Nome"
+        android:hint="@string/nome"
         android:inputType="textPersonName"
 
 
@@ -67,7 +67,7 @@
         android:layout_marginBottom="281dp"
         android:background="#11000000"
         android:drawableLeft="@drawable/ic_email"
-        android:hint=" Email"
+        android:hint="@string/email"
 
         android:inputType="textEmailAddress"
         android:textSize="16dp" />
@@ -90,7 +90,7 @@
         android:background="#11000000"
         android:drawableLeft="@drawable/ic_action_password"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword" />
 
     <androidx.cardview.widget.CardView
@@ -120,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Registrati"
+                android:text="@string/registrati"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </RelativeLayout>

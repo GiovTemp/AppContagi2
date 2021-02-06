@@ -87,11 +87,11 @@ public class CreaGruppoActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<DocumentReference> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Gruppo creato correttamente", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.gruppoCreaSucc), Toast.LENGTH_LONG).show();
 
                                 finish();
                             }else{
-                                Toast.makeText(getApplicationContext(), "Errore creazione gruppo", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.gruppoCreaFail), Toast.LENGTH_LONG).show();
 
                             }
                        }

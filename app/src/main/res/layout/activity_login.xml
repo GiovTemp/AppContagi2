@@ -43,7 +43,7 @@
         android:background="#11000000"
         android:drawableLeft="@drawable/ic_baseline_person_24"
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:textSize="16dp" />
 
@@ -65,7 +65,7 @@
         android:background="#11000000"
         android:drawableLeft="@drawable/ic_action_password"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword" />
 
     <androidx.cardview.widget.CardView
@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Login"
+                android:text="@string/login"
                 android:textColor="#fff"
                 android:textSize="18sp" />
         </RelativeLayout>

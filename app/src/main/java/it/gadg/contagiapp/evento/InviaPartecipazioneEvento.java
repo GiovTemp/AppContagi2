@@ -67,7 +67,7 @@ public class InviaPartecipazioneEvento extends AppCompatActivity {
                                     QuerySnapshot document = task.getResult();
                                     if(document.size()>0){
                                         idGruppo.setText("");
-                                        Toast.makeText(getApplicationContext(), "Richiesta già inoltrata", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.reqSendErr), Toast.LENGTH_LONG).show();
                                     }else{
                                         try {
                                             db.collection("Eventi").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -85,9 +85,9 @@ public class InviaPartecipazioneEvento extends AppCompatActivity {
                                                                 public void onComplete(@NonNull Task<DocumentReference> task) {
                                                                     if (task.isSuccessful()) {
                                                                         idGruppo.setText("");
-                                                                        Toast.makeText(getApplicationContext(), "Richiesta inoltrata correttamente", Toast.LENGTH_LONG).show();
+                                                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.reqSucc), Toast.LENGTH_LONG).show();
                                                                     } else {
-                                                                        Toast.makeText(getApplicationContext(), "Errore,riprova più tardi", Toast.LENGTH_LONG).show();
+                                                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
 
                                                                     }
                                                                 }
@@ -95,19 +95,19 @@ public class InviaPartecipazioneEvento extends AppCompatActivity {
                                                             });
 
                                                         } else {
-                                                            Toast.makeText(getApplicationContext(), "Evento non trovato", Toast.LENGTH_LONG).show();
+                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.eventNotFound), Toast.LENGTH_LONG).show();
                                                         }
 
 
                                                     } else {
-                                                        Toast.makeText(getApplicationContext(), "Evento non trovato", Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(getApplicationContext(),  getResources().getString(R.string.eventNotFound), Toast.LENGTH_LONG).show();
                                                     }
                                                 }
 
                                             });
                                         } catch (Exception e) {
                                             e.printStackTrace();
-                                            Toast.makeText(getApplicationContext(), "Id Evento non valido", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(),  getResources().getString(R.string.eventIdErr), Toast.LENGTH_LONG).show();
                                         }
 
                                     }
@@ -115,7 +115,7 @@ public class InviaPartecipazioneEvento extends AppCompatActivity {
                             });
 
                         }else{
-                            Toast.makeText(getApplicationContext(), "Il tuo rischio è troppo alto ,non puoi inviare richieste", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),  getResources().getString(R.string.highRiskReq), Toast.LENGTH_LONG).show();
 
                         }
                     }

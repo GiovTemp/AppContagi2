@@ -275,7 +275,8 @@ public class GestioneConnessione {
     private void connectionLost() {
         Message message = handler.obtainMessage(BtActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(BtActivity.TOAST, "Connessione Chiusa");
+
+        bundle.putString(BtActivity.TOAST, "Close");
         message.setData(bundle);
         handler.sendMessage(message);
 
@@ -285,7 +286,7 @@ public class GestioneConnessione {
     private synchronized void connectionFailed() {
         Message message = handler.obtainMessage(BtActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(BtActivity.TOAST, "Connesione Fallita");
+        bundle.putString(BtActivity.TOAST, "Fail");
         message.setData(bundle);
         handler.sendMessage(message);
 

@@ -67,17 +67,17 @@ public class BtActivity extends AppCompatActivity {
                 case MESSAGE_STATE_CHANGED:
                     switch (message.arg1) {
                         case GestioneConnessione.STATE_NONE:
-                            setState("Non Connesso");
+                            setState(getResources().getString(R.string.notConnected));
                             break;
                         case GestioneConnessione.STATE_LISTEN:
-                            setState("Non Connesso");
+                            setState(getResources().getString(R.string.notConnected));
                             break;
                         case GestioneConnessione.STATE_CONNECTING:
-                            setState("Connessione in corso...");
+                            setState(getResources().getString(R.string.connInCorso));
                             break;
                         case GestioneConnessione.STATE_CONNECTED:
-                            setState("Connesso con : " + connectedDevice);
-                            StatoConn.setText("Connessione Riuscita");
+                            setState(getResources().getString(R.string.connCon)+" " + connectedDevice);
+                            StatoConn.setText(R.string.ConnSucc);
                             StatoConn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
                             break;
                     }
@@ -90,10 +90,10 @@ public class BtActivity extends AppCompatActivity {
                     //leggo la stringa
                     if(inputBuffer.length()>0){
                         infoContatto = inputBuffer;
-                        StatoDati.setText("Dati ricevuti correttamente");
+                        StatoDati.setText(R.string.DatiRecSucc);
                         StatoDati.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
-                        Toast.makeText(context, "Dati ricevuti correttamente", Toast.LENGTH_SHORT).show();
-                        //TODO settare visibilità pulsante conferma
+                        Toast.makeText(context, getResources().getString(R.string.DatiRecSucc), Toast.LENGTH_SHORT).show();
+
                     }
 
                     break;
@@ -102,7 +102,12 @@ public class BtActivity extends AppCompatActivity {
                     Toast.makeText(context, connectedDevice, Toast.LENGTH_SHORT).show();
                     break;
                 case MESSAGE_TOAST:
-                    Toast.makeText(context, message.getData().getString(TOAST), Toast.LENGTH_SHORT).show();
+                    if( message.getData().getString(TOAST).equals("Fail")){
+                        Toast.makeText(context, getResources().getString(R.string.ConnFail), Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(context,getResources().getString(R.string.ConnClose), Toast.LENGTH_SHORT).show();
+                    }
+
                     break;
             }
             return false;
@@ -155,13 +160,8 @@ public class BtActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //TODO cambiare message con infoContatto
-                //Salvo il contatto del db locale
 
-                //context.deleteDatabase("Conttati");
-                //myDb.execSQL("DROP TABLE contattiRegistrati");
-
-                if(StatoDati.getText().toString().equals("Dati non ricevuti")){
+                if(StatoDati.getText().toString().equals(getResources().getString(R.string.DatiRecFail))){
                     gestioneConnessione.stop();
                 }else{
                     try{
@@ -170,10 +170,10 @@ public class BtActivity extends AppCompatActivity {
                         myDb.execSQL("INSERT INTO contattiRegistrati(uid,data) VALUES( " + "'" + infoContatto + "'," + "datetime())");
                         gestioneConnessione.stop();
                         //Mostrare un avviso a schermo della registrazione effettuata correttamente
-                        Toast.makeText(getApplicationContext(), "Contatto Registrato con successo", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.contRegSucc) , Toast.LENGTH_LONG).show();
 
                     }catch (Exception e){
-                        Toast.makeText(context, "Errore non siamo riusciti a salvare il contatto", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, getResources().getString(R.string.contRegErr), Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -195,7 +195,7 @@ public class BtActivity extends AppCompatActivity {
         //verifco che il dispostivo possieda il bt
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
-            Toast.makeText(context, "Bluetooth non trovato", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getResources().getString(R.string.btNotFound), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -250,14 +250,14 @@ public class BtActivity extends AppCompatActivity {
             } else {
                 new AlertDialog.Builder(context)
                         .setCancelable(false)
-                        .setMessage("Il permesso di geolicalizzazione è necessario per il funzionamento dell'app .")
-                        .setPositiveButton("Concedi", new DialogInterface.OnClickListener() {
+                        .setMessage(getResources().getString(R.string.geoPerm))
+                        .setPositiveButton(getResources().getString(R.string.concedi), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 checkPermissions();
                             }
                         })
-                        .setNegativeButton("Nega", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getResources().getString(R.string.nega), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 BtActivity.this.finish();

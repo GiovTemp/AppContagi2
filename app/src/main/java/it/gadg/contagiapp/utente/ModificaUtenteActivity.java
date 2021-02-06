@@ -100,13 +100,13 @@ public class ModificaUtenteActivity extends AppCompatActivity {
 
         // Validazioni Dati
         if (!nomeValido(nome))
-            Toast.makeText(getApplicationContext(), "Nome non Valido, inserire solo caratteri", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.nomeErr), Toast.LENGTH_SHORT).show();
         else if (!cognomeValido(cognome)) {
-            Toast.makeText(getApplicationContext(), "Cognome non Valido, inserire solo caratteri", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.cognomeErr), Toast.LENGTH_SHORT).show();
         } else if (!passwordMod.getText().toString().equals("")) {
             this.editFirebaseUser(nome, cognome);
         } else {
-            Toast.makeText(getApplicationContext(), "Inserisci password", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.insPass), Toast.LENGTH_LONG).show();
         }
 
 
@@ -128,22 +128,22 @@ public class ModificaUtenteActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         recreate();
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(getApplicationContext(), "Dati aggiornati correttamente", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.editSucc), Toast.LENGTH_LONG).show();
                                         } else {
-                                            Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                                         }
 
                                     }
                                 });
                             } else {
-                                Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                             }
 
                         }
                     });
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "Password errata", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.errPass), Toast.LENGTH_SHORT).show();
                 }
 
             }
