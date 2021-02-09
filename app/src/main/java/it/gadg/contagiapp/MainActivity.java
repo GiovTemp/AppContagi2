@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
 
 
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         nomeMenu.setText(utenteLoggato.nome + " " +utenteLoggato.cognome);
                         emailMenu.setText(utenteLoggato.email);
 
-
+                        controllaAggiornamento();
                         String temp =LabelRischio.getText().toString()+ utenteLoggato.rischio + "%";
 
                         if(utenteLoggato.rischio>RISCHIO_ROSSO){
@@ -169,7 +171,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void controllaAggiornamento() {
 
+        try {
+
+            SQLiteDatabase myDb = openOrCreateDatabase("DateAggiornamentoRischio", MODE_PRIVATE, null);
+            myDb.execSQL("CREATE TABLE IF NOT EXISTS dateAgg(data DATE)");
+
+            Cursor c = myDb.rawQuery("SELECT * FROM dateAgg WHERE data = date('now')", null);
+
+            if(c.getCount()==0){
+                myDb.execSQL("INSERT INTO dateAgg(data) VALUES(date('now'))");
+                AggiornaRischioThread t = new AggiornaRischioThread();
+                t.run();
+            }
+            c.close();
+
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     @Override

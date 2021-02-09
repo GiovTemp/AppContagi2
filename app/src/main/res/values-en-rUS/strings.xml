@@ -212,7 +212,7 @@
     <string name="risPos">You are positive</string>
     <string name="risWait">Waiting for a test result</string>
     <string name="risNeg">You are negative</string>
-    <string name="noContact">No contact found</string>
+    <string name="noContact">No new contact found</string>
     <string name="riskAgg">Risk successfully updated</string>
     <string name="membri">Members</string>
     <string name="titoloEventoDash">Event</string>

@@ -215,7 +215,7 @@
     <string name="risPos">Risulti essere positivo</string>
     <string name="risWait">Risulti essere in attesa</string>
     <string name="risNeg">Risulti essere negativo</string>
-    <string name="noContact">Nessun Contatto trovato</string>
+    <string name="noContact">Nessun nuovo Contatto trovato</string>
     <string name="riskAgg">Rischio aggiornato correttamente</string>
     <string name="membri">Membri</string>
     <string name="titoloEventoDash">Evento</string>
