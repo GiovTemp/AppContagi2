@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,7 +44,7 @@ public class ListaEventiActivity extends AppCompatActivity {
     String[] nomi;
     ArrayList<ListaEvento> eventi = new ArrayList<>();
     int flag;
-
+    TextView Neventi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +59,16 @@ public class ListaEventiActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
+        Neventi=findViewById(R.id.Neventi);
 
         db.collection("PartecipazioneEvento").whereEqualTo("UID", user.getUid()).whereEqualTo("status", 1).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 flag=queryDocumentSnapshots.size();
                 if(flag>0){
+                    Resources res = getApplicationContext().getResources();
+                    Neventi.setText(res.getQuantityString(R.plurals.Neventi,flag,flag));
+
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
                         String id = document.getString("idEvento");

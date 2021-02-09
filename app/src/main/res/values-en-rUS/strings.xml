@@ -230,7 +230,15 @@
         <item quantity="other"> You are part of %d groups </item>
     </plurals>
 
+    <plurals name="Neventi">
+        <item quantity="one"> You are part of an event: </item>
+        <item quantity="other"> You are part of %d events: </item>
+    </plurals>
 
+    <plurals name="Ninviti">
+        <item quantity="one"> You have a pending invitation: </item>
+        <item quantity="other"> You have %d pending invitations: </item>
+    </plurals>
 </resources>
 
 

@@ -229,9 +229,18 @@
 
 
     <plurals name="Ngruppi">
-        <item quantity="one"> Fai parte di un gruppo </item>
-        <item quantity="other"> Fai parte di %d gruppi </item>
+        <item quantity="one"> Fai parte di un gruppo: </item>
+        <item quantity="other"> Fai parte di %d gruppi: </item>
     </plurals>
 
+    <plurals name="Neventi">
+        <item quantity="one"> Fai parte di un evento: </item>
+        <item quantity="other"> Fai parte di %d eventi: </item>
+    </plurals>
+
+    <plurals name="Ninviti">
+        <item quantity="one"> Hai un invito in attesa: </item>
+        <item quantity="other"> Hai %d in attesa: </item>
+    </plurals>
 
 </resources>
