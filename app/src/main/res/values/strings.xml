@@ -217,6 +217,15 @@
     <string name="risNeg">Risulti essere negativo</string>
     <string name="noContact">Nessun Contatto trovato</string>
     <string name="riskAgg">Rischio aggiornato correttamente</string>
+    <string name="membri">Membri</string>
+    <string name="titoloEventoDash">Evento</string>
+    <string name="modUtente">Modifica Utente</string>
+    <string name="richiesteTitolo">Richieste</string>
+    <string name="gruppiTitolo">Gruppo</string>
+    <string name="inserisci_la_password">Inserisci la password</string>
+    <string name="modifica_dati">Modifica Dati</string>
+    <string name="inserisci_il_nuovo_cognome">Nuovo cognome</string>
+    <string name="inserisci_il_nuovo_nome">Nuovo nome</string>
 
 
 </resources>

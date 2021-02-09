@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,9 +31,17 @@ import androidx.core.content.ContextCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class BtActivity extends AppCompatActivity {
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+
+public class BtActivity extends AppCompatActivity implements SensorEventListener {
 
 
+    private boolean isAccelerometerAvailable;
+    private SensorManager sensorManager;
+    private Sensor accelerometerSensor;
 
     private Context context;
     private BluetoothAdapter bluetoothAdapter;
@@ -138,6 +148,35 @@ public class BtActivity extends AppCompatActivity {
         init();
         initBluetooth();
 
+        sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
+
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
+            accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            isAccelerometerAvailable=true;
+        } else {
+
+            isAccelerometerAvailable=false;
+        }
+
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
+            // assigno le direzioni
+            float x=event.values[0];
+            float y=event.values[1];
+            float z=event.values[2];
+            if (x>10){
+                //chiudo la connessione
+                gestioneConnessione.stop();
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
     }
 
     private void init() {
@@ -178,16 +217,8 @@ public class BtActivity extends AppCompatActivity {
                 }
 
 
-
-
-
-
-
             }
         });
-
-
-
 
     }
 

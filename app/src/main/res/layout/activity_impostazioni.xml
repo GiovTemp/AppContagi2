@@ -34,7 +34,7 @@
         android:textAlignment="center"
         android:textColor="@color/hint"
         android:textSize="18sp"
-        app:flow_verticalAlign="bottom"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

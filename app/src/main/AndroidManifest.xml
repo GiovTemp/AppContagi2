@@ -27,44 +27,44 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".gruppo.MembriGruppo"
-            android:label="Membri" />
+            android:label="@string/membri" />
         <activity android:name=".BtActivity" />
         <activity
             android:name=".evento.VisualizzaEventoActivity"
-            android:label="Evento" />
+            android:label="@string/titoloEventoDash" />
         <activity
             android:name=".utente.ModificaUtenteActivity"
-            android:label="Modifica Utente" />
+            android:label="@string/modUtente" />
         <activity
             android:name=".evento.RichiesteEvento"
-            android:label="Richieste" />
+            android:label="@string/richiesteTitolo" />
         <activity
             android:name=".evento.GestisciEvento"
-            android:label="Evento" />
+            android:label="@string/titoloEventoDash" />
         <activity
             android:name=".evento.InviaPartecipazioneEvento"
-            android:label="Evento" />
+            android:label="@string/titoloEventoDash" />
         <activity
             android:name=".gruppo.InvitiGruppi"
-            android:label="Inviti ricevuti" />
+            android:label="@string/inviti_ricevuti" />
         <activity
             android:name=".gruppo.VisualizzaGruppoActivity"
-            android:label="Gruppo" />
+            android:label="@string/gruppiTitolo" />
         <activity
             android:name=".gruppo.GestisciGruppoActivity"
-            android:label="Gruppo" />
+            android:label="@string/gruppiTitolo" />
         <activity
             android:name=".gruppo.ListaGruppiActivity"
-            android:label="Gruppi" />
+            android:label="@string/gruppiTitolo" />
         <activity
             android:name=".evento.ListaEventiActivity"
-            android:label="Eventi" />
+            android:label="@string/eventi" />
         <activity
             android:name=".evento.CreaEventoActivity"
-            android:label="Crea Evento" />
+            android:label="@string/crea_evento" />
         <activity
             android:name=".gruppo.CreaGruppoActivity"
-            android:label="Crea Gruppo" />
+            android:label="@string/crea_gruppo" />
         <activity android:name=".DeviceListActivity" />
         <activity
             android:name=".MainActivity"

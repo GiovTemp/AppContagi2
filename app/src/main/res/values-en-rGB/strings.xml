@@ -214,6 +214,13 @@
     <string name="risNeg">You are negative</string>
     <string name="noContact">No contact found</string>
     <string name="riskAgg">Risk successfully updated</string>
+    <string name="membri">Members</string>
+    <string name="titoloEventoDash">Event</string>
+    <string name="modUtente">Edit User</string>
+    <string name="richiesteTitolo">Requests</string>
+    <string name="gruppiTitolo">Group</string>
+    <string name="inserisci_la_password">Enter Password</string>
+    <string name="modifica_dati">Edit Data</string>
 
 
 </resources>
