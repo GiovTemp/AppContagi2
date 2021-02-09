@@ -57,6 +57,7 @@ public class ListaGruppiActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -77,6 +78,7 @@ public class ListaGruppiActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
 
+        Ngruppi=findViewById(R.id.Ngruppi);
 
 
         db.collection("GruppoUtenti").whereEqualTo("UID", user.getUid()).whereEqualTo("status", 1).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -86,8 +88,8 @@ public class ListaGruppiActivity extends AppCompatActivity {
                         if(flag==0){
                             setContentView(R.layout.no_gruppi);
                         }else{
-
-
+                            Resources res = getApplicationContext().getResources();
+                            Ngruppi.setText(res.getQuantityString(R.plurals.Ngruppi,flag,flag));
 
                             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 

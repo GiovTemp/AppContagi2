@@ -228,4 +228,10 @@
     <string name="inserisci_il_nuovo_nome">Nuovo nome</string>
 
 
+    <plurals name="Ngruppi">
+        <item quantity="one"> Fai parte di un gruppo </item>
+        <item quantity="other"> Fai parte di %d gruppi </item>
+    </plurals>
+
+
 </resources>

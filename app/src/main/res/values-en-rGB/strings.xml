@@ -222,6 +222,11 @@
     <string name="inserisci_la_password">Enter Password</string>
     <string name="modifica_dati">Edit Data</string>
 
+    <plurals name="Ngruppi">
+        <item quantity="one"> You are part of a group </item>
+        <item quantity="other"> You are part of %d groups </item>
+    </plurals>
+
 
 </resources>
 

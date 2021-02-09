@@ -225,6 +225,11 @@
     <string name="inserisci_il_nuovo_cognome">New Surname</string>
     <string name="inserisci_il_nuovo_nome">New Name</string>
 
+    <plurals name="Ngruppi">
+        <item quantity="one"> You are part of a group </item>
+        <item quantity="other"> You are part of %d groups </item>
+    </plurals>
+
 
 </resources>
 
