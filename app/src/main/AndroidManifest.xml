@@ -11,9 +11,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_square"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_circle"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Impostazioni"
@@ -21,54 +21,74 @@
         <activity
             android:name=".HomeGruppiActivity"
             android:label="Dashboard Gruppi"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".HomeEventiActivity"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".gruppo.MembriGruppo"
+            android:screenOrientation="portrait"
             android:label="@string/membri" />
-        <activity android:name=".BtActivity" />
+
+        <activity android:name=".BtActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".evento.VisualizzaEventoActivity"
+            android:screenOrientation="portrait"
             android:label="@string/titoloEventoDash" />
         <activity
             android:name=".utente.ModificaUtenteActivity"
+            android:screenOrientation="portrait"
             android:label="@string/modUtente" />
         <activity
             android:name=".evento.RichiesteEvento"
+            android:screenOrientation="portrait"
             android:label="@string/richiesteTitolo" />
         <activity
             android:name=".evento.GestisciEvento"
+            android:screenOrientation="portrait"
             android:label="@string/titoloEventoDash" />
         <activity
             android:name=".evento.InviaPartecipazioneEvento"
+            android:screenOrientation="portrait"
             android:label="@string/titoloEventoDash" />
         <activity
             android:name=".gruppo.InvitiGruppi"
+            android:screenOrientation="portrait"
             android:label="@string/inviti_ricevuti" />
         <activity
             android:name=".gruppo.VisualizzaGruppoActivity"
+            android:screenOrientation="portrait"
             android:label="@string/gruppiTitolo" />
         <activity
             android:name=".gruppo.GestisciGruppoActivity"
+            android:screenOrientation="portrait"
             android:label="@string/gruppiTitolo" />
         <activity
             android:name=".gruppo.ListaGruppiActivity"
+            android:screenOrientation="portrait"
             android:label="@string/gruppiTitolo" />
         <activity
             android:name=".evento.ListaEventiActivity"
+            android:screenOrientation="portrait"
             android:label="@string/eventi" />
         <activity
             android:name=".evento.CreaEventoActivity"
+            android:screenOrientation="portrait"
             android:label="@string/crea_evento" />
         <activity
             android:name=".gruppo.CreaGruppoActivity"
+            android:screenOrientation="portrait"
             android:label="@string/crea_gruppo" />
-        <activity android:name=".DeviceListActivity" />
+
+        <activity android:name=".DeviceListActivity"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".autenticazione.RegisterActivity"
