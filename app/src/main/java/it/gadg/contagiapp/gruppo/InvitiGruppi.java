@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,6 +48,7 @@ public class InvitiGruppi extends AppCompatActivity {
     String[] ruoli;
     String[] nomi;
     ArrayList<GruppoInvito> gr = new ArrayList<>();
+    TextView Ninviti;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,11 +65,17 @@ public class InvitiGruppi extends AppCompatActivity {
         mAuth= FirebaseAuth.getInstance();
         user= mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
+
+        Ninviti=findViewById(R.id.Ninviti);
+
         db.collection("GruppoUtenti").whereEqualTo("UID", user.getUid()).whereEqualTo("status", 0).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 flag = queryDocumentSnapshots.size();
                 if (flag>0){
+                    Resources res = getApplicationContext().getResources();
+                    Ninviti.setText(res.getQuantityString(R.plurals.Ninviti,flag,flag));
+
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
                         String id = document.getString("idGruppo");

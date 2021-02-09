@@ -30,6 +30,7 @@
         android:fontFamily="@font/baloo"
         android:text="Fai parte di un gruppo:"
         android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
