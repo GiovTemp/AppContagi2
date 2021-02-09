@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,11 +29,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.rpc.context.AttributeContext;
 
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import io.grpc.internal.SharedResourceHolder;
 import it.gadg.contagiapp.R;
 import it.gadg.contagiapp.modelli.GruppoRicerca;
 
@@ -49,6 +52,9 @@ public class ListaGruppiActivity extends AppCompatActivity {
     String[] nomi;
     ArrayList<GruppoRicerca> gr = new ArrayList<>();
     int flag;
+    TextView Ngruppi;
+
+
 
 
     @Override
@@ -71,6 +77,8 @@ public class ListaGruppiActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
 
+
+
         db.collection("GruppoUtenti").whereEqualTo("UID", user.getUid()).whereEqualTo("status", 1).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -78,6 +86,9 @@ public class ListaGruppiActivity extends AppCompatActivity {
                         if(flag==0){
                             setContentView(R.layout.no_gruppi);
                         }else{
+
+
+
                             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
                                 String id = document.getString("idGruppo");
