@@ -226,6 +226,10 @@
     <string name="modifica_dati">Modifica Dati</string>
     <string name="inserisci_il_nuovo_cognome">Nuovo cognome</string>
     <string name="inserisci_il_nuovo_nome">Nuovo nome</string>
+    <string name="testoSplash1">La prima app che ti permette di partecipare e organizzare incontri in tutta sicurezza</string>
+    <string name="titoloSplash1">Partecipa o crea</string>
+    <string name="testoSplash2">Stabilisci il luogo,la data e il nome dei tuoi eventi</string>
+    <string name="testoSplash3">Tieni traccia del rischio di contagio dei tuoi amici e familiari</string>
 
 
     <plurals name="Ngruppi">

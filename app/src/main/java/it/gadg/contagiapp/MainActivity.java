@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         utenteLoggato.rischio = (Long) document.get("rischio");
                         utenteLoggato.uid = document.getId();
 
+
                         nomeMenu.setText(utenteLoggato.nome + " " +utenteLoggato.cognome);
                         emailMenu.setText(utenteLoggato.email);
 

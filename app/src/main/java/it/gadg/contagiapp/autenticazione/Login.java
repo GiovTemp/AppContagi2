@@ -17,9 +17,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import it.gadg.contagiapp.MainActivity;
+import it.gadg.contagiapp.MainActivityAsl;
 import it.gadg.contagiapp.R;
+import it.gadg.contagiapp.modelli.User;
 
 public class Login extends AppCompatActivity {
 
@@ -53,8 +57,28 @@ public class Login extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser currentUser) {
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(i);
+
+        FirebaseFirestore db;
+        db = FirebaseFirestore.getInstance();
+        db.collection("Utenti")
+                .document(currentUser.getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        DocumentSnapshot document = task.getResult();
+                        if(!(document.getBoolean("ruolo"))){
+                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(i);
+                        }else{
+                            Intent i = new Intent(getApplicationContext(), MainActivityAsl.class);
+                            startActivity(i);
+                        }
+
+                    }
+                });
+
     }
 
     public void login(View view) {

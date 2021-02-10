@@ -7,6 +7,8 @@ public class User  {
     public Long rischio;
     public String etichetta;
     public String uid;
+    public boolean ruolo;
+
 
     public User(String nome,String cognome,String email){
         this.nome = nome;
@@ -14,6 +16,7 @@ public class User  {
         this.email = email;
         this.rischio = 0L;
         this.etichetta="super";
+        this.ruolo = false;
 
 
     }

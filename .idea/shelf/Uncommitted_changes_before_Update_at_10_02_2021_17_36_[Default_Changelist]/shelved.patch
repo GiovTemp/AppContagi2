@@ -1,0 +1,1325 @@
+Index: app/src/main/java/it/gadg/contagiapp/modelli/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.gadg.contagiapp.modelli;\r\n\r\npublic class User  {\r\n    public String nome;\r\n    public String cognome;\r\n    public String email;\r\n    public Long rischio;\r\n    public String etichetta;\r\n    public String uid;\r\n\r\n    public User(String nome,String cognome,String email){\r\n        this.nome = nome;\r\n        this.cognome = cognome;\r\n        this.email = email;\r\n        this.rischio = 0L;\r\n        this.etichetta=\"super\";\r\n\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/it/gadg/contagiapp/modelli/User.java	(revision 4648a68857c9f53c9179280b00500f22cb62556a)
++++ app/src/main/java/it/gadg/contagiapp/modelli/User.java	(date 1612973603660)
+@@ -7,6 +7,8 @@
+     public Long rischio;
+     public String etichetta;
+     public String uid;
++    public boolean ruolo;
++
+ 
+     public User(String nome,String cognome,String email){
+         this.nome = nome;
+@@ -14,6 +16,7 @@
+         this.email = email;
+         this.rischio = 0L;
+         this.etichetta="super";
++        this.ruolo = false;
+ 
+ 
+     }
+Index: app/src/main/java/it/gadg/contagiapp/autenticazione/Login.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.gadg.contagiapp.autenticazione;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.core.content.ContextCompat;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Build;\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.EditText;\r\nimport android.widget.Toast;\r\n\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.firebase.auth.AuthResult;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseUser;\r\n\r\nimport it.gadg.contagiapp.MainActivity;\r\nimport it.gadg.contagiapp.R;\r\n\r\npublic class Login extends AppCompatActivity {\r\n\r\n    private FirebaseAuth mAuth;\r\n\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        // Initialize Firebase Auth\r\n        mAuth = FirebaseAuth.getInstance();\r\n        setContentView(R.layout.activity_login);\r\n       getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));\r\n    }\r\n\r\n    @Override\r\n    public void onStart() {\r\n        super.onStart();\r\n        // Check if user is signed in (non-null) and update UI accordingly.\r\n        FirebaseUser currentUser = mAuth.getCurrentUser();\r\n        if(null !=  FirebaseAuth.getInstance().getCurrentUser()){\r\n            updateUI(currentUser);\r\n        }\r\n\r\n    }\r\n\r\n    @Override\r\n    public void finish() {\r\n        super.finish();\r\n        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);\r\n    }\r\n\r\n    private void updateUI(FirebaseUser currentUser) {\r\n        Intent i = new Intent(getApplicationContext(), MainActivity.class);\r\n        startActivity(i);\r\n    }\r\n\r\n    public void login(View view) {\r\n        EditText lEmail = findViewById(R.id.lEmail);\r\n        EditText lPassword = findViewById(R.id.lPassword);\r\n        String email = lEmail.getText().toString();\r\n        String password = lPassword.getText().toString();\r\n\r\n        mAuth.signInWithEmailAndPassword(email, password)\r\n                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {\r\n                    @Override\r\n                    public void onComplete(@NonNull Task<AuthResult> task) {\r\n                        if (task.isSuccessful()) {\r\n                            // Sign in success, update UI with the signed-in user's information\r\n                            Log.d(\"login\", \"signInWithEmail:success\");\r\n                            Toast.makeText(getApplicationContext(),getResources().getString(R.string.authSucc) ,\r\n                                    Toast.LENGTH_SHORT).show();\r\n                            FirebaseUser user = mAuth.getCurrentUser();\r\n                            updateUI(user);\r\n                        } else {\r\n                            // If sign in fails, display a message to the user.\r\n                            Log.w(\"login\", \"signInWithEmail:failure\", task.getException());\r\n                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.authFail),\r\n                                    Toast.LENGTH_SHORT).show();\r\n\r\n                        }\r\n\r\n\r\n                    }\r\n                });\r\n\r\n\r\n    }\r\n\r\n\r\n    public void reqReg(View view) {\r\n        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/it/gadg/contagiapp/autenticazione/Login.java	(revision 4648a68857c9f53c9179280b00500f22cb62556a)
++++ app/src/main/java/it/gadg/contagiapp/autenticazione/Login.java	(date 1612974262418)
+@@ -17,9 +17,13 @@
+ import com.google.firebase.auth.AuthResult;
+ import com.google.firebase.auth.FirebaseAuth;
+ import com.google.firebase.auth.FirebaseUser;
++import com.google.firebase.firestore.DocumentSnapshot;
++import com.google.firebase.firestore.FirebaseFirestore;
+ 
+ import it.gadg.contagiapp.MainActivity;
++import it.gadg.contagiapp.MainActivityAsl;
+ import it.gadg.contagiapp.R;
++import it.gadg.contagiapp.modelli.User;
+ 
+ public class Login extends AppCompatActivity {
+ 
+@@ -53,10 +57,30 @@
+     }
+ 
+     private void updateUI(FirebaseUser currentUser) {
+-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+-        startActivity(i);
+-    }
++
++        FirebaseFirestore db;
++        db = FirebaseFirestore.getInstance();
++        db.collection("Utenti")
++                .document(currentUser.getUid())
++                .get()
++                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
++
++                    @Override
++                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
++                        DocumentSnapshot document = task.getResult();
++                        if(!(document.getBoolean("ruolo"))){
++                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
++                            startActivity(i);
++                        }else{
++                            Intent i = new Intent(getApplicationContext(), MainActivityAsl.class);
++                            startActivity(i);
++                        }
+ 
++                    }
++                });
++
++    }
++
+     public void login(View view) {
+         EditText lEmail = findViewById(R.id.lEmail);
+         EditText lPassword = findViewById(R.id.lPassword);
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    package=\"it.gadg.contagiapp\">\r\n\r\n    <uses-permission android:name=\"android.permission.READ_CALENDAR\" />\r\n    <uses-permission android:name=\"android.permission.WRITE_CALENDAR\" />\r\n    <uses-permission android:name=\"android.permission.BLUETOOTH\" />\r\n    <uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\" />\r\n    <uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:icon=\"@mipmap/ic_launcher_square\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_circle\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme\">\r\n        <activity android:name=\".Impostazioni\"\r\n            android:label=\"@string/title_activity_impostazioni\"/>\r\n        <activity\r\n            android:name=\".HomeGruppiActivity\"\r\n            android:label=\"Dashboard Gruppi\"\r\n            android:configChanges=\"orientation|screenSize\"\r\n            android:theme=\"@style/AppTheme.NoActionBar\" />\r\n        <activity\r\n            android:name=\".HomeEventiActivity\"\r\n            android:configChanges=\"orientation|screenSize\"\r\n            android:theme=\"@style/AppTheme.NoActionBar\" />\r\n        <activity\r\n            android:name=\".gruppo.MembriGruppo\"\r\n            android:screenOrientation=\"portrait\"\r\n            android:label=\"@string/membri\" />\r\n\r\n        <activity android:name=\".BtActivity\"\r\n            android:screenOrientation=\"portrait\"/>\r\n        <activity\r\n            android:name=\".evento.VisualizzaEventoActivity\"\r\n            android:screenOrientation=\"portrait\"\r\n            android:label=\"@string/titoloEventoDash\" />\r\n        <activity\r\n            android:name=\".utente.ModificaUtenteActivity\"\r\n            android:screenOrientation=\"portrait\"\r\n            android:label=\"@string/modUtente\" />\r\n        <activity\r\n            android:name=\".evento.RichiesteEvento\"\r\n            android:screenOrientation=\"portrait\"\r\n            android:label=\"@string/richiesteTitolo\" />\r\n        <activity\r\n            android:name=\".evento.GestisciEvento\"\r\n            android:screenOrientation=\"portrait\"\r\n            android:label=\"@string/titoloEventoDash\" />\r\n        <activity\r\n            android:name=\".evento.InviaPartecipazioneEvento\"\r\n            android:screenOrientation=\"portrait\"\r\n            android:label=\"@string/titoloEventoDash\" />\r\n        <activity\r\n            android:name=\".gruppo.InvitiGruppi\"\r\n            android:screenOrientation=\"portrait\"\r\n            android:label=\"@string/inviti_ricevuti\" />\r\n        <activity\r\n            android:name=\".gruppo.VisualizzaGruppoActivity\"\r\n            android:screenOrientation=\"portrait\"\r\n            android:label=\"@string/gruppiTitolo\" />\r\n        <activity\r\n            android:name=\".gruppo.GestisciGruppoActivity\"\r\n            android:screenOrientation=\"portrait\"\r\n            android:label=\"@string/gruppiTitolo\" />\r\n        <activity\r\n            android:name=\".gruppo.ListaGruppiActivity\"\r\n            android:screenOrientation=\"portrait\"\r\n            android:label=\"@string/gruppiTitolo\" />\r\n        <activity\r\n            android:name=\".evento.ListaEventiActivity\"\r\n            android:screenOrientation=\"portrait\"\r\n            android:label=\"@string/eventi\" />\r\n        <activity\r\n            android:name=\".evento.CreaEventoActivity\"\r\n            android:screenOrientation=\"portrait\"\r\n            android:label=\"@string/crea_evento\" />\r\n        <activity\r\n            android:name=\".gruppo.CreaGruppoActivity\"\r\n            android:screenOrientation=\"portrait\"\r\n            android:label=\"@string/crea_gruppo\" />\r\n\r\n        <activity android:name=\".DeviceListActivity\"\r\n            android:configChanges=\"orientation|screenSize\"/>\r\n        <activity\r\n            android:name=\".MainActivity\"\r\n            android:label=\"@string/title_activity_main\"\r\n            android:configChanges=\"orientation|screenSize\"\r\n            android:theme=\"@style/AppTheme.NoActionBar\" />\r\n        <activity\r\n            android:name=\".autenticazione.RegisterActivity\"\r\n            android:theme=\"@style/AppTheme.NoActionBar\" />\r\n        <activity\r\n            android:name=\".autenticazione.Login\"\r\n            android:label=\"@string/app_name\"\r\n            android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\" />\r\n        <activity\r\n            android:name=\".splash.Splash\"\r\n            android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n\r\n        <meta-data\r\n            android:name=\"preloaded_fonts\"\r\n            android:resource=\"@array/preloaded_fonts\" />\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 4648a68857c9f53c9179280b00500f22cb62556a)
++++ app/src/main/AndroidManifest.xml	(date 1612974978938)
+@@ -16,12 +16,17 @@
+         android:roundIcon="@mipmap/ic_launcher_circle"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
+-        <activity android:name=".Impostazioni"
+-            android:label="@string/title_activity_impostazioni"/>
++        <activity android:name=".MainActivityAsl"
++            android:screenOrientation="portrait"
++            android:label="Dashboard ASL"
++            />
++        <activity
++            android:name=".Impostazioni"
++            android:label="@string/title_activity_impostazioni" />
+         <activity
+             android:name=".HomeGruppiActivity"
++            android:configChanges="orientation|screenSize"
+             android:label="Dashboard Gruppi"
+-            android:configChanges="orientation|screenSize"
+             android:theme="@style/AppTheme.NoActionBar" />
+         <activity
+             android:name=".HomeEventiActivity"
+@@ -29,66 +34,66 @@
+             android:theme="@style/AppTheme.NoActionBar" />
+         <activity
+             android:name=".gruppo.MembriGruppo"
+-            android:screenOrientation="portrait"
+-            android:label="@string/membri" />
+-
+-        <activity android:name=".BtActivity"
+-            android:screenOrientation="portrait"/>
++            android:label="@string/membri"
++            android:screenOrientation="portrait" />
++        <activity
++            android:name=".BtActivity"
++            android:screenOrientation="portrait" />
+         <activity
+             android:name=".evento.VisualizzaEventoActivity"
+-            android:screenOrientation="portrait"
+-            android:label="@string/titoloEventoDash" />
++            android:label="@string/titoloEventoDash"
++            android:screenOrientation="portrait" />
+         <activity
+             android:name=".utente.ModificaUtenteActivity"
+-            android:screenOrientation="portrait"
+-            android:label="@string/modUtente" />
++            android:label="@string/modUtente"
++            android:screenOrientation="portrait" />
+         <activity
+             android:name=".evento.RichiesteEvento"
+-            android:screenOrientation="portrait"
+-            android:label="@string/richiesteTitolo" />
++            android:label="@string/richiesteTitolo"
++            android:screenOrientation="portrait" />
+         <activity
+             android:name=".evento.GestisciEvento"
+-            android:screenOrientation="portrait"
+-            android:label="@string/titoloEventoDash" />
++            android:label="@string/titoloEventoDash"
++            android:screenOrientation="portrait" />
+         <activity
+             android:name=".evento.InviaPartecipazioneEvento"
+-            android:screenOrientation="portrait"
+-            android:label="@string/titoloEventoDash" />
++            android:label="@string/titoloEventoDash"
++            android:screenOrientation="portrait" />
+         <activity
+             android:name=".gruppo.InvitiGruppi"
+-            android:screenOrientation="portrait"
+-            android:label="@string/inviti_ricevuti" />
++            android:label="@string/inviti_ricevuti"
++            android:screenOrientation="portrait" />
+         <activity
+             android:name=".gruppo.VisualizzaGruppoActivity"
+-            android:screenOrientation="portrait"
+-            android:label="@string/gruppiTitolo" />
++            android:label="@string/gruppiTitolo"
++            android:screenOrientation="portrait" />
+         <activity
+             android:name=".gruppo.GestisciGruppoActivity"
+-            android:screenOrientation="portrait"
+-            android:label="@string/gruppiTitolo" />
++            android:label="@string/gruppiTitolo"
++            android:screenOrientation="portrait" />
+         <activity
+             android:name=".gruppo.ListaGruppiActivity"
+-            android:screenOrientation="portrait"
+-            android:label="@string/gruppiTitolo" />
++            android:label="@string/gruppiTitolo"
++            android:screenOrientation="portrait" />
+         <activity
+             android:name=".evento.ListaEventiActivity"
+-            android:screenOrientation="portrait"
+-            android:label="@string/eventi" />
++            android:label="@string/eventi"
++            android:screenOrientation="portrait" />
+         <activity
+             android:name=".evento.CreaEventoActivity"
+-            android:screenOrientation="portrait"
+-            android:label="@string/crea_evento" />
++            android:label="@string/crea_evento"
++            android:screenOrientation="portrait" />
+         <activity
+             android:name=".gruppo.CreaGruppoActivity"
+-            android:screenOrientation="portrait"
+-            android:label="@string/crea_gruppo" />
+-
+-        <activity android:name=".DeviceListActivity"
+-            android:configChanges="orientation|screenSize"/>
++            android:label="@string/crea_gruppo"
++            android:screenOrientation="portrait" />
++        <activity
++            android:name=".DeviceListActivity"
++            android:configChanges="orientation|screenSize" />
+         <activity
+             android:name=".MainActivity"
+-            android:label="@string/title_activity_main"
+             android:configChanges="orientation|screenSize"
++            android:label="@string/title_activity_main"
+             android:theme="@style/AppTheme.NoActionBar" />
+         <activity
+             android:name=".autenticazione.RegisterActivity"
+Index: app/src/main/java/it/gadg/contagiapp/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.gadg.contagiapp;\r\n\r\nimport android.app.AlertDialog;\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.content.res.Configuration;\r\nimport android.database.Cursor;\r\nimport android.database.sqlite.SQLiteDatabase;\r\nimport android.os.Build;\r\nimport android.os.Bundle;\r\nimport android.os.Handler;\r\nimport android.os.Looper;\r\nimport android.view.MenuItem;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.ActionBarDrawerToggle;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.appcompat.widget.Toolbar;\r\nimport androidx.cardview.widget.CardView;\r\nimport androidx.core.content.ContextCompat;\r\nimport androidx.drawerlayout.widget.DrawerLayout;\r\n\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.android.material.navigation.NavigationView;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseUser;\r\nimport com.google.firebase.firestore.DocumentSnapshot;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.google.firebase.firestore.QueryDocumentSnapshot;\r\nimport com.google.firebase.firestore.QuerySnapshot;\r\n\r\nimport org.jetbrains.annotations.NotNull;\r\n\r\nimport it.gadg.contagiapp.modelli.User;\r\nimport it.gadg.contagiapp.splash.Splash;\r\nimport it.gadg.contagiapp.utente.ModificaUtenteActivity;\r\n\r\n\r\npublic class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {\r\n\r\n    private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase\r\n\r\n    private AlertDialog.Builder dialogBuilder;\r\n    private AlertDialog dialog;\r\n    private TextView richiestaPopup;\r\n    private TextView LabelRischio;\r\n    private CardView siPopup, noPopup;\r\n\r\n    //Variabili menù hamburger\r\n    DrawerLayout drawerLayout;\r\n    NavigationView navigationView;\r\n    Toolbar toolbar;\r\n    TextView textView;\r\n    TextView nomeMenu;\r\n    TextView emailMenu;\r\n\r\n    public String id;\r\n\r\n    FirebaseFirestore db;\r\n\r\n    CardView positivoB;\r\n    CardView negativoB;\r\n    CardView inAttesaB;\r\n\r\n    ImageView imgTest;\r\n\r\n    private int RISCHIO_POSITIVO = 100;\r\n    private int RISCHIO_TEST = 50;\r\n    private int RISCHIO_NEGATIVO = 0;\r\n\r\n    private int RISCHIO_ROSSO=49;\r\n    private int RISCHIO_GIALLO=24;\r\n\r\n    User utenteLoggato;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n\r\n\r\n\r\n        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));\r\n\r\n\r\n\r\n        /*---------------------MENU------------------------*/\r\n        drawerLayout=findViewById(R.id.drawer_layout);\r\n        navigationView=findViewById(R.id.nav_view);\r\n        textView=findViewById(R.id.positvoText);\r\n        toolbar=findViewById(R.id.toolbar);\r\n\r\n        View headerLayout = navigationView.getHeaderView(0);\r\n        nomeMenu=headerLayout.findViewById(R.id.nomeMenu);\r\n        emailMenu=headerLayout.findViewById(R.id.emailMenu);\r\n\r\n\r\n\r\n\r\n        setSupportActionBar(toolbar);\r\n\r\n\r\n        navigationView.bringToFront();\r\n        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);\r\n        drawerLayout.addDrawerListener(toggle);\r\n        toggle.syncState();\r\n\r\n        navigationView.setNavigationItemSelectedListener(this);\r\n\r\n\r\n        positivoB = findViewById(R.id.positivoB);\r\n        negativoB = findViewById(R.id.invitabutton);\r\n        inAttesaB = findViewById(R.id.inAttesaB);\r\n        LabelRischio = findViewById(R.id.LabelRischio);\r\n        imgTest = findViewById(R.id.imgTest);\r\n\r\n        //Estraggo l'utente\r\n        mAuth = FirebaseAuth.getInstance();\r\n        FirebaseUser u = mAuth.getCurrentUser();\r\n        id = u.getUid();\r\n        db = FirebaseFirestore.getInstance();\r\n        db.collection(\"Utenti\")\r\n                .document(id)\r\n                .get()\r\n                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {\r\n\r\n                    @Override\r\n                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {\r\n                        DocumentSnapshot document = task.getResult();\r\n                        utenteLoggato = new User(document.get(\"nome\").toString(),document.get(\"cognome\").toString(),document.get(\"email\").toString());\r\n                        utenteLoggato.etichetta = (String) document.get(\"etichetta\");\r\n                        utenteLoggato.rischio = (Long) document.get(\"rischio\");\r\n                        utenteLoggato.uid = document.getId();\r\n\r\n                        nomeMenu.setText(utenteLoggato.nome + \" \" +utenteLoggato.cognome);\r\n                        emailMenu.setText(utenteLoggato.email);\r\n\r\n                        controllaAggiornamento();\r\n                        String temp =LabelRischio.getText().toString()+ utenteLoggato.rischio + \"%\";\r\n\r\n                        if(utenteLoggato.rischio>RISCHIO_ROSSO){\r\n                            LabelRischio.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorLigthRed));\r\n                        }else if ((utenteLoggato.rischio>RISCHIO_GIALLO)){\r\n                            LabelRischio.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorYellow));\r\n                        }\r\n\r\n                        LabelRischio.setText(temp);\r\n\r\n                        if (utenteLoggato.etichetta.equals(\"super\") || utenteLoggato.etichetta.equals(\"sicuro\") || utenteLoggato.etichetta.equals(\"incerto\")) {\r\n                            inAttesaB.setVisibility(View.VISIBLE);\r\n                        } else if (utenteLoggato.etichetta.equals(\"test\")) {\r\n\r\n\r\n                            positivoB.setVisibility(View.VISIBLE);\r\n                            negativoB.setVisibility(View.VISIBLE);\r\n                        } else if (utenteLoggato.etichetta.equals(\"positivo\")) {\r\n\r\n                            inAttesaB.setVisibility(View.VISIBLE);\r\n                        }\r\n\r\n                    }\r\n                });\r\n\r\n\r\n\r\n\r\n\r\n\r\n    }\r\n\r\n    private void controllaAggiornamento() {\r\n\r\n        try {\r\n\r\n            SQLiteDatabase myDb = openOrCreateDatabase(\"DateAggiornamentoRischio\", MODE_PRIVATE, null);\r\n            myDb.execSQL(\"CREATE TABLE IF NOT EXISTS dateAgg(data DATE)\");\r\n\r\n            Cursor c = myDb.rawQuery(\"SELECT * FROM dateAgg WHERE data = date('now')\", null);\r\n\r\n            if(c.getCount()==0){\r\n                myDb.execSQL(\"INSERT INTO dateAgg(data) VALUES(date('now'))\");\r\n                AggiornaRischioThread t = new AggiornaRischioThread();\r\n                t.run();\r\n            }\r\n            c.close();\r\n\r\n        }catch(Exception e) {\r\n            e.printStackTrace();\r\n        }\r\n    }\r\n\r\n\r\n    @Override\r\n    public boolean onNavigationItemSelected(@NonNull MenuItem item) {\r\n\r\n        switch (item.getItemId()){\r\n            case R.id.nav_home:\r\n                break;\r\n\r\n            case R.id.nav_gruppi:\r\n                this.homegruppi();\r\n                break;\r\n\r\n            case R.id.nav_eventi:\r\n                this.homeeventi();\r\n                break;\r\n\r\n            case R.id.nav_contatto:\r\n                this.registraContatto();\r\n                break;\r\n\r\n            case R.id.nav_profilo:\r\n                this.modificaUtente();\r\n                break;\r\n\r\n            case R.id.nav_impostazioni:\r\n                this.apriImpostazioni();\r\n                break;\r\n\r\n            case R.id.nav_logout:\r\n                this.logout();\r\n                break;\r\n        }\r\n\r\n        return true;\r\n    }\r\n\r\n\r\n    @Override\r\n    public void onBackPressed() {\r\n        //Pulsante back disabilitato\r\n    }\r\n\r\n\r\n\r\n    public void registraContatto(View view) {\r\n        Intent i = new Intent(getApplicationContext(), BtActivity.class);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\r\n    }\r\n\r\n\r\n\r\n    public void homeEventi(View view) {\r\n        Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);\r\n        i.putExtra(\"nome\",utenteLoggato.nome+\" \"+utenteLoggato.cognome);\r\n        i.putExtra(\"email\",utenteLoggato.email);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);\r\n    }\r\n\r\n\r\n    public void homeGruppi(View view) {\r\n        Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);\r\n        i.putExtra(\"nome\",utenteLoggato.nome+\" \"+utenteLoggato.cognome);\r\n        i.putExtra(\"email\",utenteLoggato.email);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);\r\n    }\r\n\r\n\r\n    public void aggRischio(View view) {\r\n        AggiornaRischioThread t = new AggiornaRischioThread();\r\n        t.run();\r\n\r\n    }\r\n\r\n\r\n\r\n    public void createNewContactDialog(final int i) {\r\n\r\n\r\n        dialogBuilder = new AlertDialog.Builder(this);\r\n        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupmain, null);\r\n        richiestaPopup = contactPopupView.findViewById(R.id.richiestaPopup);\r\n\r\n        if (i == 1) {\r\n            String temp = getString(R.string.confermi_di_essere_in_attesa_del_test);\r\n            richiestaPopup.setText(temp);\r\n        } else if (i == 2) {\r\n            String temp = getString(R.string.confermipos);\r\n            richiestaPopup.setText(temp);\r\n        } else if (i == 3) {\r\n            String temp = getString(R.string.confermineg);\r\n            richiestaPopup.setText(temp);\r\n\r\n        }\r\n\r\n        siPopup = contactPopupView.findViewById(R.id.siPopup);\r\n        noPopup = contactPopupView.findViewById(R.id.noPopup);\r\n\r\n        dialogBuilder.setView(contactPopupView);\r\n        dialog = dialogBuilder.create();\r\n        dialog.show();\r\n\r\n        siPopup.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                if (i == 1) {\r\n\r\n                    //Se sei positivo cambia la tua etichetta da \"test\" in \"positivo\"\r\n                    db.collection(\"Utenti\").document(id).update(\"etichetta\", \"positivo\").addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                        @Override\r\n                        public void onComplete(@NonNull Task<Void> task) {\r\n                            recreate();\r\n                            if (task.isSuccessful()) {\r\n                                //Se sei positivo cambia il tuo \"rischio\" di contagio a \"100\" %\r\n                                db.collection(\"Utenti\").document(id).update(\"rischio\", RISCHIO_POSITIVO).addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                    @Override\r\n                                    public void onComplete(@NonNull Task<Void> task) {\r\n                                        recreate();\r\n                                        if (task.isSuccessful()) {\r\n                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.risPos), Toast.LENGTH_LONG).show();\r\n                                            recreate();\r\n                                        } else {\r\n                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();\r\n                                        }\r\n\r\n                                    }\r\n                                });\r\n                            } else {\r\n                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();\r\n                            }\r\n\r\n                        }\r\n                    });\r\n                } else if (i == 2) {\r\n\r\n                    //Se sei in attesa di un test l'etichetta cambierà in \"test\"\r\n                    db.collection(\"Utenti\").document(id).update(\"etichetta\", \"test\").addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                        @Override\r\n                        public void onComplete(@NonNull Task<Void> task) {\r\n                            recreate();\r\n                            if (task.isSuccessful()) {\r\n                                //Se sei in attesa di un test cambia il tuo \"rischio\" di contagio a \"50\" %\r\n                                db.collection(\"Utenti\").document(id).update(\"rischio\", RISCHIO_TEST).addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                    @Override\r\n                                    public void onComplete(@NonNull Task<Void> task) {\r\n                                        recreate();\r\n                                        if (task.isSuccessful()) {\r\n                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.risWait), Toast.LENGTH_LONG).show();\r\n                                            recreate();\r\n                                        } else {\r\n                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();\r\n                                        }\r\n\r\n                                    }\r\n                                });\r\n                            } else {\r\n                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();\r\n                            }\r\n\r\n                        }\r\n                    });\r\n\r\n                } else if (i == 3) {\r\n\r\n                    //Se sei negativo cambia la tua etichetta da \"test\" in \"negativo\"\r\n                    db.collection(\"Utenti\").document(id).update(\"etichetta\", \"super\").addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                        @Override\r\n                        public void onComplete(@NonNull Task<Void> task) {\r\n                            recreate();\r\n                            if (task.isSuccessful()) {\r\n                                //Se sei negativo cambia il tuo \"rischio\" di contagio a \"0\" %\r\n                                db.collection(\"Utenti\").document(id).update(\"rischio\", RISCHIO_NEGATIVO).addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                    @Override\r\n                                    public void onComplete(@NonNull Task<Void> task) {\r\n                                        recreate();\r\n                                        if (task.isSuccessful()) {\r\n                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.risNeg), Toast.LENGTH_LONG).show();\r\n                                            recreate();\r\n                                        } else {\r\n                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();\r\n                                        }\r\n\r\n                                    }\r\n                                });\r\n                            } else {\r\n                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();\r\n                            }\r\n\r\n                        }\r\n                    });\r\n                }\r\n\r\n            }\r\n        });\r\n\r\n        noPopup.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n\r\n                dialog.dismiss();\r\n            }\r\n        });\r\n\r\n\r\n    }\r\n\r\n    public void popupPositivo(View view) {\r\n\r\n        this.createNewContactDialog(1);\r\n    }\r\n\r\n    public void popupInAttesa(View view) {\r\n\r\n        this.createNewContactDialog(2);\r\n    }\r\n\r\n    public void popupNegativo(View view) {\r\n\r\n        this.createNewContactDialog(3);\r\n    }\r\n\r\n    public class AggiornaRischioThread implements Runnable {\r\n\r\n        public long rischio =0;\r\n        public int n=0;\r\n\r\n        @Override\r\n        public void run() {\r\n\r\n\r\n            db.collection(\"Utenti\")\r\n                    .get()\r\n                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {\r\n                        @Override\r\n                        public void onComplete(@NonNull Task<QuerySnapshot> task) {\r\n\r\n                            if (task.isSuccessful()) {\r\n\r\n                                try{\r\n                                    SQLiteDatabase myDb = openOrCreateDatabase(\"Contatti\", MODE_PRIVATE, null);\r\n                                    myDb.execSQL(\"CREATE TABLE IF NOT EXISTS contattiRegistrati(uid TEXT,data DATE)\");\r\n\r\n                                    Cursor c = myDb.rawQuery(\"SELECT * FROM contattiRegistrati WHERE data >= date('now','-10 day')\", null);\r\n\r\n                                    int uidIndex = c.getColumnIndex(\"uid\");\r\n\r\n                                    c.moveToFirst();\r\n                                    String[] codici = new String [c.getCount()];\r\n\r\n                                    do {\r\n                                        codici[n] = c.getString(uidIndex);\r\n                                        System.out.println(\"-\"+c.getString(uidIndex));\r\n                                        n++;\r\n                                    } while (c.moveToNext());\r\n                                    int j;\r\n                                    for (QueryDocumentSnapshot document : task.getResult()) {\r\n\r\n                                        j=0;\r\n                                        do{\r\n                                            String temp= document.getId();\r\n\r\n                                            if(temp.equals(codici[j])){\r\n\r\n                                                rischio =rischio + (long)document.get(\"rischio\");\r\n\r\n                                            }\r\n                                            j++;\r\n                                        }while(j<n);\r\n\r\n                                    }\r\n                                    rischio = rischio/n;\r\n                                    toastSuccess(getApplicationContext());\r\n                                }catch (Exception e){\r\n                                    toast(getApplicationContext());\r\n                                }\r\n\r\n\r\n                            } else {\r\n                                toast(getApplicationContext());\r\n                            }\r\n                        }\r\n                    });\r\n\r\n\r\n\r\n            if(rischio>utenteLoggato.rischio){\r\n\r\n                utenteLoggato.rischio = rischio;\r\n                db.collection(\"Utenti\").document(id).update(\"rischio\", rischio).addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                    @Override\r\n                    public void onComplete(@NonNull Task<Void> task) {\r\n                        String temp =\"Rischio : \"+ rischio;\r\n                        LabelRischio.setText(temp);\r\n\r\n                    }\r\n                });\r\n            }\r\n\r\n\r\n        }\r\n\r\n\r\n        public void toast(final Context context) {\r\n            Handler handler = new Handler(Looper.getMainLooper());\r\n            handler.post(new Runnable() {\r\n                public void run() {\r\n                    Toast.makeText(context, getResources().getString(R.string.noContact), Toast.LENGTH_LONG).show();\r\n                }\r\n            });\r\n        }\r\n\r\n        public void toastSuccess(final Context context) {\r\n            Handler handler = new Handler(Looper.getMainLooper());\r\n            handler.post(new Runnable() {\r\n                public void run() {\r\n                    Toast.makeText(context, getResources().getString(R.string.riskAgg), Toast.LENGTH_LONG).show();\r\n                }\r\n            });\r\n        }\r\n\r\n\r\n    }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n    //FUNZIONI MENU\r\n\r\n\r\n    public void registraContatto() {\r\n\r\n        Intent i = new Intent(getApplicationContext(), BtActivity.class);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\r\n    }\r\n\r\n    public void modificaUtente() {\r\n        Intent i = new Intent(getApplicationContext(), ModificaUtenteActivity.class);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\r\n\r\n    }\r\n\r\n    private void homegruppi() {\r\n        Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);\r\n        i.putExtra(\"nome\",utenteLoggato.nome+\" \"+utenteLoggato.cognome);\r\n        i.putExtra(\"email\",utenteLoggato.email);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);\r\n    }\r\n\r\n    private void homeeventi() {\r\n        Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);\r\n        i.putExtra(\"nome\",utenteLoggato.nome+\" \"+utenteLoggato.cognome);\r\n        i.putExtra(\"email\",utenteLoggato.email);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);\r\n    }\r\n\r\n    private void apriImpostazioni() {\r\n        Intent i = new Intent(getApplicationContext(), Impostazioni.class);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\r\n    }\r\n\r\n\r\n\r\n    public void logout() {\r\n        mAuth.signOut();\r\n        if (null == FirebaseAuth.getInstance().getCurrentUser()) {\r\n            Toast.makeText(getApplicationContext(), getResources().getString(R.string.logoutSucc),\r\n                    Toast.LENGTH_SHORT).show();\r\n            Intent i = new Intent(getApplicationContext(), Splash.class);\r\n            startActivity(i);\r\n        } else {\r\n            Toast.makeText(getApplicationContext(), getResources().getString(R.string.logoutFail),\r\n                    Toast.LENGTH_SHORT).show();\r\n        }\r\n    }\r\n\r\n\r\n    @Override\r\n    public void onConfigurationChanged(@NotNull Configuration newConfig) {\r\n        super.onConfigurationChanged(newConfig);\r\n\r\n        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {\r\n\r\n        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){\r\n\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/it/gadg/contagiapp/MainActivity.java	(revision 4648a68857c9f53c9179280b00500f22cb62556a)
++++ app/src/main/java/it/gadg/contagiapp/MainActivity.java	(date 1612973991431)
+@@ -138,6 +138,7 @@
+                         utenteLoggato.rischio = (Long) document.get("rischio");
+                         utenteLoggato.uid = document.getId();
+ 
++
+                         nomeMenu.setText(utenteLoggato.nome + " " +utenteLoggato.cognome);
+                         emailMenu.setText(utenteLoggato.email);
+ 
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_03_02_2021_16_20_[Default_Changelist]/shelved.patch
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_03_02_2021_16_20_[Default_Changelist]/shelved.patch	(revision 4648a68857c9f53c9179280b00500f22cb62556a)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_03_02_2021_16_20_[Default_Changelist]/shelved.patch	(revision 4648a68857c9f53c9179280b00500f22cb62556a)
+@@ -1,1039 +0,0 @@
+-Index: app/src/main/java/it/gadg/contagiapp/gruppo/VisualizzaGruppoActivity.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package it.gadg.contagiapp.gruppo;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.ActionBar;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.cardview.widget.CardView;\r\nimport androidx.core.content.ContextCompat;\r\n\r\nimport android.app.AlertDialog;\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.MenuItem;\r\nimport android.view.View;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.OnSuccessListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.google.firebase.firestore.QueryDocumentSnapshot;\r\nimport com.google.firebase.firestore.QuerySnapshot;\r\n\r\nimport it.gadg.contagiapp.MainActivity;\r\nimport it.gadg.contagiapp.R;\r\n\r\npublic class VisualizzaGruppoActivity extends AppCompatActivity {\r\n\r\n    TextView NomeGruppoVisualizza;\r\n    private AlertDialog.Builder PopupAbbandonaGruppo;\r\n    private AlertDialog dialog;\r\n    private CardView siAbbandono, noAbbandono;\r\n    FirebaseFirestore db;\r\n    private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase\r\n    String idGruppo;\r\n\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_visualizza_gruppo);\r\n\r\n            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));\r\n\r\n\r\n        // the action bar\r\n        ActionBar actionBar = getSupportActionBar();\r\n        // mostra il pulsante per tornare indietro\r\n        actionBar.setDisplayHomeAsUpEnabled(true);\r\n\r\n        Intent intent = getIntent();\r\n        String temp =intent.getStringExtra(\"NomeGruppo\");\r\n        idGruppo =intent.getStringExtra(\"idGruppo\");\r\n\r\n        db = FirebaseFirestore.getInstance();\r\n        mAuth= FirebaseAuth.getInstance();\r\n        NomeGruppoVisualizza = findViewById(R.id.NomeGruppoVisualizza);\r\n        NomeGruppoVisualizza.setText(temp);\r\n        setTitle(temp);\r\n\r\n\r\n    }\r\n    @Override\r\n    public void finish() {\r\n        super.finish();\r\n        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);\r\n    }\r\n\r\n\r\n    public boolean onOptionsItemSelected(@NonNull MenuItem item) {\r\n        switch (item.getItemId()) {\r\n            case android.R.id.home:\r\n                this.finish();\r\n                return true;\r\n        }\r\n        return super.onOptionsItemSelected(item);\r\n    }\r\n\r\n    public void abbandonaGruppo() {\r\n        db.collection(\"GruppoUtenti\").whereEqualTo(\"idGruppo\", idGruppo).whereEqualTo(\"UID\",mAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {\r\n\r\n            @Override\r\n            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {\r\n                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {\r\n                    db.collection(\"GruppoUtenti\").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                        @Override\r\n                        public void onComplete(@NonNull Task<Void> task) {\r\n                            if (!task.isSuccessful()) {\r\n                                Toast.makeText(getApplicationContext(), \"Errore : riprova più tardi\", Toast.LENGTH_LONG).show();\r\n                            }else{\r\n                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);\r\n                                startActivity(intent);\r\n                                Toast.makeText(getApplicationContext(), \"Gruppo abbandonato\", Toast.LENGTH_LONG).show();\r\n                            }\r\n                        }\r\n                    });\r\n                }\r\n            }\r\n        });\r\n    }\r\n\r\n    public void listaMembri(View view) {\r\n        Intent intent = new Intent(getApplicationContext(), MembriGruppo.class);\r\n        intent.putExtra(\"idGruppo\",idGruppo);\r\n        intent.putExtra(\"ruolo\",0);\r\n        startActivity(intent);\r\n    }\r\n\r\n    public void ConfermaAbbandonoGruppo(View view) {\r\n\r\n\r\n        PopupAbbandonaGruppo = new AlertDialog.Builder(this);\r\n        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupabbandonagruppo, null);\r\n\r\n\r\n\r\n\r\n        siAbbandono = contactPopupView.findViewById(R.id.siAbbandono);\r\n        noAbbandono= contactPopupView.findViewById(R.id.noAbbandono);\r\n\r\n        PopupAbbandonaGruppo.setView(contactPopupView);\r\n        dialog = PopupAbbandonaGruppo.create();\r\n        dialog.show();\r\n\r\n        siAbbandono.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                abbandonaGruppo();\r\n                dialog.dismiss();\r\n            }\r\n        });\r\n\r\n        noAbbandono.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n\r\n                dialog.dismiss();\r\n            }\r\n        });\r\n\r\n    } }
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/java/it/gadg/contagiapp/gruppo/VisualizzaGruppoActivity.java	(revision f23964c29dda3be247b7289174ac4fe3ddf2c4f8)
+-+++ app/src/main/java/it/gadg/contagiapp/gruppo/VisualizzaGruppoActivity.java	(date 1612281520288)
+-@@ -139,4 +139,5 @@
+-             }
+-         });
+- 
+--    } }
+-\ No newline at end of file
+-+    }
+-+}
+-\ No newline at end of file
+-Index: app/src/main/AndroidManifest.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    package=\"it.gadg.contagiapp\">\r\n\r\n    <uses-permission android:name=\"android.permission.READ_CALENDAR\" />\r\n    <uses-permission android:name=\"android.permission.WRITE_CALENDAR\" />\r\n    <uses-permission android:name=\"android.permission.BLUETOOTH\" />\r\n    <uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\" />\r\n    <uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme\">\r\n        <activity android:name=\".HomeGruppiActivity\"\r\n            android:theme=\"@style/AppTheme.NoActionBar\"\r\n            android:label=\"Dashboard Gruppi\"/>\r\n        <activity\r\n            android:name=\".HomeEventiActivity\"\r\n            android:theme=\"@style/AppTheme.NoActionBar\" />\r\n        <activity android:name=\".gruppo.MembriGruppo\"\r\n            android:label=\"Membri\"/>\r\n        <activity android:name=\".BtActivity\" />\r\n        <activity android:name=\".evento.VisualizzaEventoActivity\"\r\n            android:label=\"Evento\"/>\r\n        <activity android:name=\".utente.ModificaUtenteActivity\"\r\n            android:label=\"Modifica Utente\"/>\r\n        <activity android:name=\".evento.RichiesteEvento\"\r\n            android:label=\"Richieste\"/>\r\n        <activity android:name=\".evento.GestisciEvento\"\r\n            android:label=\"Evento\"/>\r\n        <activity android:name=\".evento.InviaPartecipazioneEvento\"\r\n            android:label=\"Evento\"/>\r\n        <activity android:name=\".gruppo.InvitiGruppi\"\r\n            android:label=\"Inviti ricevuti\"/>\r\n        <activity android:name=\".gruppo.VisualizzaGruppoActivity\"\r\n            android:label=\"Gruppo\"/>\r\n        <activity android:name=\".gruppo.GestisciGruppoActivity\"\r\n            android:label=\"Gruppo\"/>\r\n        <activity android:name=\".gruppo.ListaGruppiActivity\"\r\n            android:label=\"Gruppi\"/>\r\n        <activity android:name=\".evento.ListaEventiActivity\"\r\n           android:label=\"Eventi\" />\r\n        <activity android:name=\".evento.CreaEventoActivity\"\r\n            android:label=\"Crea Evento\"/>\r\n        <activity android:name=\".gruppo.CreaGruppoActivity\"\r\n            android:label=\"Crea Gruppo\"/>\r\n        <activity android:name=\".DeviceListActivity\" />\r\n        <activity\r\n            android:name=\".MainActivity\"\r\n            android:label=\"@string/title_activity_main\"\r\n            android:theme=\"@style/AppTheme.NoActionBar\" />\r\n        <activity android:name=\".autenticazione.RegisterActivity\"\r\n            android:theme=\"@style/AppTheme.NoActionBar\"/>\r\n        <activity\r\n            android:name=\".autenticazione.Login\"\r\n            android:label=\"@string/app_name\"\r\n            android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\" />\r\n        <activity\r\n            android:name=\".splash.Splash\"\r\n            android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n\r\n        <meta-data\r\n            android:name=\"preloaded_fonts\"\r\n            android:resource=\"@array/preloaded_fonts\" />\r\n    </application>\r\n\r\n</manifest>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/AndroidManifest.xml	(revision f23964c29dda3be247b7289174ac4fe3ddf2c4f8)
+-+++ app/src/main/AndroidManifest.xml	(date 1612280364393)
+-@@ -16,46 +16,63 @@
+-         android:roundIcon="@mipmap/ic_launcher_round"
+-         android:supportsRtl="true"
+-         android:theme="@style/AppTheme">
+--        <activity android:name=".HomeGruppiActivity"
+--            android:theme="@style/AppTheme.NoActionBar"
+--            android:label="Dashboard Gruppi"/>
+-+        <activity android:name=".Impostazioni"
+-+            android:label="@string/title_activity_impostazioni"/>
+-+        <activity
+-+            android:name=".HomeGruppiActivity"
+-+            android:label="Dashboard Gruppi"
+-+            android:theme="@style/AppTheme.NoActionBar" />
+-         <activity
+-             android:name=".HomeEventiActivity"
+-             android:theme="@style/AppTheme.NoActionBar" />
+--        <activity android:name=".gruppo.MembriGruppo"
+--            android:label="Membri"/>
+-+        <activity
+-+            android:name=".gruppo.MembriGruppo"
+-+            android:label="Membri" />
+-         <activity android:name=".BtActivity" />
+--        <activity android:name=".evento.VisualizzaEventoActivity"
+--            android:label="Evento"/>
+--        <activity android:name=".utente.ModificaUtenteActivity"
+--            android:label="Modifica Utente"/>
+--        <activity android:name=".evento.RichiesteEvento"
+--            android:label="Richieste"/>
+--        <activity android:name=".evento.GestisciEvento"
+--            android:label="Evento"/>
+--        <activity android:name=".evento.InviaPartecipazioneEvento"
+--            android:label="Evento"/>
+--        <activity android:name=".gruppo.InvitiGruppi"
+--            android:label="Inviti ricevuti"/>
+--        <activity android:name=".gruppo.VisualizzaGruppoActivity"
+--            android:label="Gruppo"/>
+--        <activity android:name=".gruppo.GestisciGruppoActivity"
+--            android:label="Gruppo"/>
+--        <activity android:name=".gruppo.ListaGruppiActivity"
+--            android:label="Gruppi"/>
+--        <activity android:name=".evento.ListaEventiActivity"
+--           android:label="Eventi" />
+--        <activity android:name=".evento.CreaEventoActivity"
+--            android:label="Crea Evento"/>
+--        <activity android:name=".gruppo.CreaGruppoActivity"
+--            android:label="Crea Gruppo"/>
+-+        <activity
+-+            android:name=".evento.VisualizzaEventoActivity"
+-+            android:label="Evento" />
+-+        <activity
+-+            android:name=".utente.ModificaUtenteActivity"
+-+            android:label="Modifica Utente" />
+-+        <activity
+-+            android:name=".evento.RichiesteEvento"
+-+            android:label="Richieste" />
+-+        <activity
+-+            android:name=".evento.GestisciEvento"
+-+            android:label="Evento" />
+-+        <activity
+-+            android:name=".evento.InviaPartecipazioneEvento"
+-+            android:label="Evento" />
+-+        <activity
+-+            android:name=".gruppo.InvitiGruppi"
+-+            android:label="Inviti ricevuti" />
+-+        <activity
+-+            android:name=".gruppo.VisualizzaGruppoActivity"
+-+            android:label="Gruppo" />
+-+        <activity
+-+            android:name=".gruppo.GestisciGruppoActivity"
+-+            android:label="Gruppo" />
+-+        <activity
+-+            android:name=".gruppo.ListaGruppiActivity"
+-+            android:label="Gruppi" />
+-+        <activity
+-+            android:name=".evento.ListaEventiActivity"
+-+            android:label="Eventi" />
+-+        <activity
+-+            android:name=".evento.CreaEventoActivity"
+-+            android:label="Crea Evento" />
+-+        <activity
+-+            android:name=".gruppo.CreaGruppoActivity"
+-+            android:label="Crea Gruppo" />
+-         <activity android:name=".DeviceListActivity" />
+-         <activity
+-             android:name=".MainActivity"
+-             android:label="@string/title_activity_main"
+-             android:theme="@style/AppTheme.NoActionBar" />
+--        <activity android:name=".autenticazione.RegisterActivity"
+--            android:theme="@style/AppTheme.NoActionBar"/>
+-+        <activity
+-+            android:name=".autenticazione.RegisterActivity"
+-+            android:theme="@style/AppTheme.NoActionBar" />
+-         <activity
+-             android:name=".autenticazione.Login"
+-             android:label="@string/app_name"
+-Index: app/src/main/java/it/gadg/contagiapp/MainActivity.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package it.gadg.contagiapp;\r\n\r\nimport android.app.AlertDialog;\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.database.Cursor;\r\nimport android.database.sqlite.SQLiteDatabase;\r\nimport android.os.Build;\r\nimport android.os.Bundle;\r\nimport android.os.Handler;\r\nimport android.os.Looper;\r\nimport android.view.MenuItem;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.ActionBarDrawerToggle;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.appcompat.widget.Toolbar;\r\nimport androidx.cardview.widget.CardView;\r\nimport androidx.core.content.ContextCompat;\r\nimport androidx.drawerlayout.widget.DrawerLayout;\r\n\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.android.material.navigation.NavigationView;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseUser;\r\nimport com.google.firebase.firestore.DocumentSnapshot;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.google.firebase.firestore.QueryDocumentSnapshot;\r\nimport com.google.firebase.firestore.QuerySnapshot;\r\n\r\nimport it.gadg.contagiapp.modelli.User;\r\nimport it.gadg.contagiapp.splash.Splash;\r\nimport it.gadg.contagiapp.utente.ModificaUtenteActivity;\r\n\r\n\r\npublic class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {\r\n\r\n    private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase\r\n\r\n    private AlertDialog.Builder dialogBuilder;\r\n    private AlertDialog dialog;\r\n    private TextView richiestaPopup;\r\n    private TextView LabelRischio;\r\n    private CardView siPopup, noPopup;\r\n\r\n    //Variabili menù hamburger\r\n    DrawerLayout drawerLayout;\r\n    NavigationView navigationView;\r\n    Toolbar toolbar;\r\n    TextView textView;\r\n\r\n    public String id;\r\n\r\n    FirebaseFirestore db;\r\n\r\n    CardView positivoB;\r\n    CardView negativoB;\r\n    CardView inAttesaB;\r\n\r\n    ImageView imgTest;\r\n\r\n    private int RISCHIO_POSITIVO = 100;\r\n    private int RISCHIO_TEST = 50;\r\n    private int RISCHIO_NEGATIVO = 0;\r\n\r\n    private int RISCHIO_ROSSO=49;\r\n    private int RISCHIO_GIALLO=24;\r\n\r\n    User utenteLoggato;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n\r\n        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));\r\n\r\n\r\n\r\n        /*---------------------MENU------------------------*/\r\n        drawerLayout=findViewById(R.id.drawer_layout);\r\n        navigationView=findViewById(R.id.nav_view);\r\n        textView=findViewById(R.id.positvoText);\r\n        toolbar=findViewById(R.id.toolbar);\r\n\r\n        setSupportActionBar(toolbar);\r\n\r\n\r\n        navigationView.bringToFront();\r\n        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);\r\n        drawerLayout.addDrawerListener(toggle);\r\n        toggle.syncState();\r\n\r\n        navigationView.setNavigationItemSelectedListener(this);\r\n\r\n\r\n        positivoB = findViewById(R.id.positivoB);\r\n        negativoB = findViewById(R.id.invitabutton);\r\n        inAttesaB = findViewById(R.id.inAttesaB);\r\n        LabelRischio = findViewById(R.id.LabelRischio);\r\n        imgTest = findViewById(R.id.imgTest);\r\n\r\n        //Estraggo l'utente\r\n        mAuth = FirebaseAuth.getInstance();\r\n        FirebaseUser u = mAuth.getCurrentUser();\r\n        id = u.getUid();\r\n        db = FirebaseFirestore.getInstance();\r\n        db.collection(\"Utenti\")\r\n                .document(id)\r\n                .get()\r\n                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {\r\n\r\n                    @Override\r\n                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {\r\n                        DocumentSnapshot document = task.getResult();\r\n                        utenteLoggato = new User(document.get(\"nome\").toString(),document.get(\"cognome\").toString(),document.get(\"email\").toString());\r\n                        utenteLoggato.etichetta = (String) document.get(\"etichetta\");\r\n                        utenteLoggato.rischio = (Long) document.get(\"rischio\");\r\n                        utenteLoggato.uid = document.getId();\r\n\r\n                        String temp =LabelRischio.getText().toString()+ utenteLoggato.rischio + \"%\";\r\n\r\n                        if(utenteLoggato.rischio>RISCHIO_ROSSO){\r\n                            LabelRischio.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorLigthRed));\r\n                        }else if ((utenteLoggato.rischio>RISCHIO_GIALLO)){\r\n                            LabelRischio.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorYellow));\r\n                        }\r\n\r\n                        LabelRischio.setText(temp);\r\n\r\n                        if (utenteLoggato.etichetta.equals(\"super\") || utenteLoggato.etichetta.equals(\"sicuro\") || utenteLoggato.etichetta.equals(\"incerto\")) {\r\n                            inAttesaB.setVisibility(View.VISIBLE);\r\n                        } else if (utenteLoggato.etichetta.equals(\"test\")) {\r\n\r\n\r\n                            positivoB.setVisibility(View.VISIBLE);\r\n                            negativoB.setVisibility(View.VISIBLE);\r\n                        } else if (utenteLoggato.etichetta.equals(\"positivo\")) {\r\n\r\n                            inAttesaB.setVisibility(View.VISIBLE);\r\n                        }\r\n\r\n                    }\r\n                });\r\n\r\n\r\n\r\n\r\n\r\n\r\n    }\r\n\r\n\r\n\r\n\r\n    @Override\r\n    public boolean onNavigationItemSelected(@NonNull MenuItem item) {\r\n\r\n        switch (item.getItemId()){\r\n            case R.id.nav_home:\r\n                break;\r\n\r\n            case R.id.nav_gruppi:\r\n                this.homegruppi();\r\n                break;\r\n\r\n            case R.id.nav_eventi:\r\n                this.homeeventi();\r\n                break;\r\n\r\n            case R.id.nav_contatto:\r\n                this.registraContatto();\r\n                break;\r\n\r\n            case R.id.nav_profilo:\r\n                this.modificaUtente();\r\n                break;\r\n\r\n            case R.id.nav_logout:\r\n                this.logout();\r\n                break;\r\n        }\r\n\r\n        return true;\r\n    }\r\n\r\n    @Override\r\n    public void onBackPressed() {\r\n        //Pulsante back disabilitato\r\n    }\r\n\r\n\r\n\r\n    public void registraContatto(View view) {\r\n        Intent i = new Intent(getApplicationContext(), BtActivity.class);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\r\n    }\r\n\r\n\r\n\r\n    public void homeEventi(View view) {\r\n        Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);\r\n    }\r\n\r\n\r\n    public void homeGruppi(View view) {\r\n        Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);\r\n    }\r\n\r\n\r\n    public void aggRischio(View view) {\r\n        AggiornaRischioThread t = new AggiornaRischioThread();\r\n        t.run();\r\n\r\n    }\r\n\r\n\r\n\r\n    public void createNewContactDialog(final int i) {\r\n\r\n\r\n        dialogBuilder = new AlertDialog.Builder(this);\r\n        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupmain, null);\r\n        richiestaPopup = contactPopupView.findViewById(R.id.richiestaPopup);\r\n\r\n        if (i == 1) {\r\n            String temp = \"Confermi di essere positivo?\";\r\n            richiestaPopup.setText(temp);\r\n        } else if (i == 2) {\r\n            String temp = \"Confermi di essere in Attesa?\";\r\n            richiestaPopup.setText(temp);\r\n        } else if (i == 3) {\r\n            String temp = \"Confermi di essere in Negativo?\";\r\n            richiestaPopup.setText(temp);\r\n\r\n        }\r\n\r\n        siPopup = contactPopupView.findViewById(R.id.siPopup);\r\n        noPopup = contactPopupView.findViewById(R.id.noPopup);\r\n\r\n        dialogBuilder.setView(contactPopupView);\r\n        dialog = dialogBuilder.create();\r\n        dialog.show();\r\n\r\n        siPopup.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                if (i == 1) {\r\n\r\n                    //Se sei positivo cambia la tua etichetta da \"test\" in \"positivo\"\r\n                    db.collection(\"Utenti\").document(id).update(\"etichetta\", \"positivo\").addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                        @Override\r\n                        public void onComplete(@NonNull Task<Void> task) {\r\n                            recreate();\r\n                            if (task.isSuccessful()) {\r\n                                //Se sei positivo cambia il tuo \"rischio\" di contagio a \"100\" %\r\n                                db.collection(\"Utenti\").document(id).update(\"rischio\", RISCHIO_POSITIVO).addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                    @Override\r\n                                    public void onComplete(@NonNull Task<Void> task) {\r\n                                        recreate();\r\n                                        if (task.isSuccessful()) {\r\n                                            Toast.makeText(getApplicationContext(), \"Risulti positivo\", Toast.LENGTH_LONG).show();\r\n                                            recreate();\r\n                                        } else {\r\n                                            Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\r\n                                        }\r\n\r\n                                    }\r\n                                });\r\n                            } else {\r\n                                Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\r\n                            }\r\n\r\n                        }\r\n                    });\r\n                } else if (i == 2) {\r\n\r\n                    //Se sei in attesa di un test l'etichetta cambierà in \"test\"\r\n                    db.collection(\"Utenti\").document(id).update(\"etichetta\", \"test\").addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                        @Override\r\n                        public void onComplete(@NonNull Task<Void> task) {\r\n                            recreate();\r\n                            if (task.isSuccessful()) {\r\n                                //Se sei in attesa di un test cambia il tuo \"rischio\" di contagio a \"50\" %\r\n                                db.collection(\"Utenti\").document(id).update(\"rischio\", RISCHIO_TEST).addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                    @Override\r\n                                    public void onComplete(@NonNull Task<Void> task) {\r\n                                        recreate();\r\n                                        if (task.isSuccessful()) {\r\n                                            Toast.makeText(getApplicationContext(), \"Risulti in Attesa\", Toast.LENGTH_LONG).show();\r\n                                            recreate();\r\n                                        } else {\r\n                                            Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\r\n                                        }\r\n\r\n                                    }\r\n                                });\r\n                            } else {\r\n                                Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\r\n                            }\r\n\r\n                        }\r\n                    });\r\n\r\n                } else if (i == 3) {\r\n\r\n                    //Se sei negativo cambia la tua etichetta da \"test\" in \"negativo\"\r\n                    db.collection(\"Utenti\").document(id).update(\"etichetta\", \"super\").addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                        @Override\r\n                        public void onComplete(@NonNull Task<Void> task) {\r\n                            recreate();\r\n                            if (task.isSuccessful()) {\r\n                                //Se sei negativo cambia il tuo \"rischio\" di contagio a \"0\" %\r\n                                db.collection(\"Utenti\").document(id).update(\"rischio\", RISCHIO_NEGATIVO).addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                    @Override\r\n                                    public void onComplete(@NonNull Task<Void> task) {\r\n                                        recreate();\r\n                                        if (task.isSuccessful()) {\r\n                                            Toast.makeText(getApplicationContext(), \"Risulti essere negativo\", Toast.LENGTH_LONG).show();\r\n                                            recreate();\r\n                                        } else {\r\n                                            Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\r\n                                        }\r\n\r\n                                    }\r\n                                });\r\n                            } else {\r\n                                Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\r\n                            }\r\n\r\n                        }\r\n                    });\r\n                }\r\n\r\n            }\r\n        });\r\n\r\n        noPopup.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n\r\n                dialog.dismiss();\r\n            }\r\n        });\r\n\r\n\r\n    }\r\n\r\n    public void popupPositivo(View view) {\r\n\r\n        this.createNewContactDialog(1);\r\n    }\r\n\r\n    public void popupInAttesa(View view) {\r\n\r\n        this.createNewContactDialog(2);\r\n    }\r\n\r\n    public void popupNegativo(View view) {\r\n\r\n        this.createNewContactDialog(3);\r\n    }\r\n\r\n    public class AggiornaRischioThread implements Runnable {\r\n\r\n        public long rischio =0;\r\n        public int n=0;\r\n\r\n        @Override\r\n        public void run() {\r\n\r\n\r\n            db.collection(\"Utenti\")\r\n                    .get()\r\n                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {\r\n                        @Override\r\n                        public void onComplete(@NonNull Task<QuerySnapshot> task) {\r\n\r\n                            if (task.isSuccessful()) {\r\n\r\n                                try{\r\n                                    SQLiteDatabase myDb = openOrCreateDatabase(\"Contatti\", MODE_PRIVATE, null);\r\n                                    myDb.execSQL(\"CREATE TABLE IF NOT EXISTS contattiRegistrati(uid TEXT,data DATE)\");\r\n\r\n                                    Cursor c = myDb.rawQuery(\"SELECT * FROM contattiRegistrati WHERE data >= date('now','-10 day')\", null);\r\n\r\n                                    int uidIndex = c.getColumnIndex(\"uid\");\r\n\r\n                                    c.moveToFirst();\r\n                                    String[] codici = new String [c.getCount()];\r\n\r\n                                    do {\r\n                                        codici[n] = c.getString(uidIndex);\r\n                                        System.out.println(\"-\"+c.getString(uidIndex));\r\n                                        n++;\r\n                                    } while (c.moveToNext());\r\n                                    int j;\r\n                                    for (QueryDocumentSnapshot document : task.getResult()) {\r\n\r\n                                        j=0;\r\n                                        do{\r\n                                            String temp= document.getId();\r\n\r\n                                            if(temp.equals(codici[j])){\r\n\r\n                                                rischio =rischio + (long)document.get(\"rischio\");\r\n\r\n                                            }\r\n                                            j++;\r\n                                        }while(j<n);\r\n\r\n                                    }\r\n                                    rischio = rischio/n;\r\n                                    toastSuccess(getApplicationContext());\r\n                                }catch (Exception e){\r\n                                    toast(getApplicationContext());\r\n                                }\r\n\r\n\r\n                            } else {\r\n                                toast(getApplicationContext());\r\n                            }\r\n                        }\r\n                    });\r\n\r\n\r\n\r\n            if(rischio>utenteLoggato.rischio){\r\n\r\n                utenteLoggato.rischio = rischio;\r\n                db.collection(\"Utenti\").document(id).update(\"rischio\", rischio).addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                    @Override\r\n                    public void onComplete(@NonNull Task<Void> task) {\r\n                        String temp =\"Rischio : \"+ rischio;\r\n                        LabelRischio.setText(temp);\r\n\r\n                    }\r\n                });\r\n            }\r\n\r\n\r\n        }\r\n\r\n\r\n        public void toast(final Context context) {\r\n            Handler handler = new Handler(Looper.getMainLooper());\r\n            handler.post(new Runnable() {\r\n                public void run() {\r\n                    Toast.makeText(context, \"Nessun Contatto trovato\", Toast.LENGTH_LONG).show();\r\n                }\r\n            });\r\n        }\r\n\r\n        public void toastSuccess(final Context context) {\r\n            Handler handler = new Handler(Looper.getMainLooper());\r\n            handler.post(new Runnable() {\r\n                public void run() {\r\n                    Toast.makeText(context, \"Rischio aggiornato correttamente\", Toast.LENGTH_LONG).show();\r\n                }\r\n            });\r\n        }\r\n\r\n\r\n    }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n    //FUNZIONI MENU\r\n\r\n\r\n    public void registraContatto() {\r\n\r\n        Intent i = new Intent(getApplicationContext(), BtActivity.class);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\r\n    }\r\n\r\n    public void modificaUtente() {\r\n        Intent i = new Intent(getApplicationContext(), ModificaUtenteActivity.class);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\r\n\r\n    }\r\n\r\n    private void homegruppi() {\r\n        Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);\r\n    }\r\n\r\n    private void homeeventi() {\r\n        Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);\r\n        startActivity(i);\r\n        overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);\r\n    }\r\n\r\n\r\n    public void logout() {\r\n        mAuth.signOut();\r\n        if (null == FirebaseAuth.getInstance().getCurrentUser()) {\r\n            Toast.makeText(getApplicationContext(), \"Logout riuscito.\",\r\n                    Toast.LENGTH_SHORT).show();\r\n            Intent i = new Intent(getApplicationContext(), Splash.class);\r\n            startActivity(i);\r\n        } else {\r\n            Toast.makeText(getApplicationContext(), \"Logout fallito.\",\r\n                    Toast.LENGTH_SHORT).show();\r\n        }\r\n    }\r\n}\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/java/it/gadg/contagiapp/MainActivity.java	(revision f23964c29dda3be247b7289174ac4fe3ddf2c4f8)
+-+++ app/src/main/java/it/gadg/contagiapp/MainActivity.java	(date 1612280254642)
+-@@ -182,6 +182,10 @@
+-                 this.modificaUtente();
+-                 break;
+- 
+-+            case R.id.nav_impostazioni:
+-+                this.apriImpostazioni();
+-+                break;
+-+
+-             case R.id.nav_logout:
+-                 this.logout();
+-                 break;
+-@@ -190,6 +194,7 @@
+-         return true;
+-     }
+- 
+-+
+-     @Override
+-     public void onBackPressed() {
+-         //Pulsante back disabilitato
+-@@ -509,6 +514,13 @@
+-         overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
+-     }
+- 
+-+    private void apriImpostazioni() {
+-+        Intent i = new Intent(getApplicationContext(), Impostazioni.class);
+-+        startActivity(i);
+-+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+-+    }
+-+
+-+
+- 
+-     public void logout() {
+-         mAuth.signOut();
+-Index: app/src/main/java/it/gadg/contagiapp/utente/ModificaUtenteActivity.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package it.gadg.contagiapp.utente;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport it.gadg.contagiapp.MainActivity;\r\nimport it.gadg.contagiapp.R;\r\nimport it.gadg.contagiapp.autenticazione.RegisterActivity;\r\nimport it.gadg.contagiapp.modelli.User;\r\nimport it.gadg.contagiapp.splash.Splash;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.EditText;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.OnSuccessListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.firebase.auth.AuthResult;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.auth.FirebaseUser;\r\nimport com.google.firebase.firestore.DocumentSnapshot;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.google.firebase.firestore.QueryDocumentSnapshot;\r\nimport com.google.firebase.firestore.QuerySnapshot;\r\n\r\nimport java.util.regex.Matcher;\r\nimport java.util.regex.Pattern;\r\n\r\npublic class ModificaUtenteActivity extends AppCompatActivity {\r\n\r\n    EditText nuovoNome;\r\n    EditText nuovoCognome;\r\n\r\n    EditText passwordMod;\r\n    User utenteLoggato;\r\n    FirebaseFirestore db;\r\n\r\n    int flag = 0;\r\n\r\n    private FirebaseAuth mAuth;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_modifica_utente);\r\n        // Initialize Firebase Auth\r\n        mAuth = FirebaseAuth.getInstance();\r\n        db = FirebaseFirestore.getInstance();\r\n\r\n\r\n        db.collection(\"Utenti\")\r\n                .document(mAuth.getUid())\r\n                .get()\r\n                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {\r\n\r\n                    @Override\r\n                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {\r\n                        DocumentSnapshot document = task.getResult();\r\n                        utenteLoggato = new User(document.get(\"nome\").toString(), document.get(\"cognome\").toString(), document.get(\"email\").toString());\r\n                        utenteLoggato.etichetta = (String) document.get(\"etichetta\");\r\n                        utenteLoggato.rischio = (Long) document.get(\"rischio\");\r\n                        utenteLoggato.uid = document.getId();\r\n\r\n                        nuovoNome = findViewById(R.id.nuovoNome);\r\n                        nuovoCognome = findViewById(R.id.nuovoCognome);\r\n\r\n                        passwordMod = findViewById(R.id.passwordMod);\r\n\r\n\r\n                        nuovoNome.setText(utenteLoggato.nome);\r\n                        nuovoCognome.setText(utenteLoggato.cognome);\r\n\r\n                    }\r\n                });\r\n\r\n\r\n\r\n\r\n    }\r\n\r\n\r\n    public void ModificaUtenteButton(View view) {\r\n\r\n\r\n        String nome = nuovoNome.getText().toString();\r\n        String cognome = nuovoCognome.getText().toString();\r\n\r\n\r\n        // Validazioni Dati\r\n        if (!nomeValido(nome))\r\n            Toast.makeText(getApplicationContext(), \"Nome non Valido, inserire solo caratteri\", Toast.LENGTH_SHORT).show();\r\n        else if (!cognomeValido(cognome)) {\r\n            Toast.makeText(getApplicationContext(), \"Cognome non Valido, inserire solo caratteri\", Toast.LENGTH_SHORT).show();\r\n        } else if (!passwordMod.getText().toString().equals(\"\")) {\r\n            this.editFirebaseUser(nome, cognome);\r\n        } else {\r\n            Toast.makeText(getApplicationContext(), \"Inserisci password\", Toast.LENGTH_LONG).show();\r\n        }\r\n\r\n\r\n    }\r\n\r\n    private void editFirebaseUser(final String nome, final String cognome) {\r\n\r\n        mAuth.signInWithEmailAndPassword(utenteLoggato.email, passwordMod.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {\r\n            @Override\r\n            public void onComplete(@NonNull Task<AuthResult> task) {\r\n                if (task.isSuccessful()) {\r\n                    db.collection(\"Utenti\").document(utenteLoggato.uid).update(\"nome\", nome).addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                        @Override\r\n                        public void onComplete(@NonNull Task<Void> task) {\r\n                            recreate();\r\n                            if (task.isSuccessful()) {\r\n                                db.collection(\"Utenti\").document(utenteLoggato.uid).update(\"cognome\", cognome).addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                    @Override\r\n                                    public void onComplete(@NonNull Task<Void> task) {\r\n                                        recreate();\r\n                                        if (task.isSuccessful()) {\r\n                                            Toast.makeText(getApplicationContext(), \"Dati aggiornati correttamente\", Toast.LENGTH_LONG).show();\r\n                                        } else {\r\n                                            Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\r\n                                        }\r\n\r\n                                    }\r\n                                });\r\n                            } else {\r\n                                Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\r\n                            }\r\n\r\n                        }\r\n                    });\r\n\r\n                } else {\r\n                    Toast.makeText(getApplicationContext(), \"Password errata\", Toast.LENGTH_SHORT).show();\r\n                }\r\n\r\n            }\r\n        });\r\n\r\n    }\r\n\r\n    private boolean nomeValido(String nome) {\r\n\r\n\r\n        // Regex per controllare se il nome è valdio.\r\n        String regex = \"^[A-Za-z]\\\\w{2,29}$\";\r\n\r\n        // Compila il ReGex\r\n        Pattern p = Pattern.compile(regex);\r\n\r\n        // se il nome è vuoto\r\n        // return false\r\n        if (nome == null) {\r\n            return false;\r\n        }\r\n\r\n        // Pattern class contiene il metodo matcher()\r\n        //per trovare la corrispondenza tra un dato e il Nome\r\n        Matcher m = p.matcher(nome);\r\n\r\n        // Return se il nome corrisponde con la stringa Regex\r\n        return m.matches();\r\n    }\r\n\r\n    // Controllo sul cognome\r\n    private boolean cognomeValido(String cognome) {\r\n\r\n\r\n        // Regex per controllare se il cognome è valido.\r\n        String regex = \"^[A-Za-z]\\\\w{3,29}$\";\r\n\r\n        // Compila il ReGex\r\n        Pattern p = Pattern.compile(regex);\r\n\r\n        // Se il il cognome è vuoto\r\n        // return false\r\n        if (cognome == null) {\r\n            return false;\r\n        }\r\n\r\n        // Pattern class contiene il metodo matcher()\r\n        //per trovare la corrispondenza tra un dato e il Cognome\r\n        Matcher m = p.matcher(cognome);\r\n\r\n        // Return se il nome corrisponde con la stringa Regex\r\n        return m.matches();\r\n    }\r\n\r\n    public void eliminaProfilo(View view) {\r\n\r\n        if ((!passwordMod.getText().toString().equals(\"\"))) {\r\n\r\n            mAuth.signInWithEmailAndPassword(utenteLoggato.email, passwordMod.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {\r\n                @Override\r\n                public void onComplete(@NonNull Task<AuthResult> task) {\r\n                    if (task.isSuccessful()) {\r\n\r\n                        db.collection(\"GruppoUtenti\").whereEqualTo(\"UID\", utenteLoggato.uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {\r\n\r\n                            @Override\r\n                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {\r\n                                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {\r\n\r\n                                    if (document.get(\"ruolo\").equals(\"0\")) {\r\n                                        db.collection(\"GruppoUtenti\").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                            @Override\r\n                                            public void onComplete(@NonNull Task<Void> task) {\r\n                                                if (task.isSuccessful()) {\r\n\r\n                                                } else {\r\n                                                    Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\r\n                                                }\r\n\r\n                                            }\r\n                                        });\r\n                                    } else {\r\n                                        stop();\r\n                                    }\r\n\r\n\r\n                                }\r\n                            }\r\n                        });\r\n\r\n\r\n                        if (flag == 0) {\r\n                            db.collection(\"PartecipazioneEvento\").whereEqualTo(\"UID\", utenteLoggato.uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {\r\n\r\n                                @Override\r\n                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {\r\n                                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {\r\n                                        if (document.get(\"ruolo\").equals(\"0\")) {\r\n                                            db.collection(\"PartecipazioneEvento\").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                                @Override\r\n                                                public void onComplete(@NonNull Task<Void> task) {\r\n                                                    if (task.isSuccessful()) {\r\n\r\n                                                    } else {\r\n                                                        Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\r\n                                                    }\r\n\r\n                                                }\r\n                                            });\r\n                                        } else {\r\n                                            stop();\r\n                                        }\r\n\r\n\r\n                                    }\r\n                                }\r\n                            });\r\n\r\n                        }\r\n\r\n\r\n                        if (flag == 0) {\r\n                            db.collection(\"Utenti\").document(utenteLoggato.uid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                @Override\r\n                                public void onComplete(@NonNull Task<Void> task) {\r\n                                    if (task.isSuccessful()) {\r\n                                        mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                                            @Override\r\n                                            public void onComplete(@NonNull Task<Void> task) {\r\n                                                mAuth.signOut();\r\n                                                Toast.makeText(getApplicationContext(), \"Utente , eliminato correttamente\", Toast.LENGTH_LONG).show();\r\n                                                Intent i = new Intent(getApplicationContext(), Splash.class);\r\n                                                startActivity(i);\r\n\r\n                                            }\r\n                                        });\r\n                                    } else {\r\n                                        Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\r\n                                    }\r\n\r\n                                }\r\n                            });\r\n\r\n                        }\r\n\r\n                    } else {\r\n                        Toast.makeText(getApplicationContext(), \"Password Errata\", Toast.LENGTH_LONG).show();\r\n                    }\r\n                }\r\n            });\r\n\r\n        } else {\r\n            Toast.makeText(getApplicationContext(), \"Inserisci la password\", Toast.LENGTH_LONG).show();\r\n        }\r\n    }\r\n\r\n    private void stop() {\r\n        flag = 1;\r\n        Toast.makeText(getApplicationContext(), \"Non puoi elimare il tuo profilo finchè ci saranno gruppi o eventi di cui sei admin\", Toast.LENGTH_LONG).show();\r\n    }\r\n}\r\n\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/java/it/gadg/contagiapp/utente/ModificaUtenteActivity.java	(revision f23964c29dda3be247b7289174ac4fe3ddf2c4f8)
+-+++ app/src/main/java/it/gadg/contagiapp/utente/ModificaUtenteActivity.java	(date 1612281167406)
+-@@ -40,8 +40,6 @@
+-     User utenteLoggato;
+-     FirebaseFirestore db;
+- 
+--    int flag = 0;
+--
+-     private FirebaseAuth mAuth;
+- 
+-     @Override
+-@@ -191,111 +189,6 @@
+-         return m.matches();
+-     }
+- 
+--    public void eliminaProfilo(View view) {
+--
+--        if ((!passwordMod.getText().toString().equals(""))) {
+--
+--            mAuth.signInWithEmailAndPassword(utenteLoggato.email, passwordMod.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+--                @Override
+--                public void onComplete(@NonNull Task<AuthResult> task) {
+--                    if (task.isSuccessful()) {
+--
+--                        db.collection("GruppoUtenti").whereEqualTo("UID", utenteLoggato.uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+--
+--                            @Override
+--                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+--                                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+--
+--                                    if (document.get("ruolo").equals("0")) {
+--                                        db.collection("GruppoUtenti").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+--                                            @Override
+--                                            public void onComplete(@NonNull Task<Void> task) {
+--                                                if (task.isSuccessful()) {
+--
+--                                                } else {
+--                                                    Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+--                                                }
+--
+--                                            }
+--                                        });
+--                                    } else {
+--                                        stop();
+--                                    }
+--
+--
+--                                }
+--                            }
+--                        });
+--
+--
+--                        if (flag == 0) {
+--                            db.collection("PartecipazioneEvento").whereEqualTo("UID", utenteLoggato.uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+--
+--                                @Override
+--                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+--                                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+--                                        if (document.get("ruolo").equals("0")) {
+--                                            db.collection("PartecipazioneEvento").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+--                                                @Override
+--                                                public void onComplete(@NonNull Task<Void> task) {
+--                                                    if (task.isSuccessful()) {
+--
+--                                                    } else {
+--                                                        Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+--                                                    }
+--
+--                                                }
+--                                            });
+--                                        } else {
+--                                            stop();
+--                                        }
+--
+--
+--                                    }
+--                                }
+--                            });
+--
+--                        }
+--
+--
+--                        if (flag == 0) {
+--                            db.collection("Utenti").document(utenteLoggato.uid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+--                                @Override
+--                                public void onComplete(@NonNull Task<Void> task) {
+--                                    if (task.isSuccessful()) {
+--                                        mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+--                                            @Override
+--                                            public void onComplete(@NonNull Task<Void> task) {
+--                                                mAuth.signOut();
+--                                                Toast.makeText(getApplicationContext(), "Utente , eliminato correttamente", Toast.LENGTH_LONG).show();
+--                                                Intent i = new Intent(getApplicationContext(), Splash.class);
+--                                                startActivity(i);
+--
+--                                            }
+--                                        });
+--                                    } else {
+--                                        Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+--                                    }
+--
+--                                }
+--                            });
+--
+--                        }
+- 
+--                    } else {
+--                        Toast.makeText(getApplicationContext(), "Password Errata", Toast.LENGTH_LONG).show();
+--                    }
+--                }
+--            });
+--
+--        } else {
+--            Toast.makeText(getApplicationContext(), "Inserisci la password", Toast.LENGTH_LONG).show();
+--        }
+--    }
+--
+--    private void stop() {
+--        flag = 1;
+--        Toast.makeText(getApplicationContext(), "Non puoi elimare il tuo profilo finchè ci saranno gruppi o eventi di cui sei admin", Toast.LENGTH_LONG).show();
+--    }
+- }
+- 
+-Index: app/src/main/res/values/strings.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><resources>\r\n    <string name=\"app_name\">AppContagi</string>\r\n    <string name=\"navigation_drawer_open\">Open navigation drawer</string>\r\n    <string name=\"navigation_drawer_close\">Close navigation drawer</string>\r\n    <string name=\"nav_header_title\">Android Studio</string>\r\n    <string name=\"nav_header_subtitle\">android.studio@android.com</string>\r\n    <string name=\"nav_header_desc\">Navigation header</string>\r\n    <string name=\"action_settings\">Settings</string>\r\n\r\n\r\n    <!-- Strings related to login -->\r\n    <string name=\"prompt_email\">Email</string>\r\n    <string name=\"prompt_password\">Password</string>\r\n    <string name=\"action_sign_in\">Sign in or register</string>\r\n    <string name=\"action_sign_in_short\">Sign in</string>\r\n    <string name=\"welcome\">\"Welcome!\"</string>\r\n    <string name=\"invalid_username\">Email non valida</string>\r\n    <string name=\"invalid_password\">La password deve contenere almeno 5 caratteri</string>\r\n    <string name=\"login_failed\">\"Login fallito\"</string>\r\n    <string name=\"nome\">Nome</string>\r\n    <string name=\"cognome\">Cognome</string>\r\n    <string name=\"email\">Email</string>\r\n    <string name=\"registrati\">Registrati</string>\r\n    <string name=\"background\">Background</string>\r\n    <string name=\"immagine_prima_schermata\">Immagine Prima schermata</string>\r\n    <string name=\"contagiapp\">ContagiAPP</string>\r\n    <string name=\"lorem\">Lorem</string>\r\n    <string name=\"ipsum\">ipsum</string>\r\n    <string name=\"faketext\">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</string>\r\n    <string name=\"tab\">tab</string>\r\n    <string name=\"login\">Login</string>\r\n    <string name=\"logout\">Logout</string>\r\n    <string name=\"loginSplash\">Login/Register</string>\r\n    <string name=\"registrati_adesso\">Registrati Adesso</string>\r\n    <string name=\"password\">Password</string>\r\n    <string name=\"title_activity_main\">Dashboard</string>\r\n\r\n    <string name=\"crea_evento\">Crea Evento</string>\r\n    <string name=\"crea_gruppo\">Crea Gruppo</string>\r\n    <string name=\"nome_evento\">Nome Evento</string>\r\n    <string name=\"ora_inizio\">Ora Inizio</string>\r\n    <string name=\"data\">Data</string>\r\n    <string name=\"i_tuoi_eventi\">i tuoi eventi</string>\r\n    <string name=\"i_tuoi_gruppi\">I tuoi gruppi</string>\r\n\r\n    <string name=\"str_label_btn_send\">Send</string>\r\n    <string name=\"str_menu_search_devices\">Search Devices</string>\r\n    <string name=\"str_menu_bluetooth_on\">Switch on Bluetooth</string>\r\n\r\n    <string name=\"str_paired_devices\">Dispositivi accoppiati</string>\r\n    <string name=\"str_available_devices\">Dispositivi disponibili</string>\r\n    <string name=\"str_menu_scan_devices\">Ricerca Dispositivi</string>\r\n    <string name=\"title_activity_prova\">Prova</string>\r\n    <string name=\"title_activity_ham\">Ham</string>\r\n</resources>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/res/values/strings.xml	(revision f23964c29dda3be247b7289174ac4fe3ddf2c4f8)
+-+++ app/src/main/res/values/strings.xml	(date 1612281702179)
+-@@ -52,4 +52,10 @@
+-     <string name="str_menu_scan_devices">Ricerca Dispositivi</string>
+-     <string name="title_activity_prova">Prova</string>
+-     <string name="title_activity_ham">Ham</string>
+-+    <string name="title_activity_impostazioni">Impostazioni</string>
+-+    <string name="lang">Passa alla versione inglese</string>
+-+    <string name="impostazionisez2">Sistema</string>
+-+    <string name="elimina_il_tuo_profilo">Elimina il tuo profilo</string>
+-+
+-+
+- </resources>
+-\ No newline at end of file
+-Index: app/src/main/res/layout/popupeliminagruppo.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>\r\n<androidx.constraintlayout.widget.ConstraintLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\">\r\n\r\n\r\n\r\n        <TextView\r\n            android:id=\"@+id/richiestaPopup\"\r\n            android:layout_width=\"320dp\"\r\n            android:layout_height=\"105dp\"\r\n            android:fontFamily=\"@font/baloo\"\r\n            android:text=\"Sei sicuro di voler eliminare il gruppo?\"\r\n            android:textAlignment=\"center\"\r\n            android:textSize=\"30sp\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"0.484\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\"\r\n            app:layout_constraintVertical_bias=\"0.309\" />\r\n\r\n\r\n        <androidx.cardview.widget.CardView\r\n            android:id=\"@+id/siEliminazione\"\r\n            android:layout_width=\"139dp\"\r\n\r\n            android:layout_height=\"65dp\"\r\n            android:layout_marginStart=\"10dp\"\r\n            android:layout_marginTop=\"40dp\"\r\n            app:cardBackgroundColor=\"@color/colorPrimaryDark\"\r\n            app:cardCornerRadius=\"25dp\"\r\n            app:cardElevation=\"10dp\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@+id/richiestaPopup\">\r\n\r\n            <RelativeLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\">\r\n\r\n                <TextView\r\n\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_centerInParent=\"true\"\r\n                    android:fontFamily=\"@font/baloo\"\r\n                    android:text=\"SI\"\r\n                    android:textColor=\"@color/white\"\r\n                    android:textSize=\"30sp\" />\r\n\r\n            </RelativeLayout>\r\n        </androidx.cardview.widget.CardView>\r\n\r\n        <androidx.cardview.widget.CardView\r\n            android:id=\"@+id/noEliminazione\"\r\n            android:layout_width=\"139dp\"\r\n\r\n            android:layout_height=\"65dp\"\r\n            android:layout_marginTop=\"40dp\"\r\n            android:layout_marginEnd=\"10dp\"\r\n            app:cardBackgroundColor=\"@color/design_default_color_error\"\r\n            app:cardCornerRadius=\"25dp\"\r\n            app:cardElevation=\"10dp\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@+id/richiestaPopup\">\r\n\r\n            <RelativeLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\">\r\n\r\n                <TextView\r\n\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_centerInParent=\"true\"\r\n                    android:fontFamily=\"@font/baloo\"\r\n                    android:text=\"NO\"\r\n                    android:textColor=\"@color/white\"\r\n                    android:textSize=\"30sp\" />\r\n\r\n            </RelativeLayout>\r\n        </androidx.cardview.widget.CardView>\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView7\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"30dp\"\r\n        android:layout_marginEnd=\"20dp\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/noEliminazione\" />\r\n\r\n\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/res/layout/popupeliminagruppo.xml	(revision f23964c29dda3be247b7289174ac4fe3ddf2c4f8)
+-+++ app/src/main/res/layout/popupeliminagruppo.xml	(date 1612281520272)
+-@@ -26,7 +26,7 @@
+- 
+- 
+-         <androidx.cardview.widget.CardView
+--            android:id="@+id/siEliminazione"
+-+            android:id="@+id/siCanc"
+-             android:layout_width="139dp"
+- 
+-             android:layout_height="65dp"
+-@@ -56,7 +56,7 @@
+-         </androidx.cardview.widget.CardView>
+- 
+-         <androidx.cardview.widget.CardView
+--            android:id="@+id/noEliminazione"
+-+            android:id="@+id/noCanc"
+-             android:layout_width="139dp"
+- 
+-             android:layout_height="65dp"
+-@@ -92,7 +92,7 @@
+-         android:layout_marginTop="30dp"
+-         android:layout_marginEnd="20dp"
+-         app:layout_constraintEnd_toEndOf="parent"
+--        app:layout_constraintTop_toBottomOf="@+id/noEliminazione" />
+-+        app:layout_constraintTop_toBottomOf="@+id/noCanc" />
+- 
+- 
+- 
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_1_26_21_7_14_PM__Default_Changelist_.xml
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_1_26_21_7_14_PM__Default_Changelist_.xml	(revision f23964c29dda3be247b7289174ac4fe3ddf2c4f8)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_1_26_21_7_14_PM__Default_Changelist_.xml	(revision f23964c29dda3be247b7289174ac4fe3ddf2c4f8)
+-@@ -1,4 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Update_at_1_26_21_7_14_PM_[Default_Changelist]" date="1611684889875" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_1_26_21_7_14_PM_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Update at 1/26/21 7:14 PM [Default Changelist]" />
+--</changelist>
+-\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_1_26_21_7_14_PM_[Default_Changelist]/shelved.patch
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_1_26_21_7_14_PM_[Default_Changelist]/shelved.patch	(revision f23964c29dda3be247b7289174ac4fe3ddf2c4f8)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_1_26_21_7_14_PM_[Default_Changelist]/shelved.patch	(revision f23964c29dda3be247b7289174ac4fe3ddf2c4f8)
+-@@ -1,212 +0,0 @@
+--Index: app/src/main/java/it/gadg/contagiapp/MainActivity.java
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>package it.gadg.contagiapp;\n\nimport android.app.AlertDialog;\nimport android.content.Context;\nimport android.content.Intent;\nimport android.database.Cursor;\nimport android.database.sqlite.SQLiteDatabase;\nimport android.os.Bundle;\nimport android.os.Handler;\nimport android.os.Looper;\nimport android.view.MenuItem;\nimport android.view.View;\nimport android.widget.Button;\nimport android.widget.ImageView;\nimport android.widget.TextView;\nimport android.widget.Toast;\n\nimport androidx.annotation.NonNull;\nimport androidx.appcompat.app.ActionBarDrawerToggle;\nimport androidx.appcompat.app.AppCompatActivity;\nimport androidx.appcompat.widget.Toolbar;\nimport androidx.cardview.widget.CardView;\nimport androidx.drawerlayout.widget.DrawerLayout;\n\nimport com.google.android.gms.tasks.OnCompleteListener;\nimport com.google.android.gms.tasks.Task;\nimport com.google.android.material.navigation.NavigationView;\nimport com.google.firebase.auth.FirebaseAuth;\nimport com.google.firebase.auth.FirebaseUser;\nimport com.google.firebase.firestore.DocumentSnapshot;\nimport com.google.firebase.firestore.FirebaseFirestore;\nimport com.google.firebase.firestore.QueryDocumentSnapshot;\nimport com.google.firebase.firestore.QuerySnapshot;\n\nimport it.gadg.contagiapp.modelli.User;\nimport it.gadg.contagiapp.splash.Splash;\nimport it.gadg.contagiapp.utente.ModificaUtenteActivity;\n\n\npublic class MainActivity extends AppCompatActivity {\n\n    private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase\n\n    private AlertDialog.Builder dialogBuilder;\n    private AlertDialog dialog;\n    private TextView richiestaPopup;\n    private TextView LabelRischio;\n    private Button siPopup, noPopup;\n\n    //Variabili menù hamburger\n    DrawerLayout drawerLayout;\n    NavigationView navigationView;\n    Toolbar toolbar;\n    TextView textView;\n\n    public String id;\n\n    FirebaseFirestore db;\n\n    CardView positivoB;\n    CardView negativoB;\n    CardView inAttesaB;\n\n    ImageView imgTest;\n\n    private int RISCHIO_POSITIVO = 100;\n    private int RISCHIO_TEST = 50;\n    private int RISCHIO_NEGATIVO = 0;\n\n    User utenteLoggato;\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_main);\n\n\n\n\n        positivoB = findViewById(R.id.positivoB);\n        negativoB = findViewById(R.id.negativoB);\n        inAttesaB = findViewById(R.id.inAttesaB);\n        LabelRischio = findViewById(R.id.LabelRischio);\n        imgTest = findViewById(R.id.imgTest);\n\n        //Estraggo l'utente\n        mAuth = FirebaseAuth.getInstance();\n        FirebaseUser u = mAuth.getCurrentUser();\n        id = u.getUid();\n        db = FirebaseFirestore.getInstance();\n        db.collection(\"Utenti\")\n                .document(id)\n                .get()\n                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {\n\n                    @Override\n                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {\n                        DocumentSnapshot document = task.getResult();\n                        utenteLoggato = new User(document.get(\"nome\").toString(),document.get(\"cognome\").toString(),document.get(\"email\").toString());\n                        utenteLoggato.etichetta = (String) document.get(\"etichetta\");\n                        utenteLoggato.rischio = (Long) document.get(\"rischio\");\n                        utenteLoggato.uid = document.getId();\n\n                        String temp =LabelRischio.getText().toString()+ utenteLoggato.rischio + \"%\";\n\n                        LabelRischio.setText(temp);\n\n                        if (utenteLoggato.etichetta.equals(\"super\") || utenteLoggato.etichetta.equals(\"sicuro\") || utenteLoggato.etichetta.equals(\"incerto\")) {\n                            inAttesaB.setVisibility(View.VISIBLE);\n                        } else if (utenteLoggato.etichetta.equals(\"test\")) {\n\n\n                            positivoB.setVisibility(View.VISIBLE);\n                            negativoB.setVisibility(View.VISIBLE);\n                        } else if (utenteLoggato.etichetta.equals(\"positivo\")) {\n\n                            inAttesaB.setVisibility(View.VISIBLE);\n                        }\n\n                    }\n                });\n\n\n\n\n\n\n    }\n\n\n    @Override\n    public void onBackPressed() {\n        //Pulsante back disabilitato\n    }\n\n\n\n    public void registraContatto(View view) {\n        Intent i = new Intent(getApplicationContext(), BtActivity.class);\n        startActivity(i);\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\n    }\n\n\n\n    public void homeEventi(View view) {\n        Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);\n        startActivity(i);\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\n    }\n\n\n    public void homeGruppi(View view) {\n        Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);\n        startActivity(i);\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\n    }\n\n\n    public void aggRischio(View view) {\n        AggiornaRischioThread t = new AggiornaRischioThread();\n        t.run();\n\n    }\n\n\n\n    public void createNewContactDialog(final int i) {\n\n\n        dialogBuilder = new AlertDialog.Builder(this);\n        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupmain, null);\n        richiestaPopup = contactPopupView.findViewById(R.id.richiestaPopup);\n\n        if (i == 1) {\n            String temp = \"Confermi di essere positivo?\";\n            richiestaPopup.setText(temp);\n        } else if (i == 2) {\n            String temp = \"Confermi di essere in Attesa?\";\n            richiestaPopup.setText(temp);\n        } else if (i == 3) {\n            String temp = \"Confermi di essere in Negativo?\";\n            richiestaPopup.setText(temp);\n\n        }\n\n        siPopup = contactPopupView.findViewById(R.id.siPopup);\n        noPopup = contactPopupView.findViewById(R.id.noPopup);\n\n        dialogBuilder.setView(contactPopupView);\n        dialog = dialogBuilder.create();\n        dialog.show();\n\n        siPopup.setOnClickListener(new View.OnClickListener() {\n            @Override\n            public void onClick(View v) {\n                if (i == 1) {\n\n                    //Se sei positivo cambia la tua etichetta da \"test\" in \"positivo\"\n                    db.collection(\"Utenti\").document(id).update(\"etichetta\", \"positivo\").addOnCompleteListener(new OnCompleteListener<Void>() {\n                        @Override\n                        public void onComplete(@NonNull Task<Void> task) {\n                            recreate();\n                            if (task.isSuccessful()) {\n                                //Se sei positivo cambia il tuo \"rischio\" di contagio a \"100\" %\n                                db.collection(\"Utenti\").document(id).update(\"rischio\", RISCHIO_POSITIVO).addOnCompleteListener(new OnCompleteListener<Void>() {\n                                    @Override\n                                    public void onComplete(@NonNull Task<Void> task) {\n                                        recreate();\n                                        if (task.isSuccessful()) {\n                                            Toast.makeText(getApplicationContext(), \"Risulti positivo\", Toast.LENGTH_LONG).show();\n                                            recreate();\n                                        } else {\n                                            Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\n                                        }\n\n                                    }\n                                });\n                            } else {\n                                Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\n                            }\n\n                        }\n                    });\n                } else if (i == 2) {\n\n                    //Se sei in attesa di un test l'etichetta cambierà in \"test\"\n                    db.collection(\"Utenti\").document(id).update(\"etichetta\", \"test\").addOnCompleteListener(new OnCompleteListener<Void>() {\n                        @Override\n                        public void onComplete(@NonNull Task<Void> task) {\n                            recreate();\n                            if (task.isSuccessful()) {\n                                //Se sei in attesa di un test cambia il tuo \"rischio\" di contagio a \"50\" %\n                                db.collection(\"Utenti\").document(id).update(\"rischio\", RISCHIO_TEST).addOnCompleteListener(new OnCompleteListener<Void>() {\n                                    @Override\n                                    public void onComplete(@NonNull Task<Void> task) {\n                                        recreate();\n                                        if (task.isSuccessful()) {\n                                            Toast.makeText(getApplicationContext(), \"Risulti in Attesa\", Toast.LENGTH_LONG).show();\n                                            recreate();\n                                        } else {\n                                            Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\n                                        }\n\n                                    }\n                                });\n                            } else {\n                                Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\n                            }\n\n                        }\n                    });\n\n                } else if (i == 3) {\n\n                    //Se sei negativo cambia la tua etichetta da \"test\" in \"negativo\"\n                    db.collection(\"Utenti\").document(id).update(\"etichetta\", \"super\").addOnCompleteListener(new OnCompleteListener<Void>() {\n                        @Override\n                        public void onComplete(@NonNull Task<Void> task) {\n                            recreate();\n                            if (task.isSuccessful()) {\n                                //Se sei negativo cambia il tuo \"rischio\" di contagio a \"0\" %\n                                db.collection(\"Utenti\").document(id).update(\"rischio\", RISCHIO_NEGATIVO).addOnCompleteListener(new OnCompleteListener<Void>() {\n                                    @Override\n                                    public void onComplete(@NonNull Task<Void> task) {\n                                        recreate();\n                                        if (task.isSuccessful()) {\n                                            Toast.makeText(getApplicationContext(), \"Risulti essere negativo\", Toast.LENGTH_LONG).show();\n                                            recreate();\n                                        } else {\n                                            Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\n                                        }\n\n                                    }\n                                });\n                            } else {\n                                Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\n                            }\n\n                        }\n                    });\n                }\n\n            }\n        });\n\n        noPopup.setOnClickListener(new View.OnClickListener() {\n            @Override\n            public void onClick(View v) {\n\n                dialog.dismiss();\n            }\n        });\n\n\n    }\n\n    public void popupPositivo(View view) {\n\n        this.createNewContactDialog(1);\n    }\n\n    public void popupInAttesa(View view) {\n\n        this.createNewContactDialog(2);\n    }\n\n    public void popupNegativo(View view) {\n\n        this.createNewContactDialog(3);\n    }\n\n    public class AggiornaRischioThread implements Runnable {\n\n        public long rischio =0;\n        public int n=0;\n\n        @Override\n        public void run() {\n\n\n            db.collection(\"Utenti\")\n                    .get()\n                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {\n                        @Override\n                        public void onComplete(@NonNull Task<QuerySnapshot> task) {\n\n                            if (task.isSuccessful()) {\n\n                                try{\n                                    SQLiteDatabase myDb = openOrCreateDatabase(\"Contatti\", MODE_PRIVATE, null);\n                                    myDb.execSQL(\"CREATE TABLE IF NOT EXISTS contattiRegistrati(uid TEXT,data DATE)\");\n\n                                    Cursor c = myDb.rawQuery(\"SELECT * FROM contattiRegistrati WHERE data >= date('now','-10 day')\", null);\n\n                                    int uidIndex = c.getColumnIndex(\"uid\");\n\n                                    c.moveToFirst();\n                                    String[] codici = new String [c.getCount()];\n\n                                    do {\n                                        codici[n] = c.getString(uidIndex);\n                                        System.out.println(\"-\"+c.getString(uidIndex));\n                                        n++;\n                                    } while (c.moveToNext());\n                                    int j;\n                                    for (QueryDocumentSnapshot document : task.getResult()) {\n\n                                        j=0;\n                                        do{\n                                            String temp= document.getId();\n\n                                            if(temp.equals(codici[j])){\n\n                                                rischio =rischio + (long)document.get(\"rischio\");\n\n                                            }\n                                            j++;\n                                        }while(j<n);\n\n                                    }\n                                    rischio = rischio/n;\n                                    toastSuccess(getApplicationContext());\n                                }catch (Exception e){\n                                    toast(getApplicationContext());\n                                }\n\n\n                            } else {\n                                toast(getApplicationContext());\n                            }\n                        }\n                    });\n\n\n\n            if(rischio>utenteLoggato.rischio){\n\n                utenteLoggato.rischio = rischio;\n                db.collection(\"Utenti\").document(id).update(\"rischio\", rischio).addOnCompleteListener(new OnCompleteListener<Void>() {\n                    @Override\n                    public void onComplete(@NonNull Task<Void> task) {\n                        String temp =\"Rischio : \"+ rischio;\n                        LabelRischio.setText(temp);\n\n                    }\n                });\n            }\n\n\n        }\n\n\n        public void toast(final Context context) {\n            Handler handler = new Handler(Looper.getMainLooper());\n            handler.post(new Runnable() {\n                public void run() {\n                    Toast.makeText(context, \"Nessun Contatto trovato\", Toast.LENGTH_LONG).show();\n                }\n            });\n        }\n\n        public void toastSuccess(final Context context) {\n            Handler handler = new Handler(Looper.getMainLooper());\n            handler.post(new Runnable() {\n                public void run() {\n                    Toast.makeText(context, \"Rischio aggiornato correttamente\", Toast.LENGTH_LONG).show();\n                }\n            });\n        }\n\n\n    }\n\n\n\n\n\n\n\n    //FUNZIONI MENU\n\n\n    public void registraContatto() {\n\n        Intent i = new Intent(getApplicationContext(), BtActivity.class);\n        startActivity(i);\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\n    }\n\n    public void modificaUtente() {\n        Intent i = new Intent(getApplicationContext(), ModificaUtenteActivity.class);\n        startActivity(i);\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\n\n    }\n\n    private void homegruppi() {\n        Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);\n        startActivity(i);\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\n    }\n\n    private void homeeventi() {\n        Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);\n        startActivity(i);\n        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);\n    }\n\n\n    public void logout() {\n        mAuth.signOut();\n        if (null == FirebaseAuth.getInstance().getCurrentUser()) {\n            Toast.makeText(getApplicationContext(), \"Logout riuscito.\",\n                    Toast.LENGTH_SHORT).show();\n            Intent i = new Intent(getApplicationContext(), Splash.class);\n            startActivity(i);\n        } else {\n            Toast.makeText(getApplicationContext(), \"Logout fallito.\",\n                    Toast.LENGTH_SHORT).show();\n        }\n    }\n}\n
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/java/it/gadg/contagiapp/MainActivity.java	(revision 4f6626a216c4d812258d23cae180bbbb44ff95ad)
+--+++ app/src/main/java/it/gadg/contagiapp/MainActivity.java	(date 1611681231000)
+--@@ -45,7 +45,7 @@
+--     private AlertDialog dialog;
+--     private TextView richiestaPopup;
+--     private TextView LabelRischio;
+---    private Button siPopup, noPopup;
+--+    private CardView siPopup, noPopup;
+-- 
+--     //Variabili menù hamburger
+--     DrawerLayout drawerLayout;
+--Index: app/src/main/res/layout/popupmain.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:orientation=\"vertical\"\n    >\n\n    <TextView\n        android:id=\"@+id/richiestaPopup\"\n        android:layout_width=\"320dp\"\n        android:layout_height=\"105dp\"\n        android:text=\"Confermi di essere in attesa del test?\"\n        android:textAlignment=\"center\"\n        android:textSize=\"24sp\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintHorizontal_bias=\"0.484\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toTopOf=\"parent\"\n        app:layout_constraintVertical_bias=\"0.309\" />\n\n    <Button\n        android:id=\"@+id/siPopup\"\n        android:layout_width=\"105dp\"\n        android:layout_height=\"57dp\"\n        android:layout_marginStart=\"44dp\"\n        android:text=\"SI\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toBottomOf=\"@+id/richiestaPopup\"\n        app:layout_constraintVertical_bias=\"0.234\" />\n\n    <Button\n        android:id=\"@+id/noPopup\"\n        android:layout_width=\"105dp\"\n        android:layout_height=\"57dp\"\n        android:layout_marginEnd=\"44dp\"\n        android:text=\"NO\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintTop_toBottomOf=\"@+id/richiestaPopup\"\n        app:layout_constraintVertical_bias=\"0.234\" />\n</androidx.constraintlayout.widget.ConstraintLayout>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/res/layout/popupmain.xml	(revision 4f6626a216c4d812258d23cae180bbbb44ff95ad)
+--+++ app/src/main/res/layout/popupmain.xml	(date 1611681231000)
+--@@ -1,20 +1,19 @@
+-- <?xml version="1.0" encoding="utf-8"?>
+---<androidx.constraintlayout.widget.ConstraintLayout
+---    xmlns:android="http://schemas.android.com/apk/res/android"
+--+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+--     xmlns:app="http://schemas.android.com/apk/res-auto"
+--     xmlns:tools="http://schemas.android.com/tools"
+--     android:layout_width="match_parent"
+--     android:layout_height="match_parent"
+---    android:orientation="vertical"
+---    >
+--+    android:orientation="vertical">
+-- 
+--     <TextView
+--         android:id="@+id/richiestaPopup"
+--         android:layout_width="320dp"
+--         android:layout_height="105dp"
+--+        android:fontFamily="@font/baloo"
+--         android:text="Confermi di essere in attesa del test?"
+--         android:textAlignment="center"
+---        android:textSize="24sp"
+--+        android:textSize="30sp"
+--         app:layout_constraintBottom_toBottomOf="parent"
+--         app:layout_constraintEnd_toEndOf="parent"
+--         app:layout_constraintHorizontal_bias="0.484"
+--@@ -22,25 +21,71 @@
+--         app:layout_constraintTop_toTopOf="parent"
+--         app:layout_constraintVertical_bias="0.309" />
+-- 
+---    <Button
+--+
+--+    <androidx.cardview.widget.CardView
+--         android:id="@+id/siPopup"
+---        android:layout_width="105dp"
+---        android:layout_height="57dp"
+---        android:layout_marginStart="44dp"
+---        android:text="SI"
+---        app:layout_constraintBottom_toBottomOf="parent"
+--+        android:layout_width="155dp"
+--+
+--+        android:layout_height="79dp"
+--+        android:layout_marginStart="25dp"
+--+        android:layout_marginTop="61dp"
+--+        android:layout_marginEnd="40dp"
+--+        app:cardBackgroundColor="@color/white"
+--+        app:cardCornerRadius="25dp"
+--+        app:cardElevation="10dp"
+--+        app:layout_constraintEnd_toStartOf="@+id/noPopup"
+--         app:layout_constraintStart_toStartOf="parent"
+---        app:layout_constraintTop_toBottomOf="@+id/richiestaPopup"
+---        app:layout_constraintVertical_bias="0.234" />
+--+        app:layout_constraintTop_toBottomOf="@+id/richiestaPopup">
+--+
+--+        <RelativeLayout
+--+            android:layout_width="match_parent"
+--+            android:layout_height="match_parent"
+--+            android:background="#D3CDDC39">
+--+
+--+            <TextView
+--+
+--+                android:layout_width="wrap_content"
+--+                android:layout_height="wrap_content"
+--+                android:layout_centerInParent="true"
+--+                android:fontFamily="@font/baloo"
+--+                android:text="SI"
+--+                android:textColor="@color/white"
+--+                android:textSize="30sp" />
+-- 
+---    <Button
+--+        </RelativeLayout>
+--+    </androidx.cardview.widget.CardView>
+--+
+--+    <androidx.cardview.widget.CardView
+--         android:id="@+id/noPopup"
+---        android:layout_width="105dp"
+---        android:layout_height="57dp"
+---        android:layout_marginEnd="44dp"
+---        android:text="NO"
+---        app:layout_constraintBottom_toBottomOf="parent"
+---        app:layout_constraintEnd_toEndOf="parent"
+---        app:layout_constraintTop_toBottomOf="@+id/richiestaPopup"
+---        app:layout_constraintVertical_bias="0.234" />
+--+        android:layout_width="155dp"
+--+
+--+        android:layout_height="79dp"
+--+        android:layout_marginStart="40dp"
+--+        android:layout_marginTop="61dp"
+--+        android:layout_marginEnd="36dp"
+--+        app:cardBackgroundColor="@color/colorPrimaryDark"
+--+        app:cardCornerRadius="25dp"
+--+        app:cardElevation="10dp"
+--+        app:layout_constraintEnd_toEndOf="parent"
+--+        app:layout_constraintStart_toEndOf="@+id/siPopup"
+--+        app:layout_constraintTop_toBottomOf="@+id/richiestaPopup">
+--+
+--+        <RelativeLayout
+--+            android:layout_width="156dp"
+--+            android:layout_height="match_parent"
+--+            android:background="#F44336">
+--+
+--+            <TextView
+--+
+--+                android:layout_width="wrap_content"
+--+                android:layout_height="wrap_content"
+--+                android:layout_centerInParent="true"
+--+                android:fontFamily="@font/baloo"
+--+                android:text="NO"
+--+                android:textColor="@color/white"
+--+                android:textSize="30sp" />
+--+
+--+        </RelativeLayout>
+--+    </androidx.cardview.widget.CardView>
+--+
+-- </androidx.constraintlayout.widget.ConstraintLayout>
+--\ No newline at end of file
+--Index: app/src/main/res/layout/activity_main.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.drawerlayout.widget.DrawerLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:id=\"@+id/drawer_layout\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:fitsSystemWindows=\"true\"\n    android:background=\"@drawable/bg_home\"\n    tools:context=\".MainActivity\"\n\n    >\n\n    <com.google.android.material.navigation.NavigationView\n        android:id=\"@+id/nav_view\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"match_parent\"\n        android:layout_gravity=\"start\"\n        app:headerLayout=\"@layout/header\"\n        app:menu=\"@menu/main_menu\">\n\n    </com.google.android.material.navigation.NavigationView>\n\n    <ScrollView\n        android:layout_width=\"412dp\"\n        android:layout_height=\"677dp\">\n\n        <androidx.constraintlayout.widget.ConstraintLayout\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\">\n\n\n            <androidx.cardview.widget.CardView\n                android:layout_width=\"130dp\"\n                android:layout_height=\"135dp\"\n                android:layout_marginTop=\"24dp\"\n                android:layout_marginEnd=\"40dp\"\n                android:layout_marginBottom=\"20dp\"\n                android:onClick=\"registraContatto\"\n                app:cardCornerRadius=\"9dp\"\n                app:cardElevation=\"9dp\"\n                app:layout_constraintBottom_toBottomOf=\"parent\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                app:layout_constraintTop_toBottomOf=\"@+id/cardView\">\n\n                <TextView\n                    android:id=\"@+id/textView5\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"80dp\"\n                    android:fontFamily=\"@font/baloo\"\n                    android:text=\"Registra Contatto\"\n                    android:textAlignment=\"center\"\n                    android:textColor=\"@color/quantum_grey700\"\n                    android:textSize=\"18sp\" />\n\n                <ImageView\n                    android:id=\"@+id/img\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"59dp\"\n                    android:layout_marginTop=\"15dp\"\n                    app:srcCompat=\"@drawable/contacttracing\" />\n            </androidx.cardview.widget.CardView>\n\n            <androidx.cardview.widget.CardView\n                android:id=\"@+id/cardView\"\n                android:layout_width=\"130dp\"\n                android:layout_height=\"135dp\"\n                android:layout_marginTop=\"40dp\"\n                android:layout_marginEnd=\"40dp\"\n                android:onClick=\"homeEventi\"\n                app:cardCornerRadius=\"9dp\"\n                app:cardElevation=\"9dp\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                app:layout_constraintTop_toBottomOf=\"@+id/cardView6\">\n\n                <TextView\n                    android:id=\"@+id/textView3\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"80dp\"\n                    android:fontFamily=\"@font/baloo\"\n                    android:text=\"Eventi\"\n                    android:textAlignment=\"center\"\n                    android:textColor=\"@color/quantum_grey700\"\n                    android:textSize=\"20sp\" />\n\n                <ImageView\n                    android:id=\"@+id/imageView4\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"59dp\"\n                    android:layout_marginTop=\"15dp\"\n                    app:srcCompat=\"@drawable/iconaevento\" />\n            </androidx.cardview.widget.CardView>\n\n            <androidx.cardview.widget.CardView\n                android:id=\"@+id/cardView2\"\n                android:layout_width=\"345dp\"\n                android:layout_height=\"193dp\"\n                android:layout_marginStart=\"40dp\"\n                android:layout_marginTop=\"70dp\"\n                android:layout_marginEnd=\"40dp\"\n                app:cardCornerRadius=\"7dp\"\n                app:cardElevation=\"8dp\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                app:layout_constraintStart_toStartOf=\"parent\"\n                app:layout_constraintTop_toTopOf=\"parent\">\n\n                <androidx.constraintlayout.widget.ConstraintLayout\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"match_parent\">\n\n                    <androidx.cardview.widget.CardView\n                        android:id=\"@+id/positivoB\"\n                        android:layout_width=\"173dp\"\n                        android:layout_height=\"50dp\"\n                        android:layout_alignParentStart=\"true\"\n                        android:layout_alignParentLeft=\"true\"\n                        android:layout_alignParentEnd=\"true\"\n                        android:layout_alignParentRight=\"true\"\n                        android:layout_alignParentBottom=\"true\"\n\n                        android:layout_marginEnd=\"20dp\"\n                        android:layout_marginBottom=\"30dp\"\n                        android:onClick=\"popupPositivo\"\n                        android:visibility=\"invisible\"\n                        app:cardBackgroundColor=\"@color/design_default_color_error\"\n                        app:cardCornerRadius=\"25dp\"\n                        app:cardElevation=\"10dp\"\n                        app:layout_constraintBottom_toBottomOf=\"parent\"\n                        app:layout_constraintEnd_toEndOf=\"parent\">\n\n                        <RelativeLayout\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"match_parent\">\n\n                            <TextView\n                                android:id=\"@+id/inAttesaText\"\n                                android:layout_width=\"wrap_content\"\n                                android:layout_height=\"wrap_content\"\n                                android:layout_centerInParent=\"true\"\n                                android:text=\"Sono positivo\"\n                                android:textColor=\"#fff\"\n                                android:textSize=\"18sp\" />\n                        </RelativeLayout>\n                    </androidx.cardview.widget.CardView>\n\n                    <androidx.cardview.widget.CardView\n                        android:id=\"@+id/inAttesaB\"\n                        android:layout_width=\"173dp\"\n                        android:layout_height=\"50dp\"\n                        android:layout_alignParentStart=\"true\"\n                        android:layout_alignParentLeft=\"true\"\n                        android:layout_alignParentEnd=\"true\"\n                        android:layout_alignParentRight=\"true\"\n                        android:layout_alignParentBottom=\"true\"\n                        android:layout_marginTop=\"70dp\"\n                        android:layout_marginEnd=\"20dp\"\n                        android:visibility=\"invisible\"\n                        app:cardBackgroundColor=\"@color/white\"\n                        app:cardCornerRadius=\"25dp\"\n                        app:cardElevation=\"10dp\"\n                        app:layout_constraintEnd_toEndOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\">\n\n                        <RelativeLayout\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"match_parent\"\n                            android:onClick=\"popupInAttesa\">\n\n                            <TextView\n                                android:id=\"@+id/positvoText\"\n                                android:layout_width=\"wrap_content\"\n                                android:layout_height=\"wrap_content\"\n                                android:layout_centerInParent=\"true\"\n                                android:text=\"Ho effettuato il test\"\n                                android:textColor=\"@color/quantum_grey700\"\n                                android:textSize=\"18sp\" />\n                        </RelativeLayout>\n                    </androidx.cardview.widget.CardView>\n\n                    <androidx.cardview.widget.CardView\n                        android:id=\"@+id/negativoB\"\n                        android:layout_width=\"173dp\"\n                        android:layout_height=\"50dp\"\n                        android:layout_alignParentStart=\"true\"\n                        android:layout_alignParentLeft=\"true\"\n                        android:layout_alignParentEnd=\"true\"\n                        android:layout_alignParentRight=\"true\"\n                        android:layout_alignParentBottom=\"true\"\n                        android:layout_marginTop=\"30dp\"\n                        android:layout_marginEnd=\"20dp\"\n                        android:onClick=\"popupNegativo\"\n                        android:visibility=\"invisible\"\n                        app:cardBackgroundColor=\"@color/colorPrimaryDark\"\n                        app:cardCornerRadius=\"25dp\"\n                        app:cardElevation=\"10dp\"\n                        app:layout_constraintEnd_toEndOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\">\n\n                        <RelativeLayout\n                            android:layout_width=\"match_parent\"\n                            android:layout_height=\"match_parent\">\n\n                            <TextView\n                                android:id=\"@+id/textView2\"\n                                android:layout_width=\"wrap_content\"\n                                android:layout_height=\"wrap_content\"\n                                android:layout_centerInParent=\"true\"\n                                android:text=\"Sono negativo\"\n                                android:textColor=\"@color/white\"\n                                android:textSize=\"18sp\" />\n                        </RelativeLayout>\n                    </androidx.cardview.widget.CardView>\n\n                    <ImageView\n                        android:id=\"@+id/imgTest\"\n                        android:layout_width=\"123dp\"\n                        android:layout_height=\"195dp\"\n                        android:layout_marginStart=\"4dp\"\n                        app:layout_constraintBottom_toBottomOf=\"parent\"\n                        app:layout_constraintStart_toStartOf=\"parent\"\n                        app:layout_constraintTop_toTopOf=\"parent\"\n                        app:layout_constraintVertical_bias=\"0.238\"\n                        app:srcCompat=\"@drawable/virus\" />\n                </androidx.constraintlayout.widget.ConstraintLayout>\n\n            </androidx.cardview.widget.CardView>\n\n            <androidx.cardview.widget.CardView\n                android:id=\"@+id/cardView3\"\n                android:layout_width=\"130dp\"\n                android:layout_height=\"135dp\"\n                android:layout_marginStart=\"40dp\"\n                android:layout_marginTop=\"40dp\"\n                android:onClick=\"homeGruppi\"\n                app:cardCornerRadius=\"9dp\"\n                app:cardElevation=\"9dp\"\n                app:layout_constraintStart_toStartOf=\"parent\"\n                app:layout_constraintTop_toBottomOf=\"@+id/cardView6\">\n\n                <ImageView\n                    android:id=\"@+id/imageView3\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"59dp\"\n                    android:layout_marginTop=\"15dp\"\n                    app:srcCompat=\"@drawable/iconagruppo\" />\n\n                <TextView\n                    android:id=\"@+id/textView\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"80dp\"\n                    android:fontFamily=\"@font/baloo\"\n                    android:text=\"Gruppi\"\n                    android:textAlignment=\"center\"\n                    android:textColor=\"@color/quantum_grey700\"\n                    android:textSize=\"20sp\" />\n            </androidx.cardview.widget.CardView>\n\n            <androidx.cardview.widget.CardView\n                android:layout_width=\"130dp\"\n                android:layout_height=\"135dp\"\n                android:layout_marginStart=\"40dp\"\n                android:layout_marginTop=\"24dp\"\n                android:onClick=\"aggRischio\"\n                app:cardCornerRadius=\"9dp\"\n                app:cardElevation=\"9dp\"\n                app:layout_constraintStart_toStartOf=\"parent\"\n                app:layout_constraintTop_toBottomOf=\"@+id/cardView3\">\n\n                <TextView\n                    android:id=\"@+id/textView6\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"80dp\"\n                    android:fontFamily=\"@font/baloo\"\n                    android:text=\"Aggiorna rischio\"\n                    android:textAlignment=\"center\"\n                    android:textColor=\"@color/quantum_grey700\"\n                    android:textSize=\"18sp\" />\n\n                <ImageView\n                    android:id=\"@+id/imgView3\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"59dp\"\n                    android:layout_marginTop=\"15dp\"\n                    app:srcCompat=\"@drawable/refresh\" />\n            </androidx.cardview.widget.CardView>\n\n            <androidx.cardview.widget.CardView\n                android:id=\"@+id/cardView6\"\n                android:layout_width=\"0dp\"\n                android:layout_height=\"100dp\"\n                android:layout_marginStart=\"40dp\"\n                android:layout_marginTop=\"40dp\"\n                android:layout_marginEnd=\"40dp\"\n                app:cardElevation=\"9dp\"\n                app:layout_constraintEnd_toEndOf=\"parent\"\n                app:layout_constraintHorizontal_bias=\"1.0\"\n                app:layout_constraintStart_toStartOf=\"parent\"\n                app:layout_constraintTop_toBottomOf=\"@+id/cardView2\" />\n\n        </androidx.constraintlayout.widget.ConstraintLayout>\n    </ScrollView>\n\n\n</androidx.drawerlayout.widget.DrawerLayout>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/res/layout/activity_main.xml	(revision 4f6626a216c4d812258d23cae180bbbb44ff95ad)
+--+++ app/src/main/res/layout/activity_main.xml	(date 1611681231000)
+--@@ -72,7 +72,7 @@
+--                 app:cardCornerRadius="9dp"
+--                 app:cardElevation="9dp"
+--                 app:layout_constraintEnd_toEndOf="parent"
+---                app:layout_constraintTop_toBottomOf="@+id/cardView6">
+--+                app:layout_constraintTop_toBottomOf="@+id/siPopup">
+-- 
+--                 <TextView
+--                     android:id="@+id/textView3"
+--@@ -237,7 +237,7 @@
+--                 app:cardCornerRadius="9dp"
+--                 app:cardElevation="9dp"
+--                 app:layout_constraintStart_toStartOf="parent"
+---                app:layout_constraintTop_toBottomOf="@+id/cardView6">
+--+                app:layout_constraintTop_toBottomOf="@+id/siPopup">
+-- 
+--                 <ImageView
+--                     android:id="@+id/imageView3"
+--@@ -289,7 +289,7 @@
+--             </androidx.cardview.widget.CardView>
+-- 
+--             <androidx.cardview.widget.CardView
+---                android:id="@+id/cardView6"
+--+                android:id="@+id/siPopup"
+--                 android:layout_width="0dp"
+--                 android:layout_height="100dp"
+--                 android:layout_marginStart="40dp"
+--Index: .idea/misc.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" default=\"true\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- .idea/misc.xml	(revision 4f6626a216c4d812258d23cae180bbbb44ff95ad)
+--+++ .idea/misc.xml	(date 1611676631000)
+--@@ -1,6 +1,6 @@
+-- <?xml version="1.0" encoding="UTF-8"?>
+-- <project version="4">
+---  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+--+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+--     <output url="file://$PROJECT_DIR$/build/classes" />
+--   </component>
+--   <component name="ProjectType">
+--Index: .idea/gradle.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"testRunner\" value=\"PLATFORM\" />\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"gradleJvm\" value=\"1.8\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n          </set>\n        </option>\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- .idea/gradle.xml	(revision 4f6626a216c4d812258d23cae180bbbb44ff95ad)
+--+++ .idea/gradle.xml	(date 1611676631000)
+--@@ -15,6 +15,7 @@
+--           </set>
+--         </option>
+--         <option name="resolveModulePerSourceSet" value="false" />
+--+        <option name="useQualifiedModuleNames" value="true" />
+--       </GradleProjectSettings>
+--     </option>
+--   </component>
+-Index: app/build.gradle
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>apply plugin: 'com.android.application'\r\napply plugin: 'com.google.gms.google-services'\r\n\r\nandroid {\r\n    compileSdkVersion 28\r\n    buildToolsVersion \"30.0.2\"\r\n\r\n    defaultConfig {\r\n        applicationId \"it.gadg.contagiapp\"\r\n        minSdkVersion 21\r\n        targetSdkVersion 28\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'com.google.android.material:material:1.2.1'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'\r\n\r\n    implementation 'androidx.navigation:navigation-fragment:2.3.2'\r\n    implementation 'androidx.navigation:navigation-ui:2.3.2'\r\n    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'\r\n    implementation 'androidx.annotation:annotation:1.1.0'\r\n    implementation 'com.google.firebase:firebase-firestore:22.0.1'\r\n    implementation 'androidx.drawerlayout:drawerlayout:1.0.0'\r\n\r\n    testImplementation 'junit:junit:4.12'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\r\n\r\n    implementation platform('com.google.firebase:firebase-bom:26.2.0')\r\n    implementation 'com.google.firebase:firebase-analytics'\r\n    implementation 'com.google.firebase:firebase-database:19.6.0'\r\n    implementation 'com.google.firebase:firebase-auth:20.0.1'\r\n\r\n\r\n    //animazioni grafiche\r\n    implementation 'com.airbnb.android:lottie:3.4.1'\r\n    implementation 'com.cuberto:liquid-swipe:1.0.0'\r\n    implementation 'com.android.support:design:28.0.0'\r\n    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.10'\r\n    implementation 'androidx.core:core:1.3.2'\r\n    implementation 'androidx.core:core-ktx:1.3.2'\r\n\r\n    implementation 'com.android.support:appcompat-v7:28.0.0'\r\n\r\n    implementation 'com.google.android.material:material:1.0.0'\r\n\r\n    //google maps\r\n\r\n    implementation 'com.google.android.libraries.places:places:2.4.0'\r\n\r\n\r\n}\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/build.gradle	(revision f23964c29dda3be247b7289174ac4fe3ddf2c4f8)
+-+++ app/build.gradle	(date 1612278791345)
+-@@ -37,6 +37,7 @@
+-     implementation 'androidx.annotation:annotation:1.1.0'
+-     implementation 'com.google.firebase:firebase-firestore:22.0.1'
+-     implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
+-+    implementation 'androidx.preference:preference:1.1.1'
+- 
+-     testImplementation 'junit:junit:4.12'
+-     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+-Index: app/src/main/java/it/gadg/contagiapp/gruppo/GestisciGruppoActivity.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package it.gadg.contagiapp.gruppo;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.ActionBar;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.cardview.widget.CardView;\r\nimport androidx.core.content.ContextCompat;\r\n\r\nimport android.app.AlertDialog;\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.MenuItem;\r\nimport android.view.View;\r\nimport android.widget.EditText;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.OnSuccessListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.firebase.firestore.DocumentReference;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.google.firebase.firestore.QueryDocumentSnapshot;\r\nimport com.google.firebase.firestore.QuerySnapshot;\r\n\r\nimport it.gadg.contagiapp.MainActivity;\r\nimport it.gadg.contagiapp.R;\r\nimport it.gadg.contagiapp.modelli.GruppoUtenti;\r\n\r\npublic class GestisciGruppoActivity extends AppCompatActivity {\r\n\r\n    FirebaseFirestore db;\r\n\r\n    private AlertDialog.Builder PopupEliminazioneGruppo;\r\n    private AlertDialog dialog;\r\n    TextView NomeGruppoGestione;\r\n    private CardView siEliminazione, noEliminazione;\r\n    EditText EmailInvito;\r\n    String idGruppo;\r\n    int flag=0;\r\n\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_gestisci_gruppo);\r\n\r\n        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));\r\n\r\n\r\n        // the action bar\r\n        ActionBar actionBar = getSupportActionBar();\r\n        // mostra il pulsante per tornare indietro\r\n        actionBar.setDisplayHomeAsUpEnabled(true);\r\n\r\n        Intent intent = getIntent();\r\n        String temp =intent.getStringExtra(\"NomeGruppo\");\r\n        NomeGruppoGestione = findViewById(R.id.NomeEventoVisualizza);\r\n        NomeGruppoGestione.setText(temp);\r\n\r\n        setTitle(temp);\r\n\r\n\r\n        idGruppo = intent.getStringExtra(\"idGruppo\");\r\n\r\n        db = FirebaseFirestore.getInstance();\r\n\r\n\r\n    }\r\n\r\n    @Override\r\n    public void finish() {\r\n        super.finish();\r\n        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);\r\n    }\r\n\r\n\r\n    public boolean onOptionsItemSelected(@NonNull MenuItem item) {\r\n        switch (item.getItemId()) {\r\n            case android.R.id.home:\r\n                this.finish();\r\n                return true;\r\n        }\r\n        return super.onOptionsItemSelected(item);\r\n    }\r\n\r\n    public void invitaUtente(View view) {\r\n\r\n\r\n        EmailInvito = findViewById(R.id.emailInvito);\r\n        String email = EmailInvito.getText().toString();\r\n\r\n        db.collection(\"Utenti\")\r\n                .whereEqualTo(\"email\", email)\r\n                .get()\r\n                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {\r\n                    @Override\r\n                    public void onComplete(@NonNull Task<QuerySnapshot> task) {\r\n                        if(task.getResult().isEmpty()){\r\n\r\n                            Toast.makeText(GestisciGruppoActivity.this, \"Utente non trovato\",\r\n                                    Toast.LENGTH_SHORT).show();\r\n                        }\r\n                        if (task.isSuccessful()) {\r\n                            for (QueryDocumentSnapshot document : task.getResult()) {\r\n                                final String id = document.getId();\r\n\r\n                                db.collection(\"GruppoUtenti\").whereEqualTo(\"UID\",id).whereEqualTo(\"idGruppo\",idGruppo).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {\r\n                                    @Override\r\n                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {\r\n                                        QuerySnapshot document = task.getResult();\r\n                                        if (document.size() == 0) {\r\n                                            GruppoUtenti gU = new GruppoUtenti(idGruppo, id);\r\n                                            gU.ruolo = \"0\";\r\n                                            gU.status = 0;\r\n                                            db.collection(\"GruppoUtenti\").add(gU).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {\r\n                                                @Override\r\n                                                public void onComplete(@NonNull Task<DocumentReference> task) {\r\n                                                    if (task.isSuccessful()) {\r\n                                                        Toast.makeText(GestisciGruppoActivity.this, \"Invito inviato correttamente\",\r\n                                                                Toast.LENGTH_SHORT).show();\r\n                                                    }else{\r\n                                                        Toast.makeText(GestisciGruppoActivity.this, \"Non siamo riusciti a completare l'operazione\",\r\n                                                                Toast.LENGTH_SHORT).show();\r\n                                                    }\r\n                                                }\r\n                                            });\r\n                                        } else {\r\n                                            Toast.makeText(GestisciGruppoActivity.this, \"Invito già inviato\",\r\n                                                    Toast.LENGTH_SHORT).show();\r\n                                        }\r\n                                    }\r\n                                });\r\n\r\n\r\n                            }\r\n                        } else {\r\n\r\n                            Toast.makeText(GestisciGruppoActivity.this, \"Non siamo riusciti a completare l'operazione .\",\r\n                                    Toast.LENGTH_LONG).show();\r\n                        }\r\n                    }\r\n                });\r\n\r\n\r\n\r\n\r\n    }\r\n\r\n    public void eliminaGruppo() {\r\n\r\n        db.collection(\"GruppoUtenti\").whereEqualTo(\"idGruppo\", idGruppo).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {\r\n\r\n            @Override\r\n            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {\r\n                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {\r\n                    db.collection(\"GruppoUtenti\").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                        @Override\r\n                        public void onComplete(@NonNull Task<Void> task) {\r\n                            if (!task.isSuccessful()) {\r\n                                flag=1;\r\n                            }\r\n                        }\r\n                    });\r\n                }\r\n            }\r\n        });\r\n\r\n        if(flag==0){\r\n            db.collection(\"Gruppi\").document(idGruppo).delete().addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                @Override\r\n                public void onComplete(@NonNull Task<Void> task) {\r\n                    if (task.isSuccessful()) {\r\n                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);\r\n                        startActivity(intent);\r\n                        Toast.makeText(getApplicationContext(), \"Gruppo eliminato correttamente\", Toast.LENGTH_LONG).show();\r\n                    } else {\r\n                        Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\r\n                    }\r\n\r\n                }\r\n            });\r\n        }else{\r\n            Toast.makeText(getApplicationContext(), \"Errore , riprova più tardi\", Toast.LENGTH_LONG).show();\r\n        }\r\n\r\n    }\r\n\r\n    public void listaMembri(View view) {\r\n        Intent intent = new Intent(getApplicationContext(), MembriGruppo.class);\r\n        intent.putExtra(\"idGruppo\",idGruppo);\r\n        intent.putExtra(\"ruolo\",1);\r\n        startActivity(intent);\r\n    }\r\n\r\n     public void ConfermaEliminazioneGruppo(View view) {\r\n\r\n\r\n        PopupEliminazioneGruppo = new AlertDialog.Builder(this);\r\n        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupeliminagruppo, null);\r\n\r\n\r\n\r\n\r\n        siEliminazione = contactPopupView.findViewById(R.id.siEliminazione);\r\n        noEliminazione= contactPopupView.findViewById(R.id.noEliminazione);\r\n\r\n        PopupEliminazioneGruppo.setView(contactPopupView);\r\n        dialog = PopupEliminazioneGruppo.create();\r\n        dialog.show();\r\n\r\n         siEliminazione.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                eliminaGruppo();\r\n                dialog.dismiss();\r\n            }\r\n    });\r\n\r\n         noEliminazione.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n\r\n                dialog.dismiss();\r\n            }\r\n        });\r\n\r\n\r\n    }\r\n\r\n\r\n}
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/java/it/gadg/contagiapp/gruppo/GestisciGruppoActivity.java	(revision f23964c29dda3be247b7289174ac4fe3ddf2c4f8)
+-+++ app/src/main/java/it/gadg/contagiapp/gruppo/GestisciGruppoActivity.java	(date 1612281520280)
+-@@ -203,8 +203,8 @@
+- 
+- 
+- 
+--        siEliminazione = contactPopupView.findViewById(R.id.siEliminazione);
+--        noEliminazione= contactPopupView.findViewById(R.id.noEliminazione);
+-+        siEliminazione = contactPopupView.findViewById(R.id.siCanc);
+-+        noEliminazione= contactPopupView.findViewById(R.id.noCanc);
+- 
+-         PopupEliminazioneGruppo.setView(contactPopupView);
+-         dialog = PopupEliminazioneGruppo.create();
+-Index: app/src/main/res/layout/popupcancella.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/res/layout/popupcancella.xml	(date 1612281520294)
+-+++ app/src/main/res/layout/popupcancella.xml	(date 1612281520294)
+-@@ -0,0 +1,109 @@
+-+
+-+<androidx.constraintlayout.widget.ConstraintLayout
+-+    xmlns:android="http://schemas.android.com/apk/res/android"
+-+    xmlns:app="http://schemas.android.com/apk/res-auto"
+-+    xmlns:tools="http://schemas.android.com/tools"
+-+    android:layout_width="match_parent"
+-+    android:layout_height="match_parent"
+-+    android:orientation="vertical">
+-+
+-+
+-+    <TextView
+-+        android:id="@+id/richiestaPopup"
+-+        android:layout_width="320dp"
+-+        android:layout_height="105dp"
+-+        android:fontFamily="@font/baloo"
+-+        android:text="Sei sicuro di voler eliminare il tuo profilo?"
+-+        android:textAlignment="center"
+-+        android:textSize="30sp"
+-+        app:layout_constraintBottom_toBottomOf="parent"
+-+        app:layout_constraintEnd_toEndOf="parent"
+-+        app:layout_constraintHorizontal_bias="0.484"
+-+        app:layout_constraintStart_toStartOf="parent"
+-+        app:layout_constraintTop_toTopOf="parent"
+-+        app:layout_constraintVertical_bias="0.309" />
+-+
+-+
+-+    <androidx.cardview.widget.CardView
+-+        android:id="@+id/siCanc"
+-+        android:layout_width="139dp"
+-+
+-+        android:layout_height="65dp"
+-+        android:layout_marginStart="10dp"
+-+        android:layout_marginTop="80dp"
+-+        app:cardBackgroundColor="@color/colorPrimaryDark"
+-+        app:cardCornerRadius="25dp"
+-+        app:cardElevation="10dp"
+-+        app:layout_constraintStart_toStartOf="parent"
+-+        app:layout_constraintTop_toBottomOf="@+id/passwordCanc">
+-+
+-+        <RelativeLayout
+-+            android:layout_width="match_parent"
+-+            android:layout_height="match_parent">
+-+
+-+            <TextView
+-+
+-+                android:layout_width="wrap_content"
+-+                android:layout_height="wrap_content"
+-+                android:layout_centerInParent="true"
+-+                android:fontFamily="@font/baloo"
+-+                android:text="SI"
+-+                android:textColor="@color/white"
+-+                android:textSize="30sp" />
+-+
+-+        </RelativeLayout>
+-+    </androidx.cardview.widget.CardView>
+-+
+-+    <androidx.cardview.widget.CardView
+-+        android:id="@+id/noCanc"
+-+        android:layout_width="139dp"
+-+
+-+        android:layout_height="65dp"
+-+        android:layout_marginTop="80dp"
+-+        android:layout_marginEnd="10dp"
+-+        app:cardBackgroundColor="@color/design_default_color_error"
+-+        app:cardCornerRadius="25dp"
+-+        app:cardElevation="10dp"
+-+        app:layout_constraintEnd_toEndOf="parent"
+-+        app:layout_constraintTop_toBottomOf="@+id/passwordCanc">
+-+
+-+        <RelativeLayout
+-+            android:layout_width="match_parent"
+-+            android:layout_height="match_parent">
+-+
+-+            <TextView
+-+
+-+                android:layout_width="wrap_content"
+-+                android:layout_height="wrap_content"
+-+                android:layout_centerInParent="true"
+-+                android:fontFamily="@font/baloo"
+-+                android:text="NO"
+-+                android:textColor="@color/white"
+-+                android:textSize="30sp" />
+-+
+-+        </RelativeLayout>
+-+    </androidx.cardview.widget.CardView>
+-+
+-+    <TextView
+-+        android:id="@+id/textView7"
+-+        android:layout_width="wrap_content"
+-+        android:layout_height="wrap_content"
+-+        android:layout_marginTop="30dp"
+-+        android:layout_marginEnd="20dp"
+-+        app:layout_constraintEnd_toEndOf="parent"
+-+        app:layout_constraintTop_toBottomOf="@+id/noCanc" />
+-+
+-+    <EditText
+-+        android:id="@+id/passwordCanc"
+-+        android:layout_width="287dp"
+-+        android:layout_height="64dp"
+-+        android:layout_marginTop="50dp"
+-+        android:ems="10"
+-+        android:hint="Password"
+-+        android:inputType="textPassword"
+-+        app:layout_constraintEnd_toEndOf="parent"
+-+        app:layout_constraintStart_toStartOf="parent"
+-+        app:layout_constraintTop_toBottomOf="@+id/richiestaPopup" />
+-+
+-+
+-+</androidx.constraintlayout.widget.ConstraintLayout>
+-\ No newline at end of file
+-Index: app/src/main/res/layout/activity_impostazioni.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/res/layout/activity_impostazioni.xml	(date 1612281702175)
+-+++ app/src/main/res/layout/activity_impostazioni.xml	(date 1612281702175)
+-@@ -0,0 +1,52 @@
+-+<?xml version="1.0" encoding="utf-8"?>
+-+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-+    xmlns:app="http://schemas.android.com/apk/res-auto"
+-+    xmlns:tools="http://schemas.android.com/tools"
+-+    android:layout_width="match_parent"
+-+    android:layout_height="match_parent"
+-+    tools:context=".Impostazioni">
+-+
+-+    <TextView
+-+        android:id="@+id/SistemaImp"
+-+        android:layout_width="209dp"
+-+        android:layout_height="35dp"
+-+        android:layout_marginStart="10dp"
+-+        android:layout_marginTop="15dp"
+-+        android:text="@string/impostazionisez2"
+-+        android:textSize="24sp"
+-+        app:layout_constraintStart_toStartOf="parent"
+-+        app:layout_constraintTop_toTopOf="parent" />
+-+
+-+    <TextView
+-+        android:id="@+id/lang"
+-+        android:layout_width="244dp"
+-+        android:layout_height="66dp"
+-+        android:layout_marginStart="8dp"
+-+        android:layout_marginTop="28dp"
+-+        android:onClick="cambiaLingua"
+-+        android:text="@string/lang"
+-+        app:layout_constraintStart_toStartOf="parent"
+-+        app:layout_constraintTop_toBottomOf="@+id/SistemaImp" />
+-+
+-+    <TextView
+-+        android:id="@+id/info"
+-+        android:layout_width="244dp"
+-+        android:layout_height="66dp"
+-+        android:layout_marginStart="8dp"
+-+        android:layout_marginTop="24dp"
+-+        android:onClick="info"
+-+        android:text="Info"
+-+        app:layout_constraintStart_toStartOf="parent"
+-+        app:layout_constraintTop_toBottomOf="@+id/lang" />
+-+
+-+    <TextView
+-+        android:id="@+id/delProf"
+-+        android:layout_width="244dp"
+-+        android:layout_height="66dp"
+-+        android:layout_marginStart="16dp"
+-+        android:layout_marginTop="24dp"
+-+        android:onClick="cancellaProfilo"
+-+        android:text="@string/elimina_il_tuo_profilo"
+-+        app:layout_constraintStart_toStartOf="parent"
+-+        app:layout_constraintTop_toBottomOf="@+id/info" />
+-+</androidx.constraintlayout.widget.ConstraintLayout>
+-\ No newline at end of file
+-Index: app/src/main/java/it/gadg/contagiapp/Impostazioni.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/java/it/gadg/contagiapp/Impostazioni.java	(date 1612281947895)
+-+++ app/src/main/java/it/gadg/contagiapp/Impostazioni.java	(date 1612281947895)
+-@@ -0,0 +1,215 @@
+-+package it.gadg.contagiapp;
+-+
+-+import androidx.annotation.NonNull;
+-+import androidx.appcompat.app.AppCompatActivity;
+-+import androidx.cardview.widget.CardView;
+-+
+-+import android.app.AlertDialog;
+-+import android.content.Intent;
+-+import android.os.Bundle;
+-+import android.view.View;
+-+import android.widget.EditText;
+-+import android.widget.Toast;
+-+
+-+import com.google.android.gms.tasks.OnCompleteListener;
+-+import com.google.android.gms.tasks.OnSuccessListener;
+-+import com.google.android.gms.tasks.Task;
+-+import com.google.firebase.auth.AuthResult;
+-+import com.google.firebase.auth.FirebaseAuth;
+-+import com.google.firebase.firestore.DocumentSnapshot;
+-+import com.google.firebase.firestore.FirebaseFirestore;
+-+import com.google.firebase.firestore.QueryDocumentSnapshot;
+-+import com.google.firebase.firestore.QuerySnapshot;
+-+
+-+import it.gadg.contagiapp.modelli.User;
+-+import it.gadg.contagiapp.splash.Splash;
+-+
+-+public class Impostazioni extends AppCompatActivity {
+-+    User utenteLoggato;
+-+    FirebaseFirestore db;
+-+
+-+    private AlertDialog.Builder PopupCancella;
+-+    private AlertDialog dialog;
+-+    private CardView siCancella, noCancella;
+-+
+-+
+-+    int flag = 0;
+-+
+-+    private FirebaseAuth mAuth;
+-+    @Override
+-+    protected void onCreate(Bundle savedInstanceState) {
+-+        super.onCreate(savedInstanceState);
+-+        setContentView(R.layout.activity_impostazioni);
+-+
+-+        mAuth = FirebaseAuth.getInstance();
+-+        db = FirebaseFirestore.getInstance();
+-+
+-+
+-+        db.collection("Utenti")
+-+                .document(mAuth.getUid())
+-+                .get()
+-+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+-+
+-+                    @Override
+-+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+-+                        DocumentSnapshot document = task.getResult();
+-+                        utenteLoggato = new User(document.get("nome").toString(), document.get("cognome").toString(), document.get("email").toString());
+-+
+-+
+-+                    }
+-+                });
+-+
+-+    }
+-+
+-+    public void cambiaLingua(View view) {
+-+    }
+-+
+-+    public void info(View view) {
+-+    }
+-+
+-+    public void cancellaProfilo(View view) {
+-+
+-+        PopupCancella = new AlertDialog.Builder(this);
+-+        final View contactPopupView = getLayoutInflater().inflate(R.layout.popupcancella, null);
+-+
+-+
+-+
+-+
+-+        siCancella = contactPopupView.findViewById(R.id.siCanc);
+-+        noCancella= contactPopupView.findViewById(R.id.noCanc);
+-+
+-+        final EditText p =contactPopupView.findViewById(R.id.passwordCanc);
+-+
+-+        PopupCancella.setView(contactPopupView);
+-+        dialog = PopupCancella.create();
+-+        dialog.show();
+-+
+-+
+-+
+-+        siCancella.setOnClickListener(new View.OnClickListener() {
+-+            @Override
+-+            public void onClick(View v) {
+-+                eliminaProfilo(p.getText().toString());
+-+                dialog.dismiss();
+-+            }
+-+        });
+-+
+-+        noCancella.setOnClickListener(new View.OnClickListener() {
+-+            @Override
+-+            public void onClick(View v) {
+-+                dialog.dismiss();
+-+            }
+-+        });
+-+
+-+    }
+-+
+-+
+-+
+-+    public void eliminaProfilo(String password) {
+-+
+-+        if ((!password.equals(""))) {
+-+
+-+            mAuth.signInWithEmailAndPassword(utenteLoggato.email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+-+                @Override
+-+                public void onComplete(@NonNull Task<AuthResult> task) {
+-+                    if (task.isSuccessful()) {
+-+
+-+                        db.collection("GruppoUtenti").whereEqualTo("UID", utenteLoggato.uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+-+
+-+                            @Override
+-+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+-+                                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+-+
+-+                                    if (document.get("ruolo").equals("0")) {
+-+                                        db.collection("GruppoUtenti").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+-+                                            @Override
+-+                                            public void onComplete(@NonNull Task<Void> task) {
+-+                                                if (task.isSuccessful()) {
+-+
+-+                                                } else {
+-+                                                    Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+-+                                                }
+-+
+-+                                            }
+-+                                        });
+-+                                    } else {
+-+                                        stop();
+-+                                    }
+-+
+-+
+-+                                }
+-+                            }
+-+                        });
+-+
+-+
+-+                        if (flag == 0) {
+-+                            db.collection("PartecipazioneEvento").whereEqualTo("UID", utenteLoggato.uid).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+-+
+-+                                @Override
+-+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+-+                                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+-+                                        if (document.get("ruolo").equals("0")) {
+-+                                            db.collection("PartecipazioneEvento").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+-+                                                @Override
+-+                                                public void onComplete(@NonNull Task<Void> task) {
+-+                                                    if (task.isSuccessful()) {
+-+
+-+                                                    } else {
+-+                                                        Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+-+                                                    }
+-+
+-+                                                }
+-+                                            });
+-+                                        } else {
+-+                                            stop();
+-+                                        }
+-+
+-+
+-+                                    }
+-+                                }
+-+                            });
+-+
+-+                        }
+-+
+-+
+-+                        if (flag == 0) {
+-+                            db.collection("Utenti").document(utenteLoggato.uid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+-+                                @Override
+-+                                public void onComplete(@NonNull Task<Void> task) {
+-+                                    if (task.isSuccessful()) {
+-+                                        mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+-+                                            @Override
+-+                                            public void onComplete(@NonNull Task<Void> task) {
+-+                                                mAuth.signOut();
+-+                                                Toast.makeText(getApplicationContext(), "Utente , eliminato correttamente", Toast.LENGTH_LONG).show();
+-+                                                Intent i = new Intent(getApplicationContext(), Splash.class);
+-+                                                startActivity(i);
+-+
+-+                                            }
+-+                                        });
+-+                                    } else {
+-+                                        Toast.makeText(getApplicationContext(), "Errore , riprova più tardi", Toast.LENGTH_LONG).show();
+-+                                    }
+-+
+-+                                }
+-+                            });
+-+
+-+                        }
+-+
+-+                    } else {
+-+                        Toast.makeText(getApplicationContext(), "Password Errata", Toast.LENGTH_LONG).show();
+-+                    }
+-+                }
+-+            });
+-+
+-+        } else {
+-+            Toast.makeText(getApplicationContext(), "Inserisci la password", Toast.LENGTH_LONG).show();
+-+        }
+-+    }
+-+
+-+    private void stop() {
+-+        flag = 1;
+-+        Toast.makeText(getApplicationContext(), "Non puoi elimare il tuo profilo finchè ci saranno gruppi o eventi di cui sei admin", Toast.LENGTH_LONG).show();
+-+    }
+-+
+-+}
+-\ No newline at end of file
+-Index: app/src/main/res/values/arrays.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+---- app/src/main/res/values/arrays.xml	(date 1612278789734)
+-+++ app/src/main/res/values/arrays.xml	(date 1612278789734)
+-@@ -0,0 +1,12 @@
+-+<resources>
+-+    <!-- Reply Preference -->
+-+    <string-array name="reply_entries">
+-+        <item>Reply</item>
+-+        <item>Reply to all</item>
+-+    </string-array>
+-+
+-+    <string-array name="reply_values">
+-+        <item>reply</item>
+-+        <item>reply_all</item>
+-+    </string-array>
+-+</resources>
+-\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_03_02_2021_16_20__Default_Changelist_.xml
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_03_02_2021_16_20__Default_Changelist_.xml	(revision 4648a68857c9f53c9179280b00500f22cb62556a)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_03_02_2021_16_20__Default_Changelist_.xml	(revision 4648a68857c9f53c9179280b00500f22cb62556a)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_03_02_2021_16_20_[Default_Changelist]" date="1612365633139" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_03_02_2021_16_20_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 03/02/2021 16:20 [Default Changelist]" />
+-</changelist>
+\ No newline at end of file
+Index: app/src/main/java/it/gadg/contagiapp/MainActivityAsl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/it/gadg/contagiapp/MainActivityAsl.java	(date 1612974237451)
++++ app/src/main/java/it/gadg/contagiapp/MainActivityAsl.java	(date 1612974237451)
+@@ -0,0 +1,14 @@
++package it.gadg.contagiapp;
++
++import androidx.appcompat.app.AppCompatActivity;
++
++import android.os.Bundle;
++
++public class MainActivityAsl extends AppCompatActivity {
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_main_asl);
++    }
++}
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_main_asl.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main_asl.xml	(date 1612974237375)
++++ app/src/main/res/layout/activity_main_asl.xml	(date 1612974237375)
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context=".MainActivityAsl">
++
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
