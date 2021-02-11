@@ -321,5 +321,16 @@ public class BtActivity extends AppCompatActivity implements SensorEventListener
         if (gestioneConnessione != null) {
             gestioneConnessione.stop();
         }
+        if (isAccelerometerAvailable){
+            sensorManager.unregisterListener(this);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (isAccelerometerAvailable){
+            sensorManager.unregisterListener(this);
+        }
     }
 }

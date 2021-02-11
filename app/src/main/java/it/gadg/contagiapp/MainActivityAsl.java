@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -15,12 +16,16 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import it.gadg.contagiapp.splash.Splash;
+
 public class MainActivityAsl extends AppCompatActivity {
 
+    private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
     TextView emailInput;
     String email;
     private int RISCHIO_POSITIVO = 100;
@@ -35,6 +40,7 @@ public class MainActivityAsl extends AppCompatActivity {
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorLogoBlue));
         Window window = this.getWindow();
 
+
         // clear FLAG_TRANSLUCENT_STATUS flag:
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
@@ -47,6 +53,8 @@ public class MainActivityAsl extends AppCompatActivity {
 
         toolbar=findViewById(R.id.toolbarAsl);
         setSupportActionBar(toolbar);
+
+        mAuth = FirebaseAuth.getInstance();
     }
 
 
@@ -112,5 +120,18 @@ public class MainActivityAsl extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    public void logout(View view) {
+        mAuth.signOut();
+        if (null == FirebaseAuth.getInstance().getCurrentUser()) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.logoutSucc),
+                    Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(getApplicationContext(), Splash.class);
+            startActivity(i);
+        } else {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.logoutFail),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }

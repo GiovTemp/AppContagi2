@@ -16,11 +16,18 @@
         android:roundIcon="@mipmap/ic_launcher_circle"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivityAsl"
-            android:screenOrientation="portrait"
+        <activity android:name=".Splash2"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
+        <activity
+            android:name=".MainActivityAsl"
             android:label="Dashboard ASL"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Impostazioni"
             android:label="@string/title_activity_impostazioni" />
@@ -106,11 +113,7 @@
         <activity
             android:name=".splash.Splash"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
