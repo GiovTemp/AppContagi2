@@ -36,6 +36,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import it.gadg.contagiapp.autenticazione.Login;
 import it.gadg.contagiapp.modelli.User;
 import it.gadg.contagiapp.splash.Splash;
 import it.gadg.contagiapp.utente.ModificaUtenteActivity;
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView LabelRischio;
     private CardView siPopup, noPopup;
 
+    String id;
+
     //Variabili menù hamburger
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView nomeMenu;
     TextView emailMenu;
 
-    public String id;
+
 
     FirebaseFirestore db;
 
@@ -84,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
+        id= mAuth.getCurrentUser().getUid();
+        db = FirebaseFirestore.getInstance();
 
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
 
@@ -289,16 +294,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     db.collection("Utenti").document(id).update("etichetta", "positivo").addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            recreate();
+                            finish();
                             if (task.isSuccessful()) {
                                 //Se sei positivo cambia il tuo "rischio" di contagio a "100" %
+
                                 db.collection("Utenti").document(id).update("rischio", RISCHIO_POSITIVO).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        recreate();
+
                                         if (task.isSuccessful()) {
                                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.risPos), Toast.LENGTH_LONG).show();
-                                            recreate();
+                                           finish();
+                                            Intent i = new Intent(getApplicationContext(), Splash.class);
+                                            startActivity(i);
                                         } else {
                                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                                         }
@@ -323,10 +331,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 db.collection("Utenti").document(id).update("rischio", RISCHIO_TEST).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        recreate();
+
                                         if (task.isSuccessful()) {
                                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.risWait), Toast.LENGTH_LONG).show();
-                                            recreate();
+                                            finish();
+                                            Intent i = new Intent(getApplicationContext(), Splash.class);
+                                            startActivity(i);
                                         } else {
                                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                                         }
@@ -346,16 +356,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     db.collection("Utenti").document(id).update("etichetta", "super").addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            recreate();
+                            finish();
                             if (task.isSuccessful()) {
                                 //Se sei negativo cambia il tuo "rischio" di contagio a "0" %
                                 db.collection("Utenti").document(id).update("rischio", RISCHIO_NEGATIVO).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        recreate();
+
                                         if (task.isSuccessful()) {
                                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.risNeg), Toast.LENGTH_LONG).show();
-                                            recreate();
+                                            Intent i = new Intent(getApplicationContext(), Splash.class);
+                                            startActivity(i);
+                                            finish();
                                         } else {
                                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
                                         }
