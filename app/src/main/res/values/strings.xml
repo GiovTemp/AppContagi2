@@ -230,6 +230,7 @@
     <string name="titoloSplash1">Partecipa o crea</string>
     <string name="testoSplash2">Stabilisci il luogo, la data e il nome dei tuoi eventi</string>
     <string name="testoSplash3">Tieni traccia del rischio di contagio dei tuoi amici e familiari</string>
+    <string name="norichiesteEventi">Non hai richieste di inviti ad eventi </string>
 
 
     <plurals name="Ngruppi">

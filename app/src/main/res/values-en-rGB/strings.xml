@@ -225,6 +225,7 @@
     <string name="titoloSplash1">Join or create</string>
     <string name="testoSplash2">Establish a location, date or name for your Events</string>
     <string name="testoSplash3">Keep track of your friends and family risk level</string>
+    <string name="norichiesteEventi">You have no events invitations </string>
 
     <plurals name="Ngruppi">
         <item quantity="one"> You are part of a group: </item>
