@@ -1,6 +1,8 @@
 package it.gadg.contagiapp.modelli;
 
-public class User  {
+import java.io.Serializable;
+
+public class User implements Serializable {
     public String nome;
     public String cognome;
     public String email;

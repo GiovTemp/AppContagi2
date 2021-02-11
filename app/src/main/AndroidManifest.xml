@@ -19,6 +19,7 @@
         <activity android:name=".MainActivityAsl"
             android:screenOrientation="portrait"
             android:label="Dashboard ASL"
+            android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
             android:name=".Impostazioni"

@@ -75,7 +75,7 @@ public class MembriGruppo extends AppCompatActivity {
         idGruppo = intent.getStringExtra("idGruppo");
         permessi =intent.getIntExtra("ruolo",0);
 
-        db.collection("GruppoUtenti").whereEqualTo("idGruppo", idGruppo).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        db.collection("GruppoUtenti").whereEqualTo("status", 1).whereEqualTo("idGruppo", idGruppo).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 flag = queryDocumentSnapshots.size();

@@ -9,7 +9,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import it.gadg.contagiapp.evento.CreaEventoActivity;
 import it.gadg.contagiapp.evento.InviaPartecipazioneEvento;
 import it.gadg.contagiapp.evento.ListaEventiActivity;
+import it.gadg.contagiapp.modelli.User;
 import it.gadg.contagiapp.splash.Splash;
 import it.gadg.contagiapp.utente.ModificaUtenteActivity;
 
@@ -36,6 +36,8 @@ public class HomeEventiActivity extends AppCompatActivity implements NavigationV
     TextView textView;
     TextView nomeMenu;
     TextView emailMenu;
+
+    User utenteLoggato;
 
     String nomeUtente;
     String emailUtente;
@@ -54,6 +56,8 @@ public class HomeEventiActivity extends AppCompatActivity implements NavigationV
 
 
 
+
+
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
 
 
@@ -64,18 +68,16 @@ public class HomeEventiActivity extends AppCompatActivity implements NavigationV
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
         textView=findViewById(R.id.positvoText);
-        toolbar=findViewById(R.id.toolbar);
+        toolbar=findViewById(R.id.toolbarAsl);
         setSupportActionBar(toolbar);
 
-
+        Intent i = getIntent();
+        utenteLoggato = (User) i.getSerializableExtra("utenteLoggato");
         View headerLayout = navigationView.getHeaderView(0);
         nomeMenu=headerLayout.findViewById(R.id.nomeMenu);
-        Intent i = getIntent();
-        nomeUtente =i.getStringExtra("nome");
-        nomeMenu.setText(nomeUtente);
-        emailUtente=i.getStringExtra("email");
+        nomeMenu.setText(utenteLoggato.nome + " " +utenteLoggato.cognome);
         emailMenu=headerLayout.findViewById(R.id.emailMenu);
-        emailMenu.setText(emailUtente);
+        emailMenu.setText(utenteLoggato.email);
 
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
@@ -149,14 +151,14 @@ public class HomeEventiActivity extends AppCompatActivity implements NavigationV
 
     private void home() {
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        i.putExtra("utenteLoggato",utenteLoggato);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     private void homegruppi() {
         Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);
-        i.putExtra("nome",nomeUtente);
-        i.putExtra("email",emailUtente);
+        i.putExtra("utenteLoggato",utenteLoggato);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

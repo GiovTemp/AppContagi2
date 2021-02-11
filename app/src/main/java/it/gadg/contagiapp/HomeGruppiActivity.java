@@ -9,7 +9,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import it.gadg.contagiapp.gruppo.CreaGruppoActivity;
 import it.gadg.contagiapp.gruppo.InvitiGruppi;
 import it.gadg.contagiapp.gruppo.ListaGruppiActivity;
+import it.gadg.contagiapp.modelli.User;
 import it.gadg.contagiapp.splash.Splash;
 import it.gadg.contagiapp.utente.ModificaUtenteActivity;
 
@@ -36,8 +36,7 @@ public class HomeGruppiActivity extends AppCompatActivity implements NavigationV
     TextView textView;
     TextView nomeMenu;
     TextView emailMenu;
-    String nomeUtente;
-    String emailUtente;
+    User utenteLoggato;
 
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
     @Override
@@ -63,17 +62,16 @@ public class HomeGruppiActivity extends AppCompatActivity implements NavigationV
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
         textView=findViewById(R.id.positvoText);
-        toolbar=findViewById(R.id.toolbar);
+        toolbar=findViewById(R.id.toolbarAsl);
 
+
+        Intent i = getIntent();
+        utenteLoggato = (User) i.getSerializableExtra("utenteLoggato");
         View headerLayout = navigationView.getHeaderView(0);
         nomeMenu=headerLayout.findViewById(R.id.nomeMenu);
-        Intent i = getIntent();
-        nomeUtente =i.getStringExtra("nome");
-        nomeMenu.setText(nomeUtente);
-        emailUtente=i.getStringExtra("email");
+        nomeMenu.setText(utenteLoggato.nome + " " +utenteLoggato.cognome);
         emailMenu=headerLayout.findViewById(R.id.emailMenu);
-        emailMenu.setText(emailUtente);
-
+        emailMenu.setText(utenteLoggato.email);
         setSupportActionBar(toolbar);
 
 
@@ -146,6 +144,7 @@ public class HomeGruppiActivity extends AppCompatActivity implements NavigationV
 
     private void home() {
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        i.putExtra("utenteLoggato",utenteLoggato);
         startActivity(i);
         overridePendingTransition(R.anim.slide_up_in, R.anim.slide_up_out);
     }
@@ -153,8 +152,7 @@ public class HomeGruppiActivity extends AppCompatActivity implements NavigationV
 
     private void homeeventi() {
         Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);
-        i.putExtra("nome",nomeUtente);
-        i.putExtra("email",emailUtente);
+        i.putExtra("utenteLoggato",utenteLoggato);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

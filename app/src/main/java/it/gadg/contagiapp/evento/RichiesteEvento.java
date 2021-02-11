@@ -65,32 +65,38 @@ public class RichiesteEvento extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 flag = queryDocumentSnapshots.size();
-                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
-                    String UID = document.getString("UID");
-                    final UtenteRichiesta x = new UtenteRichiesta(UID);
-                    x.idRichiesta = document.getId();
+                if (flag==0){
+                    setContentView(R.layout.no_richieste_eventi);
+                }else {
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
-                    db.collection("Utenti").document(UID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document != null) {
-                                    x.nome=document.getString("nome");
-                                    x.cognome=document.getString("cognome");
-                                    x.rischio= (long) document.get("rischio");
+                        String UID = document.getString("UID");
+                        final UtenteRichiesta x = new UtenteRichiesta(UID);
+                        x.idRichiesta = document.getId();
 
-                                    salvaUtente(x);
+                        db.collection("Utenti").document(UID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document != null) {
+                                        x.nome=document.getString("nome");
+                                        x.cognome=document.getString("cognome");
+                                        x.rischio= (long) document.get("rischio");
 
+                                        salvaUtente(x);
+
+                                    }
+                                } else {
+                                    Log.d("Errore", "get failed with ", task.getException());
                                 }
-                            } else {
-                                Log.d("Errore", "get failed with ", task.getException());
                             }
-                        }
 
-                    });
+                        });
+                    }
                 }
+
             }
 
             private void salvaUtente(UtenteRichiesta x) {

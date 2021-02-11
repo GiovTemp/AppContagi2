@@ -225,6 +225,11 @@
     <string name="titoloSplash1">Join or create</string>
     <string name="testoSplash2">Establish a location, date or name for your Events</string>
     <string name="testoSplash3">Keep track of your friends and family risk level</string>
+    <string name="InsPos">Report Positivity</string>
+    <string name="username">Username</string>
+    <string name="segnala">Report</string>
+    <string name="risPosAsl">Positivity reported correctly</string>
+    <string name="macchinaDelTempo">Sorry! Unless you\'ve got a time machine you can\'t create events in the past</string>
     <string name="norichiesteEventi">You have no events invitations </string>
 
     <plurals name="Ngruppi">

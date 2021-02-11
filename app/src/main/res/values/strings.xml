@@ -230,7 +230,12 @@
     <string name="titoloSplash1">Partecipa o crea</string>
     <string name="testoSplash2">Stabilisci il luogo, la data e il nome dei tuoi eventi</string>
     <string name="testoSplash3">Tieni traccia del rischio di contagio dei tuoi amici e familiari</string>
-    <string name="norichiesteEventi">Non hai richieste di inviti ad eventi </string>
+    <string name="InsPos">Segnala Positività</string>
+    <string name="username">Username</string>
+    <string name="segnala">Segnala</string>
+    <string name="risPosAsl">Positività segnalata correttamente</string>
+    <string name="macchinaDelTempo">Peccato, a meno che tu non abbia una macchina del tempo non puoi creare eventi nel passato</string>
+    <string name="norichiesteEventi">Non hai richieste per questo evento </string>
 
 
     <plurals name="Ngruppi">

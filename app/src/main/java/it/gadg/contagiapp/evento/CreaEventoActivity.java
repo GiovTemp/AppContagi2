@@ -27,7 +27,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -115,7 +120,9 @@ public class CreaEventoActivity extends AppCompatActivity {
 
         if(!dataValida(data) ){
             Toast.makeText(getApplicationContext(),getResources().getString(R.string.dataErr), Toast.LENGTH_SHORT).show();}
-            else if(!oraValido(ora)){
+        else if(!macchinaDelTempo(data)){
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.macchinaDelTempo), Toast.LENGTH_SHORT).show();}
+        else if(!oraValido(ora)){
                 Toast.makeText(getApplicationContext(),getResources().getString(R.string.oraErr), Toast.LENGTH_SHORT).show();
              }else {
             db.collection("Utenti").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -168,6 +175,24 @@ public class CreaEventoActivity extends AppCompatActivity {
         }
     }
 
+    private boolean macchinaDelTempo(String data) {
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        Date date = null;
+        try {
+            date = format.parse(data);
+            Date today = new Date();
+            if(date.before(today)){
+             return false;
+            }else{
+                return true;
+            }
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     private boolean oraValido(String ora) {
 
 
@@ -194,8 +219,10 @@ public class CreaEventoActivity extends AppCompatActivity {
     private boolean dataValida(String data) {
         // TODO Conversione stringa in data
 
-        String regex = "^(1[0-2]|0[1-9])/(3[01]"
-                + "|[12][0-9]|0[1-9])/[0-9]{4}$";
+        String regex = "^(3[01]|[12][0-9]|0[1-9])/" +
+                "(1[0-2]|0[1-9])"
+                +"/[0-9]{4}$";
+
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher((CharSequence)data);
         return matcher.matches();

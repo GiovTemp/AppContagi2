@@ -28,7 +28,7 @@
         android:background="@drawable/bg_home2">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbarAsl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -48,7 +48,7 @@
             app:cardCornerRadius="9dp"
             app:cardElevation="9dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/toolbarAsl">
 
             <ImageView
                 android:id="@+id/imageViewInviti"
@@ -81,7 +81,7 @@
             app:cardElevation="9dp"
             app:layout_constraintEnd_toStartOf="@+id/cardViewInvitiGruppi"
             app:layout_constraintStart_toEndOf="@+id/cardViewCreaGruppo"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/toolbarAsl">
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -112,7 +112,7 @@
             app:cardCornerRadius="9dp"
             app:cardElevation="9dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/toolbarAsl">
 
             <ImageView
                 android:id="@+id/imageViewCreaGruppo"

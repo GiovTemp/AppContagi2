@@ -1,12 +1,12 @@
 package it.gadg.contagiapp;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -83,8 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        mAuth = FirebaseAuth.getInstance();
 
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
 
@@ -120,53 +119,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         LabelRischio = findViewById(R.id.LabelRischio);
         imgTest = findViewById(R.id.imgTest);
 
-        //Estraggo l'utente
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser u = mAuth.getCurrentUser();
-        id = u.getUid();
-        db = FirebaseFirestore.getInstance();
-        db.collection("Utenti")
-                .document(id)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        DocumentSnapshot document = task.getResult();
-                        utenteLoggato = new User(document.get("nome").toString(),document.get("cognome").toString(),document.get("email").toString());
-                        utenteLoggato.etichetta = (String) document.get("etichetta");
-                        utenteLoggato.rischio = (Long) document.get("rischio");
-                        utenteLoggato.uid = document.getId();
+        Intent i = getIntent();
+        utenteLoggato = (User) i.getSerializableExtra("utenteLoggato");
 
 
-                        nomeMenu.setText(utenteLoggato.nome + " " +utenteLoggato.cognome);
-                        emailMenu.setText(utenteLoggato.email);
+        nomeMenu.setText(utenteLoggato.nome + " " +utenteLoggato.cognome);
+        emailMenu.setText(utenteLoggato.email);
 
-                        controllaAggiornamento();
-                        String temp =LabelRischio.getText().toString()+ utenteLoggato.rischio + "%";
+        controllaAggiornamento();
+        String temp =LabelRischio.getText().toString()+ utenteLoggato.rischio + "%";
 
-                        if(utenteLoggato.rischio>RISCHIO_ROSSO){
-                            LabelRischio.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorLigthRed));
-                        }else if ((utenteLoggato.rischio>RISCHIO_GIALLO)){
-                            LabelRischio.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorYellow));
-                        }
+        if(utenteLoggato.rischio>RISCHIO_ROSSO){
+            LabelRischio.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorLigthRed));
+        }else if ((utenteLoggato.rischio>RISCHIO_GIALLO)){
+            LabelRischio.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorYellow));
+        }
 
-                        LabelRischio.setText(temp);
+        LabelRischio.setText(temp);
 
-                        if (utenteLoggato.etichetta.equals("super") || utenteLoggato.etichetta.equals("sicuro") || utenteLoggato.etichetta.equals("incerto")) {
-                            inAttesaB.setVisibility(View.VISIBLE);
-                        } else if (utenteLoggato.etichetta.equals("test")) {
+        if (utenteLoggato.etichetta.equals("super") || utenteLoggato.etichetta.equals("sicuro") || utenteLoggato.etichetta.equals("incerto")) {
+            inAttesaB.setVisibility(View.VISIBLE);
+        } else if (utenteLoggato.etichetta.equals("test")) {
 
 
-                            positivoB.setVisibility(View.VISIBLE);
-                            negativoB.setVisibility(View.VISIBLE);
-                        } else if (utenteLoggato.etichetta.equals("positivo")) {
+            positivoB.setVisibility(View.VISIBLE);
+            negativoB.setVisibility(View.VISIBLE);
+        } else if (utenteLoggato.etichetta.equals("positivo")) {
 
-                            inAttesaB.setVisibility(View.VISIBLE);
-                        }
-
-                    }
-                });
+            inAttesaB.setVisibility(View.VISIBLE);
+        }
 
 
 
@@ -250,8 +231,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void homeEventi(View view) {
         Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);
-        i.putExtra("nome",utenteLoggato.nome+" "+utenteLoggato.cognome);
-        i.putExtra("email",utenteLoggato.email);
+        i.putExtra("utenteLoggato",utenteLoggato);
         startActivity(i);
         overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
     }
@@ -259,8 +239,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void homeGruppi(View view) {
         Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);
-        i.putExtra("nome",utenteLoggato.nome+" "+utenteLoggato.cognome);
-        i.putExtra("email",utenteLoggato.email);
+        i.putExtra("utenteLoggato",utenteLoggato);
         startActivity(i);
         overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
     }
@@ -282,10 +261,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         richiestaPopup = contactPopupView.findViewById(R.id.richiestaPopup);
 
         if (i == 1) {
-            String temp = getString(R.string.confermi_di_essere_in_attesa_del_test);
+            String temp = getString(R.string.confermipos);
+
             richiestaPopup.setText(temp);
         } else if (i == 2) {
-            String temp = getString(R.string.confermipos);
+            String temp = getString(R.string.confermi_di_essere_in_attesa_del_test);
             richiestaPopup.setText(temp);
         } else if (i == 3) {
             String temp = getString(R.string.confermineg);
@@ -546,16 +526,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void homegruppi() {
         Intent i = new Intent(getApplicationContext(), HomeGruppiActivity.class);
-        i.putExtra("nome",utenteLoggato.nome+" "+utenteLoggato.cognome);
-        i.putExtra("email",utenteLoggato.email);
+        i.putExtra("utenteLoggato",utenteLoggato);
         startActivity(i);
         overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
     }
 
     private void homeeventi() {
         Intent i = new Intent(getApplicationContext(), HomeEventiActivity.class);
-        i.putExtra("nome",utenteLoggato.nome+" "+utenteLoggato.cognome);
-        i.putExtra("email",utenteLoggato.email);
+        i.putExtra("utenteLoggato",utenteLoggato);
         startActivity(i);
         overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
     }

@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/baloo"
-                    android:text="Crea Gruppo"
+                    android:text="@string/crea_gruppo"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
