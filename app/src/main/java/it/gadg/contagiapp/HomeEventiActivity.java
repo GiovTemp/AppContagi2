@@ -118,6 +118,9 @@ public class HomeEventiActivity extends AppCompatActivity implements NavigationV
             case R.id.nav_contatto:
                 this.registraContatto();
                 break;
+            case R.id.nav_impostazioni:
+                this.apriImpostazioni();
+                break;
         }
 
         return true;
@@ -177,6 +180,11 @@ public class HomeEventiActivity extends AppCompatActivity implements NavigationV
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
+    }
+    private void apriImpostazioni() {
+        Intent i = new Intent(getApplicationContext(), Impostazioni.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
 

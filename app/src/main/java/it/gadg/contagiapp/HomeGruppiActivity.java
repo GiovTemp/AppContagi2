@@ -134,6 +134,9 @@ public class HomeGruppiActivity extends AppCompatActivity implements NavigationV
             case R.id.nav_contatto:
                 this.registraContatto();
                 break;
+            case R.id.nav_impostazioni:
+                this.apriImpostazioni();
+                break;
         }
 
         return true;
@@ -169,7 +172,12 @@ public class HomeGruppiActivity extends AppCompatActivity implements NavigationV
         Intent i = new Intent(getApplicationContext(), ModificaUtenteActivity.class);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
 
+    private void apriImpostazioni() {
+        Intent i = new Intent(getApplicationContext(), Impostazioni.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
 
