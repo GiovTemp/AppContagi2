@@ -9,8 +9,9 @@
     <ListView
         android:id="@+id/listaMembri"
         android:layout_width="386dp"
-        android:layout_height="601dp"
+        android:layout_height="550dp"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
