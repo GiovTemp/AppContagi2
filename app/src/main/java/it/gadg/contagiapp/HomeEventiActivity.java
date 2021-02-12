@@ -85,6 +85,8 @@ public class HomeEventiActivity extends AppCompatActivity implements NavigationV
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+        /*---------------------MENU------------------------*/
+
 
     }
 
@@ -190,12 +192,13 @@ public class HomeEventiActivity extends AppCompatActivity implements NavigationV
                     Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     public void onConfigurationChanged(@NotNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setContentView(R.layout.activity_home_evento_landscape);
+            setContentView(R.layout.activity_home_evento_landscape);//carico il layout landscape
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
             setContentView(R.layout.activity_home_eventi);
         }

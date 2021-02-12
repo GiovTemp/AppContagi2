@@ -230,7 +230,7 @@
     <string name="segnala">Report</string>
     <string name="risPosAsl">Positivity reported correctly</string>
     <string name="macchinaDelTempo">Sorry! Unless you\'ve got a time machine you can\'t create events in the past</string>
-    <string name="norichiesteEventi">You have no events invitations </string>
+    <string name="norichiesteEventi">You have no events requests </string>
 
     <plurals name="Ngruppi">
         <item quantity="one"> You are part of a group: </item>

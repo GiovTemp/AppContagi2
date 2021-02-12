@@ -43,10 +43,9 @@ import it.gadg.contagiapp.modelli.PartecipazioneEvento;
 public class CreaEventoActivity extends AppCompatActivity {
 
     EditText nomeEvento;
-    EditText luogoEvento;
     EditText dataEvento;
     EditText oraEvento;
-    String apiKey = "AIzaSyB0GDHQfu3ADx8FAwae0XnAVyc4-l87VgY";
+    String apiKey = "AIzaSyB0GDHQfu3ADx8FAwae0XnAVyc4-l87VgY";//chiave per utilizzare google maps
     String nomeLuogo = "";
     String idLuogo="";
 
@@ -69,14 +68,13 @@ public class CreaEventoActivity extends AppCompatActivity {
         PlacesClient placesClient = Places.createClient(this);
 
         //inizializzo fragment autocomplete places
-
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
         assert autocompleteFragment != null;
-        autocompleteFragment.setTypeFilter(TypeFilter.ESTABLISHMENT);
-        autocompleteFragment.setHint(getResources().getString(R.string.luogoEvento));
-        ((EditText)autocompleteFragment.getView().findViewById(R.id.places_autocomplete_search_input)).setHintTextColor(getResources().getColor(R.color.hint));
-        autocompleteFragment.getView().findViewById(R.id.places_autocomplete_search_button).setVisibility(View.GONE);
-        autocompleteFragment.setCountries("IT");
+        autocompleteFragment.setTypeFilter(TypeFilter.ESTABLISHMENT);//filtriamo solo i luoghi
+        autocompleteFragment.setHint(getResources().getString(R.string.luogoEvento));//impostiamo manualmente l'hint
+        ((EditText)autocompleteFragment.getView().findViewById(R.id.places_autocomplete_search_input)).setHintTextColor(getResources().getColor(R.color.hint));//impostiamo manualmente il colore dell'hint
+        autocompleteFragment.getView().findViewById(R.id.places_autocomplete_search_button).setVisibility(View.GONE);//nacsonidamo l'icona della lente d'ingrandiemnto
+        autocompleteFragment.setCountries("IT");//restrigniamo la riecercan solo a luoghi italiani
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID,Place.Field.NAME));
 
         ((EditText)autocompleteFragment.getView().findViewById(R.id.places_autocomplete_search_input)).setTextSize(15.0f);
@@ -87,8 +85,8 @@ public class CreaEventoActivity extends AppCompatActivity {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
                 Log.i("Luogo","Place :" + place.getName() + "," + place.getId());
-                nomeLuogo=place.getName();
-                idLuogo =place.getId();
+                nomeLuogo=place.getName();//ci salviamo il nome del luogo
+                idLuogo =place.getId();// ci salviamo l'id del luogo
 
             }
 
@@ -108,14 +106,16 @@ public class CreaEventoActivity extends AppCompatActivity {
 
     public void creaEvento(View view) {
 
+        //creo i collegamenti
         nomeEvento = findViewById(R.id.nomeEvento);
         dataEvento = findViewById(R.id.dataEvento);
         oraEvento = findViewById(R.id.oraEvento);
 
+        //ricavo i valori degli input
         String data = dataEvento.getText().toString();
         String ora = oraEvento.getText().toString();
 
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();//istanzio il db
 
 
         if(!dataValida(data) ){
@@ -125,14 +125,18 @@ public class CreaEventoActivity extends AppCompatActivity {
         else if(!oraValido(ora)){
                 Toast.makeText(getApplicationContext(),getResources().getString(R.string.oraErr), Toast.LENGTH_SHORT).show();
              }else {
+            //estraggo dal db l'utente loggato
             db.collection("Utenti").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
+
                         if (document.exists()) {
                            long rischio = (long) document.get("rischio");
+                           //mi assicuro che l'utente possa creare l'evento
                            if(rischio<50){
+                               //creo l'oggetto vento
                                final Evento e = new Evento(nomeEvento.getText().toString(),nomeLuogo,idLuogo,dataEvento.getText().toString(), oraEvento.getText().toString(), (int) rischio);
                                db.collection("Eventi").add(e).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                    @Override
@@ -140,7 +144,7 @@ public class CreaEventoActivity extends AppCompatActivity {
                                        if (task.isSuccessful()) {
                                            DocumentReference docRef = task.getResult();
                                            String key = docRef.getId();
-
+                                            //creo l'oggetto partecipazione evento
                                            PartecipazioneEvento pE = new PartecipazioneEvento(key,user.getUid());
                                            db.collection("PartecipazioneEvento").add(pE).addOnCompleteListener(new OnCompleteListener<DocumentReference>(){
 
@@ -148,7 +152,6 @@ public class CreaEventoActivity extends AppCompatActivity {
                                                public void onComplete(@NonNull Task<DocumentReference> task) {
                                                    if (task.isSuccessful()) {
                                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.eventSucc), Toast.LENGTH_LONG).show();
-
                                                        finish();
                                                    }else{
                                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.eventFail), Toast.LENGTH_LONG).show();
@@ -179,8 +182,10 @@ public class CreaEventoActivity extends AppCompatActivity {
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         Date date = null;
         try {
+            //converto la string ain data
             date = format.parse(data);
             Date today = new Date();
+            //verifico se la data è nel passato
             if(date.before(today)){
              return false;
             }else{

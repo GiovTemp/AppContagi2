@@ -38,13 +38,13 @@ public class ListaEventiActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
     FirebaseFirestore db;
-    ListView listView;
-    String[] idEventi;
-    String[] ruoli;
-    String[] nomi;
-    ArrayList<ListaEvento> eventi = new ArrayList<>();
-    int flag;
-    TextView Neventi;
+    ListView listView;//dichiaro la listview
+    String[] idEventi;//array che conterrà gli id degli eventi
+    String[] ruoli;//array che conterrà i ruoli dell'utente per gli eventi
+    String[] nomi;//array che conterrà i nomi degli eventi
+    ArrayList<ListaEvento> eventi = new ArrayList<>();//array che conterrà tutti gli oggetti eventi
+    int flag;//falg che conterrà il numero di eventi
+    TextView Neventi;//textView del plurals
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,30 +61,35 @@ public class ListaEventiActivity extends AppCompatActivity {
 
         Neventi=findViewById(R.id.Neventi);
 
+        //estrapoliamo dal DB tutte le partecipazioni attive
         db.collection("PartecipazioneEvento").whereEqualTo("UID", user.getUid()).whereEqualTo("status", 1).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                flag=queryDocumentSnapshots.size();
+                flag=queryDocumentSnapshots.size();//ricaviamo il numero di documenti estrapolati
                 if(flag>0){
+                    //impostiamo la stringa plurals
                     Resources res = getApplicationContext().getResources();
                     Neventi.setText(res.getQuantityString(R.plurals.Neventi,flag,flag));
 
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
-                        String id = document.getString("idEvento");
-                        String ruolo = document.getString("role");
-                        final ListaEvento x = new ListaEvento(id,ruolo);
+                        String id = document.getString("idEvento");//ricaviamo id evento
+                        String ruolo = document.getString("role");//ricaviamo ruolo
+                        final ListaEvento x = new ListaEvento(id,ruolo);//creaimo oggetto su misura per la lsita
 
+                        //ricaviamo le restanti informazioni sull'evento
                         db.collection("Eventi").document((String) document.get("idEvento")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
                                     if (document != null) {
+                                        //salviamo i dati recuperati
                                         x.nome=document.getString("nome");
                                         x.luogo=document.getString("nomeLuogo");
                                         x.data=document.getString("data");
                                         x.ora = document.getString("oraInizio");
+                                        //confermiamo l'evento
                                         salvaEvento(x);
 
                                     }
@@ -102,8 +107,9 @@ public class ListaEventiActivity extends AppCompatActivity {
             }
 
             private void salvaEvento(ListaEvento x) {
-                eventi.add(x);
+                eventi.add(x);//aggiungiamo l'vento alla lista degli eventi
 
+                //se abbiamo confermato tutti gli eventi
                 if(eventi.size()==flag){
                     idEventi = new String[eventi.size()];
                     for (int j = 0; j < eventi.size(); j++) {
@@ -126,7 +132,7 @@ public class ListaEventiActivity extends AppCompatActivity {
                     }
 
                     listView = findViewById(R.id.listaEventi);
-                    ListaEventiActivity.Adapter adapter = new ListaEventiActivity.Adapter(getApplicationContext(),nomi,ruoli,idEventi);
+                    ListaEventiActivity.Adapter adapter = new ListaEventiActivity.Adapter(getApplicationContext(),nomi,ruoli,idEventi);//chiamo l'adpter per la lista
                     listView.setAdapter(adapter);
 
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

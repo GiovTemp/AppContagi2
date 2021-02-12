@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
-        id= mAuth.getCurrentUser().getUid();
+        id= mAuth.getCurrentUser().getUid();//ricaviamo UID dell'utente
         db = FirebaseFirestore.getInstance();
 
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
@@ -103,36 +103,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View headerLayout = navigationView.getHeaderView(0);
         nomeMenu=headerLayout.findViewById(R.id.nomeMenu);
         emailMenu=headerLayout.findViewById(R.id.emailMenu);
-
-
-
-
         setSupportActionBar(toolbar);
-
-
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
         navigationView.setNavigationItemSelectedListener(this);
+        /*---------------------MENU------------------------*/
 
-
+        /*---------------------RIFERIMENTI AI POPUP------------------------*/
         positivoB = findViewById(R.id.positivoB);
         negativoB = findViewById(R.id.invitabutton);
         inAttesaB = findViewById(R.id.inAttesaB);
         LabelRischio = findViewById(R.id.LabelRischio);
         imgTest = findViewById(R.id.imgTest);
+        /*---------------------MENU------------------------*/
 
         Intent i = getIntent();
-        utenteLoggato = (User) i.getSerializableExtra("utenteLoggato");
+        utenteLoggato = (User) i.getSerializableExtra("utenteLoggato");//ricaviamo i dati dell'utente loggato
 
 
-        nomeMenu.setText(utenteLoggato.nome + " " +utenteLoggato.cognome);
+        nomeMenu.setText(utenteLoggato.nome + " " +utenteLoggato.cognome);//impostiamo i valori del menù
         emailMenu.setText(utenteLoggato.email);
 
-        controllaAggiornamento();
-        String temp =LabelRischio.getText().toString()+ utenteLoggato.rischio + "%";
+        controllaAggiornamento();//verificahiamo se c'è stato l'aggiornamento giornaliero del rischio
+
+        String temp =LabelRischio.getText().toString()+ utenteLoggato.rischio + "%";//impostiamo il rischio di contagio attuale
 
         if(utenteLoggato.rischio>RISCHIO_ROSSO){
             LabelRischio.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorLigthRed));
@@ -143,12 +139,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         LabelRischio.setText(temp);
 
         if (utenteLoggato.etichetta.equals("super") || utenteLoggato.etichetta.equals("sicuro") || utenteLoggato.etichetta.equals("incerto")) {
-            inAttesaB.setVisibility(View.VISIBLE);
-        } else if (utenteLoggato.etichetta.equals("test")) {
 
+            inAttesaB.setVisibility(View.VISIBLE);
+
+        } else if (utenteLoggato.etichetta.equals("test")) {
 
             positivoB.setVisibility(View.VISIBLE);
             negativoB.setVisibility(View.VISIBLE);
+
         } else if (utenteLoggato.etichetta.equals("positivo")) {
 
             inAttesaB.setVisibility(View.VISIBLE);
@@ -161,18 +159,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    //funzione per controllare se c'è stato l'aggiornamento giornaliero del rischio
     private void controllaAggiornamento() {
 
         try {
 
+            //apro il DBLite
             SQLiteDatabase myDb = openOrCreateDatabase("DateAggiornamentoRischio", MODE_PRIVATE, null);
-            myDb.execSQL("CREATE TABLE IF NOT EXISTS dateAgg(data DATE)");
+            myDb.execSQL("CREATE TABLE IF NOT EXISTS dateAgg(data DATE)");//creo la tabella
 
-            Cursor c = myDb.rawQuery("SELECT * FROM dateAgg WHERE data = date('now')", null);
+            Cursor c = myDb.rawQuery("SELECT * FROM dateAgg WHERE data = date('now')", null);//controllo se vi sono righe contenti la data di oggi
 
             if(c.getCount()==0){
-                myDb.execSQL("INSERT INTO dateAgg(data) VALUES(date('now'))");
-                AggiornaRischioThread t = new AggiornaRischioThread();
+                myDb.execSQL("INSERT INTO dateAgg(data) VALUES(date('now'))");//aggiungo la data di oggi al DB
+                AggiornaRischioThread t = new AggiornaRischioThread();//lancio il thread per l'aggiornamento del rischio
                 t.run();
             }
             c.close();
@@ -183,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    /*---------------------MENU------------------------*/
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -218,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    /*---------------------MENU------------------------*/
 
     @Override
     public void onBackPressed() {
@@ -225,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
+    /*---------------------REDIRECT PULSANTIU HOME------------------------*/
     public void registraContatto(View view) {
         Intent i = new Intent(getApplicationContext(), BtActivity.class);
         startActivity(i);
@@ -248,16 +250,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(i);
         overridePendingTransition(R.anim.slide_down_in, R.anim.slide_down_out);
     }
+    /*---------------------REDIRECT PULSANTIU HOME------------------------*/
 
 
+    //Funzione per aggiornare manualmente il rischio
     public void aggRischio(View view) {
-        AggiornaRischioThread t = new AggiornaRischioThread();
+        AggiornaRischioThread t = new AggiornaRischioThread();//Lancio il thread per aggionare il rischio manualmente
         t.run();
 
     }
 
 
+    /*---------------------POPUP------------------------*/
 
+    public void popupPositivo(View view) {
+
+        this.createNewContactDialog(1);
+    }
+
+    public void popupInAttesa(View view) {
+
+        this.createNewContactDialog(2);
+    }
+
+    public void popupNegativo(View view) {
+
+        this.createNewContactDialog(3);
+    }
+
+
+    //crea il popup
     public void createNewContactDialog(final int i) {
 
 
@@ -266,13 +288,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         richiestaPopup = contactPopupView.findViewById(R.id.richiestaPopup);
 
         if (i == 1) {
-            String temp = getString(R.string.confermipos);
 
+            String temp = getString(R.string.confermipos);
             richiestaPopup.setText(temp);
+
         } else if (i == 2) {
+
             String temp = getString(R.string.confermi_di_essere_in_attesa_del_test);
             richiestaPopup.setText(temp);
         } else if (i == 3) {
+
             String temp = getString(R.string.confermineg);
             richiestaPopup.setText(temp);
 
@@ -294,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     db.collection("Utenti").document(id).update("etichetta", "positivo").addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            finish();
+
                             if (task.isSuccessful()) {
                                 //Se sei positivo cambia il tuo "rischio" di contagio a "100" %
 
@@ -304,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                         if (task.isSuccessful()) {
                                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.risPos), Toast.LENGTH_LONG).show();
-                                           finish();
+                                            finish();
                                             Intent i = new Intent(getApplicationContext(), Splash.class);
                                             startActivity(i);
                                         } else {
@@ -325,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     db.collection("Utenti").document(id).update("etichetta", "test").addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            recreate();
+
                             if (task.isSuccessful()) {
                                 //Se sei in attesa di un test cambia il tuo "rischio" di contagio a "50" %
                                 db.collection("Utenti").document(id).update("rischio", RISCHIO_TEST).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -356,7 +381,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     db.collection("Utenti").document(id).update("etichetta", "super").addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            finish();
+
                             if (task.isSuccessful()) {
                                 //Se sei negativo cambia il tuo "rischio" di contagio a "0" %
                                 db.collection("Utenti").document(id).update("rischio", RISCHIO_NEGATIVO).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -396,20 +421,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void popupPositivo(View view) {
+    /*---------------------POPUP------------------------*/
 
-        this.createNewContactDialog(1);
-    }
 
-    public void popupInAttesa(View view) {
-
-        this.createNewContactDialog(2);
-    }
-
-    public void popupNegativo(View view) {
-
-        this.createNewContactDialog(3);
-    }
 
     public class AggiornaRischioThread implements Runnable {
 
@@ -418,7 +432,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public void run() {
-
 
             db.collection("Utenti")
                     .get()
@@ -432,6 +445,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     SQLiteDatabase myDb = openOrCreateDatabase("Contatti", MODE_PRIVATE, null);
                                     myDb.execSQL("CREATE TABLE IF NOT EXISTS contattiRegistrati(uid TEXT,data DATE)");
 
+                                    //estraggo tutti i dati relativi agli incotri avvenuti negli ultimi 10 giorni
                                     Cursor c = myDb.rawQuery("SELECT * FROM contattiRegistrati WHERE data >= date('now','-10 day')", null);
 
                                     int uidIndex = c.getColumnIndex("uid");
@@ -440,7 +454,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     String[] codici = new String [c.getCount()];
 
                                     do {
-                                        codici[n] = c.getString(uidIndex);
+                                        codici[n] = c.getString(uidIndex);//salvo tutti gli uid in un array
                                         System.out.println("-"+c.getString(uidIndex));
                                         n++;
                                     } while (c.moveToNext());
@@ -451,6 +465,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         do{
                                             String temp= document.getId();
 
+                                            //se l'uid dell'utente è nell'array dei codici aggiorno il rischio totale
                                             if(temp.equals(codici[j])){
 
                                                 rischio =rischio + (long)document.get("rischio");
@@ -460,7 +475,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         }while(j<n);
 
                                     }
-                                    rischio = rischio/n;
+                                    rischio = rischio/n;//mi calcolo il rischio mecio
                                     toastSuccess(getApplicationContext());
                                 }catch (Exception e){
                                     toast(getApplicationContext());
@@ -474,7 +489,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     });
 
 
-
+            //se il rischio ottenuto è superio all'attuale modifico il riscio dell'utente
             if(rischio>utenteLoggato.rischio){
 
                 utenteLoggato.rischio = rischio;
@@ -519,7 +534,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-    //FUNZIONI MENU
+    /*---------------------MENU------------------------*/
 
 
     public void registraContatto() {
@@ -571,6 +586,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /*---------------------MENU------------------------*/
+
+    /*---------------------GESTIONE CAMBIO CONFIGURAZIONE------------------------*/
 
     @Override
     public void onConfigurationChanged(@NotNull Configuration newConfig) {
@@ -582,4 +600,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
     }
+
+    /*---------------------GESTIONE CAMBIO CONFIGURAZIONE------------------------*/
 }

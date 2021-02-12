@@ -27,24 +27,26 @@ import it.gadg.contagiapp.modelli.User;
 
 public class Login extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth; // dichiaro la variabile per gestire l'autenticazione con firebase
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Initialize Firebase Auth
+        // Inizializziamo Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        setContentView(R.layout.activity_login);
-       getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        setContentView(R.layout.activity_login);//carichiamo il layout
+
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));// modifichiamo il colore della barra delle zioni del dispositvo
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(null !=  FirebaseAuth.getInstance().getCurrentUser()){
+        // Controlliamo se l'utente è già loggato
+        FirebaseUser currentUser = mAuth.getCurrentUser();// ricavo l'utente loggato
+        //se current user è diverso da null gestico l'autologin
+        if (null != FirebaseAuth.getInstance().getCurrentUser()) {
             updateUI(currentUser);
         }
 
@@ -58,8 +60,9 @@ public class Login extends AppCompatActivity {
 
     private void updateUI(FirebaseUser currentUser) {
 
-        FirebaseFirestore db;
-        db = FirebaseFirestore.getInstance();
+        //estraggo dal Firestore i dati dell'utente per capire che tipo di utente stiamo trattando
+        FirebaseFirestore db;//dichiaro la variabile per il firestore
+        db = FirebaseFirestore.getInstance();//la inizializzo
         db.collection("Utenti")
                 .document(currentUser.getUid())
                 .get()
@@ -68,11 +71,12 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         DocumentSnapshot document = task.getResult();
-                        if(!(document.getBoolean("ruolo"))){
-                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        //il ruolo può assumere due valori ( true = ASL, false = utente normale)
+                        if (!(document.getBoolean("ruolo"))) {
+                            Intent i = new Intent(getApplicationContext(), MainActivity.class);//reindirizzo verso l'activity main dell'utente normale
                             startActivity(i);
-                        }else{
-                            Intent i = new Intent(getApplicationContext(), MainActivityAsl.class);
+                        } else {
+                            Intent i = new Intent(getApplicationContext(), MainActivityAsl.class);//reinderizzo verso la MainAcitivy per le ASL
                             startActivity(i);
                         }
 
@@ -81,12 +85,14 @@ public class Login extends AppCompatActivity {
 
     }
 
+    //funzione che verrà chiamata al momento del click sul puslante login
     public void login(View view) {
-        EditText lEmail = findViewById(R.id.lEmail);
-        EditText lPassword = findViewById(R.id.lPassword);
-        String email = lEmail.getText().toString();
+        EditText lEmail = findViewById(R.id.lEmail);//prendiamo il riferimento al campo di input dell'email
+        EditText lPassword = findViewById(R.id.lPassword);//prendiamo il riferimento al campo di input della password
+        String email = lEmail.getText().toString();//ricavo il testo dal capmo e lo converto in stringa
         String password = lPassword.getText().toString();
 
+        //chiamo la funzione del Firebase per gestire l'autenticazione
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -94,10 +100,10 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("login", "signInWithEmail:success");
-                            Toast.makeText(getApplicationContext(),getResources().getString(R.string.authSucc) ,
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.authSucc),
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            updateUI(user);//chiamo la funzione per reinderizzare verso la activity corretta
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("login", "signInWithEmail:failure", task.getException());
@@ -114,6 +120,7 @@ public class Login extends AppCompatActivity {
     }
 
 
+    //funzione che verrà chiamata nel momento in cui l'utente clicca sul pulsante per registrarsi
     public void reqReg(View view) {
         Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(i);
