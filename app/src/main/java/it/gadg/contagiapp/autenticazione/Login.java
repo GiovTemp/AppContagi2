@@ -122,6 +122,7 @@ public class Login extends AppCompatActivity {
 
     //funzione che verrà chiamata nel momento in cui l'utente clicca sul pulsante per registrarsi
     public void reqReg(View view) {
+        finish();
         Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
