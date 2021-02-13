@@ -41,7 +41,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewCreaGruppo"
             android:layout_width="130dp"
-            android:layout_height="135dp"
+            android:layout_height="145dp"
             android:layout_marginTop="60dp"
             android:onClick="creaGruppo"
             app:cardCornerRadius="9dp"
@@ -73,7 +73,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewListaGruppi"
             android:layout_width="130dp"
-            android:layout_height="135dp"
+            android:layout_height="145dp"
             android:layout_marginTop="40dp"
             android:onClick="ListaGruppi"
             app:cardCornerRadius="9dp"
@@ -105,7 +105,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewInvitiGruppi"
             android:layout_width="130dp"
-            android:layout_height="135dp"
+            android:layout_height="145dp"
             android:layout_marginTop="40dp"
             android:onClick="ListaInviti"
             app:cardCornerRadius="9dp"

@@ -31,6 +31,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -189,7 +190,16 @@ public class CreaEventoActivity extends AppCompatActivity {
             if(date.before(today)){
              return false;
             }else{
-                return true;
+                Calendar c = Calendar.getInstance();
+                c.setTime(today);
+                c.add(Calendar.YEAR, 10);
+                Date newDate = c.getTime();
+                //controllo se la data è in un futuro troppo lontano
+               if(date.after(newDate)){
+                   return false;
+               }else{
+                   return true;
+               }
             }
         } catch (ParseException e) {
 

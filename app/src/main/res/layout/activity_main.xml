@@ -49,7 +49,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="130dp"
-                android:layout_height="135dp"
+                android:layout_height="145dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginBottom="20dp"
@@ -82,7 +82,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="130dp"
-                android:layout_height="135dp"
+                android:layout_height="145dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginEnd="40dp"
                 android:onClick="homeEventi"
@@ -156,9 +156,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
+                                android:fontFamily="@font/baloo"
                                 android:text="@string/sono_positivo"
                                 android:textColor="#fff"
-                                android:textSize="18sp" />
+                                android:textSize="15sp" />
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -191,9 +192,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
+                                android:fontFamily="@font/baloo"
                                 android:text="@string/ho_effettuato_il_test"
                                 android:textColor="@color/quantum_grey700"
-                                android:textSize="18sp" />
+                                android:textSize="15sp" />
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -226,9 +228,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
+                                android:fontFamily="@font/baloo"
                                 android:text="@string/sono_negativo"
                                 android:textColor="@color/white"
-                                android:textSize="18sp" />
+                                android:textSize="15sp" />
                         </RelativeLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -249,7 +252,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewListaGruppi"
                 android:layout_width="130dp"
-                android:layout_height="135dp"
+                android:layout_height="145dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="40dp"
                 android:onClick="homeGruppi"
@@ -279,7 +282,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="130dp"
-                android:layout_height="135dp"
+                android:layout_height="145dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="24dp"
                 android:onClick="aggRischio"

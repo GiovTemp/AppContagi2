@@ -85,6 +85,7 @@ public class Splash extends AppCompatActivity {
                             utenteLoggato.uid = document.getId();
                             utenteLoggato.ruolo= document.getBoolean("ruolo");
 
+                            //reindirizzo l'utente in base al suo ruolo
                             if (utenteLoggato.ruolo){
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
@@ -123,6 +124,7 @@ public class Splash extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
     }
 
+    //gestisco lo switch delle pagine nello swipe splash
     private static class ScreenSlidePageAdapter extends FragmentStatePagerAdapter{
 
          public ScreenSlidePageAdapter(@NonNull FragmentManager fm) {

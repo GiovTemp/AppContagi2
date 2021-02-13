@@ -37,7 +37,7 @@ public class GestisciGruppoActivity extends AppCompatActivity {
     private CardView siEliminazione, noEliminazione;
     EditText EmailInvito;
     String idGruppo;
-    int flag=0;
+    int flag = 0;
 
 
     @Override
@@ -55,7 +55,7 @@ public class GestisciGruppoActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        String temp =intent.getStringExtra("NomeGruppo");
+        String temp = intent.getStringExtra("NomeGruppo");
         NomeGruppoGestione = findViewById(R.id.NomeEventoVisualizza);
         NomeGruppoGestione.setText(temp);
 
@@ -91,36 +91,39 @@ public class GestisciGruppoActivity extends AppCompatActivity {
         EmailInvito = findViewById(R.id.emailInvito);
         String email = EmailInvito.getText().toString();
 
+        //estraggo le informazioni dell'utente che si vuole invitare
         db.collection("Utenti")
                 .whereEqualTo("email", email)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.getResult().isEmpty()){
+                        if (task.getResult().isEmpty()) {
 
                             Toast.makeText(GestisciGruppoActivity.this, getResources().getString(R.string.utenteNonTrovato),
                                     Toast.LENGTH_SHORT).show();
                         }
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                final String id = document.getId();
+                                final String id = document.getId();//estraggo l'ide dell'utente
 
-                                db.collection("GruppoUtenti").whereEqualTo("UID",id).whereEqualTo("idGruppo",idGruppo).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                //Controllo che l'utente non faccia già parte del gruppo
+                                db.collection("GruppoUtenti").whereEqualTo("UID", id).whereEqualTo("idGruppo", idGruppo).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                         QuerySnapshot document = task.getResult();
                                         if (document.size() == 0) {
-                                            GruppoUtenti gU = new GruppoUtenti(idGruppo, id);
-                                            gU.ruolo = "0";
-                                            gU.status = 0;
+                                            GruppoUtenti gU = new GruppoUtenti(idGruppo, id);//creo l'ogetto specifico per gestire il rapporto utente gruppo
+                                            gU.ruolo = "0";//preimposto il ruolo a 0 (membro)
+                                            gU.status = 0;//preimposto lo status a 0 (in attesa)
+                                            //inserisco la partecipazione del DB
                                             db.collection("GruppoUtenti").add(gU).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentReference> task) {
                                                     if (task.isSuccessful()) {
                                                         Toast.makeText(GestisciGruppoActivity.this, getResources().getString(R.string.invSucc),
                                                                 Toast.LENGTH_SHORT).show();
-                                                    }else{
+                                                    } else {
                                                         Toast.makeText(GestisciGruppoActivity.this, getResources().getString(R.string.errCompOp),
                                                                 Toast.LENGTH_SHORT).show();
                                                     }
@@ -144,8 +147,6 @@ public class GestisciGruppoActivity extends AppCompatActivity {
                 });
 
 
-
-
     }
 
     public void eliminaGruppo() {
@@ -159,7 +160,7 @@ public class GestisciGruppoActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (!task.isSuccessful()) {
-                                flag=1;
+                                flag = 1;
                             }
                         }
                     });
@@ -167,7 +168,7 @@ public class GestisciGruppoActivity extends AppCompatActivity {
             }
         });
 
-        if(flag==0){
+        if (flag == 0) {
             db.collection("Gruppi").document(idGruppo).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -181,7 +182,7 @@ public class GestisciGruppoActivity extends AppCompatActivity {
 
                 }
             });
-        }else{
+        } else {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.err), Toast.LENGTH_LONG).show();
         }
 
@@ -189,36 +190,34 @@ public class GestisciGruppoActivity extends AppCompatActivity {
 
     public void listaMembri(View view) {
         Intent intent = new Intent(getApplicationContext(), MembriGruppo.class);
-        intent.putExtra("idGruppo",idGruppo);
-        intent.putExtra("ruolo",1);
+        intent.putExtra("idGruppo", idGruppo);
+        intent.putExtra("ruolo", 1);
         startActivity(intent);
     }
 
-     public void ConfermaEliminazioneGruppo(View view) {
+    public void ConfermaEliminazioneGruppo(View view) {
 
 
         PopupEliminazioneGruppo = new AlertDialog.Builder(this);
         final View contactPopupView = getLayoutInflater().inflate(R.layout.popupeliminagruppo, null);
 
 
-
-
         siEliminazione = contactPopupView.findViewById(R.id.siCanc);
-        noEliminazione= contactPopupView.findViewById(R.id.noCanc);
+        noEliminazione = contactPopupView.findViewById(R.id.noCanc);
 
         PopupEliminazioneGruppo.setView(contactPopupView);
         dialog = PopupEliminazioneGruppo.create();
         dialog.show();
 
-         siEliminazione.setOnClickListener(new View.OnClickListener() {
+        siEliminazione.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 eliminaGruppo();
                 dialog.dismiss();
             }
-    });
+        });
 
-         noEliminazione.setOnClickListener(new View.OnClickListener() {
+        noEliminazione.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

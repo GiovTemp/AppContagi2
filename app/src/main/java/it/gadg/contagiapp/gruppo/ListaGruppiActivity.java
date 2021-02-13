@@ -80,23 +80,25 @@ public class ListaGruppiActivity extends AppCompatActivity {
 
         Ngruppi=findViewById(R.id.Ngruppi);
 
-
+        //estraggo tutte le partecipazioni ai gruppi
         db.collection("GruppoUtenti").whereEqualTo("UID", user.getUid()).whereEqualTo("status", 1).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         flag=queryDocumentSnapshots.size();
+                        //verifico che ce ne sia almeno 1
                         if(flag==0){
                             setContentView(R.layout.no_gruppi);
                         }else{
                             Resources res = getApplicationContext().getResources();
                             Ngruppi.setText(res.getQuantityString(R.plurals.Ngruppi,flag,flag));
 
+                            //per ogni partecipazione estraggo e salvo le informazioni del gruppo
                             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
                                 String id = document.getString("idGruppo");
                                 String ruolo = document.getString("ruolo");
-                                final GruppoRicerca x = new GruppoRicerca(id, ruolo);
-
+                                final GruppoRicerca x = new GruppoRicerca(id, ruolo);//creo l'oggetto specifico per gestire il grppo nella lista
+                                //estraggo le info sul gruppo
                                 db.collection("Gruppi").document((String) document.get("idGruppo")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -105,7 +107,7 @@ public class ListaGruppiActivity extends AppCompatActivity {
                                             if (document != null) {
                                                 x.setNome(document.getString("Nome"));
 
-                                                salvaGruppo(x);
+                                                salvaGruppo(x);//confermo il gruppo
 
                                             }
                                         } else {
@@ -122,6 +124,7 @@ public class ListaGruppiActivity extends AppCompatActivity {
             private void salvaGruppo(GruppoRicerca x) {
                 gr.add(x);
 
+                //se controllato tutti i gruppi procedo
                 if(gr.size()==flag){
                     idGruppi = new String[gr.size()];
                     for (int j = 0; j < gr.size(); j++) {
@@ -148,6 +151,7 @@ public class ListaGruppiActivity extends AppCompatActivity {
                     Adapter adapter = new Adapter(getApplicationContext(),nomi,ruoli,idGruppi);
                     listView.setAdapter(adapter);
 
+                    //setto gli on click della lista collegandoli opportunamente attraverso le posizioni negli array creati precedentemente
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

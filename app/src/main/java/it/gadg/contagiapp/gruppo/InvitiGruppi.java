@@ -45,7 +45,6 @@ public class InvitiGruppi extends AppCompatActivity {
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
     int flag;
     String[] idGruppi;
-    String[] ruoli;
     String[] nomi;
     ArrayList<GruppoInvito> gr = new ArrayList<>();
     TextView Ninviti;
@@ -68,10 +67,12 @@ public class InvitiGruppi extends AppCompatActivity {
 
         Ninviti=findViewById(R.id.Ninviti);
 
+        //estraggo tutte le partecipazione ai gruppi in attesa
         db.collection("GruppoUtenti").whereEqualTo("UID", user.getUid()).whereEqualTo("status", 0).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 flag = queryDocumentSnapshots.size();
+                //verifico che ci sia almeno una richiesta
                 if (flag>0){
                     Resources res = getApplicationContext().getResources();
                     Ninviti.setText(res.getQuantityString(R.plurals.Ninviti,flag,flag));
@@ -79,9 +80,9 @@ public class InvitiGruppi extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
                         String id = document.getString("idGruppo");
-                        final GruppoInvito x = new GruppoInvito(id);
+                        final GruppoInvito x = new GruppoInvito(id);//creo l'oggetto specifico per gestire l'invito
 
-
+                        //controllo che il gruppo esista ancora
                         db.collection("Gruppi").document((String) document.get("idGruppo")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -89,7 +90,7 @@ public class InvitiGruppi extends AppCompatActivity {
                                     DocumentSnapshot document = task.getResult();
                                     if (document != null) {
                                         x.nome = document.getString("Nome");
-                                        salvaGruppo(x);
+                                        salvaGruppo(x);//confermo il gruppo
 
                                     }
                                 } else {
@@ -106,8 +107,8 @@ public class InvitiGruppi extends AppCompatActivity {
             }
 
             private void salvaGruppo(GruppoInvito x) {
-                gr.add(x);
-
+                gr.add(x);//salvo il gruppo nella lista
+                //controllo se ho controllato tutti i gruppi
                 if (gr.size() == flag && flag!=0) {
                     idGruppi = new String[gr.size()];
                     for (int j = 0; j < gr.size(); j++) {

@@ -58,23 +58,27 @@ public class RichiesteEvento extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        String id =intent.getStringExtra("idEvento");
+        String id =intent.getStringExtra("idEvento"); //ricavo l'id dell'evento in questione
 
         db = FirebaseFirestore.getInstance();
+        //estraggo tutte le partecipazioni con contengono l'id dell'evento
         db.collection("PartecipazioneEvento").whereEqualTo("idEvento", id).whereEqualTo("status", 0).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 flag = queryDocumentSnapshots.size();
 
+                //se non ci sono cambio layout
                 if (flag==0){
                     setContentView(R.layout.no_richieste_eventi);
+
                 }else {
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
                         String UID = document.getString("UID");
-                        final UtenteRichiesta x = new UtenteRichiesta(UID);
+                        final UtenteRichiesta x = new UtenteRichiesta(UID);//creo un oggetto specifico per la richiesta
                         x.idRichiesta = document.getId();
 
+                        //ricavo le informazioni dell'utente che ha fatto richiesta
                         db.collection("Utenti").document(UID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -85,7 +89,7 @@ public class RichiesteEvento extends AppCompatActivity {
                                         x.cognome=document.getString("cognome");
                                         x.rischio= (long) document.get("rischio");
 
-                                        salvaUtente(x);
+                                        salvaUtente(x);//confermo l'utente
 
                                     }
                                 } else {
@@ -99,9 +103,11 @@ public class RichiesteEvento extends AppCompatActivity {
 
             }
 
-            private void salvaUtente(UtenteRichiesta x) {
-                ur.add(x);
 
+            private void salvaUtente(UtenteRichiesta x) {
+                ur.add(x);//aggiungo la richiesta alla lista delle richieste
+
+                //controllo se ho memorizzato tutte le richieste
                 if (ur.size() == flag) {
                     idRichiesteUtenti = new String[ur.size()];
                     for (int j = 0; j < ur.size(); j++) {

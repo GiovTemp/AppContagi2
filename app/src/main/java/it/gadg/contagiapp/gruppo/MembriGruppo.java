@@ -51,7 +51,7 @@ public class MembriGruppo extends AppCompatActivity {
     String[] nomi;
     int flag;
     int permessi;
-    ArrayList<MembroGruppo> m = new ArrayList<>();
+    ArrayList<MembroGruppo> m = new ArrayList<>();//arraylist per contentere i membri dle gruppo
 
     ListView listView;
 
@@ -73,22 +73,24 @@ public class MembriGruppo extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
         idGruppo = intent.getStringExtra("idGruppo");
-        permessi =intent.getIntExtra("ruolo",0);
+        permessi =intent.getIntExtra("ruolo",0);//estraggo il ruolo dell'utente che richede la vista dei membri per abilitare/disabilitare la funzione d'espulsione dal gruppo
 
+        //estraggo tutti gli utenti che hanno accettato l'invito al gruppo
         db.collection("GruppoUtenti").whereEqualTo("status", 1).whereEqualTo("idGruppo", idGruppo).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 flag = queryDocumentSnapshots.size();
+                //controllo che ce ne sia almeno 1 altrimenti modifico il layout
                 if(flag>1){
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
                         String id = document.getString("UID");
+                        //se l'utente è diverso da quello loggato
                         if (!id.equals(mAuth.getUid())) {
 
-
-                            final MembroGruppo x = new MembroGruppo();
+                            final MembroGruppo x = new MembroGruppo();//creo l'oggetto specifico
                             x.uid = id;
-
+                            //estraggo le informazini sull'utente
                             db.collection("Utenti").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -118,10 +120,9 @@ public class MembriGruppo extends AppCompatActivity {
             }
 
             private void salvaUtente(MembroGruppo x) {
-                m.add(x);
+                m.add(x);//salvo l'utente nella lista
 
-                System.out.println("ciao");
-
+                //se ho controllato tutti i membri mi preparo gli array di stringhe da utilizzare nella list view
                 if (m.size() == flag-1) {
                     idUtenti = new String[m.size()];
                     for (int j = 0; j < m.size(); j++) {
@@ -204,20 +205,23 @@ public class MembriGruppo extends AppCompatActivity {
             temp = "Rischio : "+Rischi[position];
             rischioMembro.setText(temp);
             final Button btn = rigamembro.findViewById(R.id.espelliMembro);
+            //verifico ci siano i permessi
             if (permessi==1){
-                btn.setVisibility(View.VISIBLE);
+                btn.setVisibility(View.VISIBLE);//rendo visibile il pulsante
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        espelliMembro(idUtenti[position]);
+                        espelliMembro(idUtenti[position]);//espello il membro ricavabdo l'id attraverso la posizione nella lista
                     }
 
                     private void espelliMembro(String id) {
+                        //estraggo la partecipazione
                         db.collection("GruppoUtenti").whereEqualTo("idGruppo", idGruppo).whereEqualTo("UID", id).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                 for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                    //elimino la partecipazione
                                     db.collection("GruppoUtenti").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {

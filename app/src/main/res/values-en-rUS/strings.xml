@@ -232,7 +232,7 @@
     <string name="username">Username</string>
     <string name="segnala">Report</string>
     <string name="risPosAsl">Positivity reported correctly</string>
-    <string name="macchinaDelTempo">Sorry! Unless you\'ve got a time machine you can\'t create events in the past</string>
+    <string name="macchinaDelTempo">Sorry! Unless you\'ve got a time machine you can\'t create this event</string>
     <string name="norichiesteEventi">You have no events requests </string>
 
     <plurals name="Ngruppi">

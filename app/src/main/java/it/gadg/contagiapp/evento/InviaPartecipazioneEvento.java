@@ -51,8 +51,9 @@ public class InviaPartecipazioneEvento extends AppCompatActivity {
     public void inviaRichiesta(View view) {
 
 
-        idGruppo = findViewById(R.id.nGruppo);
+        idGruppo = findViewById(R.id.nGruppo);//ricavo l'id del gruppo dal campo nascosto della riga
         final String id = idGruppo.getText().toString();
+        //ricavo le informazioni sull'utente loggato
         db.collection("Utenti").document(u.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -60,7 +61,9 @@ public class InviaPartecipazioneEvento extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         long rischio = (long) document.get("rischio");
+                        //controllo se il rischio consente l'operazione
                         if (rischio < 50) {
+                            //Controllo se esiste già una partecipazione all'evento esistente
                             db.collection("PartecipazioneEvento").whereEqualTo("UID",u.getUid()).whereEqualTo("idEvento",id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -70,6 +73,7 @@ public class InviaPartecipazioneEvento extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.reqSendErr), Toast.LENGTH_LONG).show();
                                     }else{
                                         try {
+                                            //ricavo le informazioni sull'evento e mi assicuro che qesut'ultimo esista
                                             db.collection("Eventi").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -77,8 +81,9 @@ public class InviaPartecipazioneEvento extends AppCompatActivity {
                                                         DocumentSnapshot document = task.getResult();
                                                         if (document.exists()) {
                                                             PartecipazioneEvento pE = new PartecipazioneEvento(id, u.getUid());
-                                                            pE.status = 0;
-                                                            pE.role = "0";
+                                                            pE.status = 0;//preimposto lo stato 0 cioè in attesa
+                                                            pE.role = "0";//preimposto il ruolo "membro"
+                                                            //inserisco la partecipazione
                                                             db.collection("PartecipazioneEvento").add(pE).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
 
                                                                 @Override
