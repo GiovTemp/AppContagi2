@@ -476,6 +476,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                     }
                                     rischio = rischio/n;//mi calcolo il rischio mecio
+                                    //se il rischio ottenuto è superio all'attuale modifico il riscio dell'utente
+                                    if(rischio>utenteLoggato.rischio){
+
+                                        utenteLoggato.rischio = rischio;
+                                        db.collection("Utenti").document(id).update("rischio", rischio).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                String temp ="Rischio : "+ rischio;
+                                                LabelRischio.setText(temp);
+
+                                            }
+                                        });
+                                    }
                                     toastSuccess(getApplicationContext());
                                 }catch (Exception e){
                                     toast(getApplicationContext());
@@ -489,19 +502,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     });
 
 
-            //se il rischio ottenuto è superio all'attuale modifico il riscio dell'utente
-            if(rischio>utenteLoggato.rischio){
 
-                utenteLoggato.rischio = rischio;
-                db.collection("Utenti").document(id).update("rischio", rischio).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String temp ="Rischio : "+ rischio;
-                        LabelRischio.setText(temp);
-
-                    }
-                });
-            }
 
 
         }
