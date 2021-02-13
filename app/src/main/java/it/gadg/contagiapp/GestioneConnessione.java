@@ -16,6 +16,10 @@ import java.io.OutputStream;
 
 import java.util.UUID;
 
+
+// Classe che gestisce la connessione ricavata dall'esempio "BtChat"
+//presente sulla documentazione di Android
+
 public class GestioneConnessione {
     private Context context;
     private final Handler handler;

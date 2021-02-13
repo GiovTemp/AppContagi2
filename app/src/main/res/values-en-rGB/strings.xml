@@ -68,9 +68,9 @@
     <string name="non_connesso">Not connected</string>
     <string name="invia_i_tuoi_dati">Send your data</string>
     <string name="dati_non_ricevuti">Data not received</string>
-    <string name="riavviaProcesso">If you can\'t receive data, try closing your connection and restarting the process</string>
-    <string name="chiudiConnessione">To close the connection shake the phone or click on the button below</string>
-    <string name="chiudiConn">Close connection</string>
+    <string name="riavviaProcesso">If you can\'t receive data, try closing your connection(shake the phone or click on back button) and restarting the process</string>
+    <string name="chiudiConnessione">To save the contact and close the connection click on the button below</string>
+    <string name="chiudiConn">Save Contact</string>
     <string name="data_evento">Event date</string>
     <string name="ora_inizio_evento">Event starting time</string>
     <string name="crea">Create</string>

@@ -70,6 +70,12 @@ public class BtActivity extends AppCompatActivity implements SensorEventListener
     private String infoContatto;
     private FirebaseAuth mAuth;
 
+
+    //Questa classe sfrutta il codice "BtChat" presente nella documentazione Android per inviare gli id degli utenti
+    //Abbiamo modificato il codice affinchè invece di gestire lo scambi di messaggi tra i due utenti
+    //ci permetta di inviare automaticamente il proprio codice al dispositivo collegato attraverso la variabile preimpostata "message"
+    //La connessione è gestita dalla classe GestioneConnessione che non permette connessioni unilaterali e l'invio ripetuto del UID
+
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message message) {
@@ -99,7 +105,7 @@ public class BtActivity extends AppCompatActivity implements SensorEventListener
 
                     //leggo la stringa
                     if(inputBuffer.length()>0){
-                        infoContatto = inputBuffer;
+                        infoContatto = inputBuffer;//ricavo l'id dell'utente
                         StatoDati.setText(R.string.DatiRecSucc);
                         StatoDati.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
                         Toast.makeText(context, getResources().getString(R.string.DatiRecSucc), Toast.LENGTH_SHORT).show();
@@ -141,7 +147,7 @@ public class BtActivity extends AppCompatActivity implements SensorEventListener
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser u = mAuth.getCurrentUser();
-        message = u.getUid();
+        message = u.getUid();//preimposto il messaggio da inviare
         context = this;
 
         gestioneConnessione = new GestioneConnessione(context, handler);
@@ -159,6 +165,7 @@ public class BtActivity extends AppCompatActivity implements SensorEventListener
         }
 
     }
+
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -195,6 +202,7 @@ public class BtActivity extends AppCompatActivity implements SensorEventListener
             }
         });
 
+        //salvo il contatto nel DBlite e chiudo la connessione
         salvaContatto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

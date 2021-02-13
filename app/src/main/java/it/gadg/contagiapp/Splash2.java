@@ -73,6 +73,7 @@ public class Splash2 extends AppCompatActivity {
                         utenteLoggato.uid = document.getId();
                         utenteLoggato.ruolo= document.getBoolean("ruolo");
 
+                        //reinderizzo in base al tipo d'utente
                         if (utenteLoggato.ruolo){
                             new Handler().postDelayed(new Runnable() {
                                 @Override

@@ -67,9 +67,9 @@
     <string name="non_connesso">Non Connesso</string>
     <string name="invia_i_tuoi_dati">Invia i tuoi dati</string>
     <string name="dati_non_ricevuti">Dati non ricevuti</string>
-    <string name="riavviaProcesso">Se non riesci a ricevere i dati ti consigliamo di chiudere la connessione e riavviare il processo</string>
-    <string name="chiudiConnessione">Per chiudere la connessione scuoti il telefono oppure clicca sul pulsante qui sotto</string>
-    <string name="chiudiConn">Chiudi Connessione</string>
+    <string name="riavviaProcesso">Se non riesci a ricevere i dati ti consigliamo di chiudere la connessione (scuotendo il telefono o tornando indietro) e riavviare il processo</string>
+    <string name="chiudiConnessione">Per salvare il contatto e chiudere la connessione clicca sul pulsante qui sotto</string>
+    <string name="chiudiConn">Salva Contatto</string>
 
     <string name="data_evento">Data Evento</string>
     <string name="ora_inizio_evento">Ora Inizio Evento</string>

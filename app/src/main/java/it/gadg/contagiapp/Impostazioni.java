@@ -140,7 +140,7 @@ public class Impostazioni extends AppCompatActivity {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                 for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-
+                                    //cancello tutte le partecipazioni ai gruppi
                                     if (document.get("ruolo").equals("0")) {
                                         db.collection("GruppoUtenti").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
@@ -154,6 +154,7 @@ public class Impostazioni extends AppCompatActivity {
                                             }
                                         });
                                     } else {
+                                        //se vi sono gruppi di cui sono admin stoppo le operazioni e chiedo all'unte di eliminare quei gruppi prima di procedere
                                         stop();
                                     }
 
@@ -170,6 +171,7 @@ public class Impostazioni extends AppCompatActivity {
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                                         if (document.get("ruolo").equals("0")) {
+                                            //cancelo tutte le partecipazioni agli eventi
                                             db.collection("PartecipazioneEvento").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
@@ -182,6 +184,7 @@ public class Impostazioni extends AppCompatActivity {
                                                 }
                                             });
                                         } else {
+                                            //se vi sono eventi di cui sono admin stoppo le operazioni e chiedo all'utente di eliminare quei gruppi prima di procedere
                                             stop();
                                         }
 

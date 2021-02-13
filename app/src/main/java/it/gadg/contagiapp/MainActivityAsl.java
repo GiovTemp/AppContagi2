@@ -41,14 +41,11 @@ public class MainActivityAsl extends AppCompatActivity {
         Window window = this.getWindow();
 
 
-        // clear FLAG_TRANSLUCENT_STATUS flag:
+        // cambio il colore della barretta dello status
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-        // finally change the color
         window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorLogoBlue));
+
         emailInput = findViewById(R.id.emailAsl);
 
         toolbar=findViewById(R.id.toolbarAsl);
@@ -68,6 +65,7 @@ public class MainActivityAsl extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
+        //estraggo i dati dell'utente segnalato dall'asl
         db.collection("Utenti")
                 .whereEqualTo("email", email)
                 .get()
@@ -83,14 +81,13 @@ public class MainActivityAsl extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 final String id = document.getId();
 
-
-                                //Se sei positivo cambia la tua etichetta da "test" in "positivo"
+                                //Se è positivo cambia la sua etichetta da "test" in "positivo"
                                 db.collection("Utenti").document(id).update("etichetta", "positivo").addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         recreate();
                                         if (task.isSuccessful()) {
-                                            //Se sei positivo cambia il tuo "rischio" di contagio a "100" %
+                                            //Se è positivo cambia il suo "rischio" di contagio a "100" %
                                             db.collection("Utenti").document(id).update("rischio", RISCHIO_POSITIVO).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
