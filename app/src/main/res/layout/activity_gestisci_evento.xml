@@ -23,7 +23,7 @@
                 android:id="@+id/NomeEventoGestione"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginTop="75dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginBottom="0dp"
                 android:fontFamily="@font/baloo"
                 android:textAlignment="center"

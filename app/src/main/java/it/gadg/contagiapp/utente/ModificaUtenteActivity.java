@@ -155,7 +155,7 @@ public class ModificaUtenteActivity extends AppCompatActivity {
 
 
         // Regex per controllare se il nome è valdio.
-        String regex = "^[A-Za-z]\\w{2,29}$";
+        String regex = "^[A-Za-z]{2,29}$";
 
         // Compila il ReGex
         Pattern p = Pattern.compile(regex);
@@ -179,7 +179,7 @@ public class ModificaUtenteActivity extends AppCompatActivity {
 
 
         // Regex per controllare se il cognome è valido.
-        String regex = "^[A-Za-z]\\w{3,29}$";
+        String regex = "^[A-Za-z]{3,29}$";
 
         // Compila il ReGex
         Pattern p = Pattern.compile(regex);
