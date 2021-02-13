@@ -455,7 +455,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                     do {
                                         codici[n] = c.getString(uidIndex);//salvo tutti gli uid in un array
-                                        System.out.println("-"+c.getString(uidIndex));
                                         n++;
                                     } while (c.moveToNext());
                                     int j;
@@ -483,7 +482,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         db.collection("Utenti").document(id).update("rischio", rischio).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                String temp ="Rischio : "+ rischio;
+                                                String temp = rischio + "%";
                                                 LabelRischio.setText(temp);
 
                                             }
