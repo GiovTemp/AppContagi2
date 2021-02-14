@@ -23,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import it.gadg.contagiapp.MainActivity;
 import it.gadg.contagiapp.MainActivityAsl;
 import it.gadg.contagiapp.R;
+import it.gadg.contagiapp.Splash;
 import it.gadg.contagiapp.modelli.User;
 
 public class Login extends AppCompatActivity {
@@ -39,6 +40,13 @@ public class Login extends AppCompatActivity {
 
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));// modifichiamo il colore della barra delle zioni del dispositvo
     }
+
+
+    @Override
+    public void onBackPressed() {
+        //Pulsante back disabilitato
+    }
+
 
     @Override
     public void onStart() {
@@ -73,10 +81,10 @@ public class Login extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         //il ruolo può assumere due valori ( true = ASL, false = utente normale)
                         if (!(document.getBoolean("ruolo"))) {
-                            Intent i = new Intent(getApplicationContext(), MainActivity.class);//reindirizzo verso l'activity main dell'utente normale
+                            Intent i = new Intent(getApplicationContext(), Splash.class);//reindirizzo verso l'activity main dell'utente normale
                             startActivity(i);
                         } else {
-                            Intent i = new Intent(getApplicationContext(), MainActivityAsl.class);//reinderizzo verso la MainAcitivy per le ASL
+                            Intent i = new Intent(getApplicationContext(), Splash.class);//reinderizzo verso la MainAcitivy per le ASL
                             startActivity(i);
                         }
 

@@ -210,7 +210,7 @@
     <string name="ConnFail">Connesione Fallita</string>
     <string name="ConnClose">Connessione Chiusa</string>
     <string name="logoutSucc">Logout Riuscito</string>
-    <string name="logoutFail">LogoutFallito</string>
+    <string name="logoutFail">Logout Fallito</string>
     <string name="delUser">Utente eliminato correttamente</string>
     <string name="risPos">Risulti essere positivo</string>
     <string name="risWait">Risulti essere in attesa</string>

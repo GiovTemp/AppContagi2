@@ -225,6 +225,16 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(), Login.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+
+
     @Override
     public void finish() {
         super.finish();

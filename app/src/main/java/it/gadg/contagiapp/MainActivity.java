@@ -38,7 +38,7 @@ import org.jetbrains.annotations.NotNull;
 
 import it.gadg.contagiapp.autenticazione.Login;
 import it.gadg.contagiapp.modelli.User;
-import it.gadg.contagiapp.splash.Splash;
+
 import it.gadg.contagiapp.utente.ModificaUtenteActivity;
 
 

@@ -1,22 +1,17 @@
-package it.gadg.contagiapp.splash;
+package it.gadg.contagiapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,48 +19,51 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import it.gadg.contagiapp.MainActivityAsl;
 import it.gadg.contagiapp.autenticazione.Login;
-import it.gadg.contagiapp.MainActivity;
-import it.gadg.contagiapp.R;
 import it.gadg.contagiapp.modelli.User;
 
 public class Splash extends AppCompatActivity {
+
+    private static int SPALSH_TIME_OUT = 5000;
+
     private FirebaseAuth mAuth; //dichiaro variabile per l'auenticazione firebase
-    String id;
     FirebaseFirestore db;
     User utenteLoggato;
+    private String id;
+    TextView gadg;
+    ImageView logo;
 
-    ImageView splash;
-    LottieAnimationView lottieAnimationView;
-    ViewPager viewPager;
-    ScreenSlidePageAdapter pagerAdapter;
-
-    private static final int numeroPagineIntro = 3;
-    Animation animation;
+    //Animazioni
+    Animation bottomAnimation, middleAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_splash);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_splash2);
 
-        splash = findViewById(R.id.img);
-        lottieAnimationView = findViewById(R.id.splash);
-        splash.animate().translationY(-3000).setDuration(2500).setStartDelay(3000);
-        lottieAnimationView.animate().translationY(1400).setDuration(2500).setStartDelay(3000);
 
-        if(null ==  FirebaseAuth.getInstance().getCurrentUser()){
-            viewPager = findViewById(R.id.pager);
-            pagerAdapter = new ScreenSlidePageAdapter(getSupportFragmentManager());
-            viewPager.setAdapter(pagerAdapter);
-            animation = AnimationUtils.loadAnimation(this,R.anim.anim);
-            viewPager.startAnimation(animation);
+        bottomAnimation = AnimationUtils.loadAnimation(this, R.anim.top_animation_splash);
+        middleAnimation = AnimationUtils.loadAnimation(this, R.anim.middle_animation_splash);
+
+
+        logo = findViewById(R.id.logo);
+        gadg = findViewById(R.id.gadg);
+
+        logo.setAnimation(middleAnimation);
+        gadg.setAnimation(bottomAnimation);
+
+        //controllo se l'utente è già loggato
+        if(null ==  FirebaseAuth.getInstance().getCurrentUser()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(getApplicationContext(), Login.class);
+                    startActivity(i);
+                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                }
+            }, 2000);
         }else{
-
-
-
             //Estraggo l'utente
             mAuth = FirebaseAuth.getInstance();
             FirebaseUser u = mAuth.getCurrentUser();
@@ -85,7 +83,7 @@ public class Splash extends AppCompatActivity {
                             utenteLoggato.uid = document.getId();
                             utenteLoggato.ruolo= document.getBoolean("ruolo");
 
-                            //reindirizzo l'utente in base al suo ruolo
+                            //reinderizzo in base al tipo d'utente
                             if (utenteLoggato.ruolo){
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
@@ -112,45 +110,11 @@ public class Splash extends AppCompatActivity {
 
                         }
                     });
-
-
         }
 
+
+
+
+
     }
-
-    public void splashAuth(View view) {
-        Intent i = new Intent(getApplicationContext(), Login.class);
-        startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
-    }
-
-    //gestisco lo switch delle pagine nello swipe splash
-    private static class ScreenSlidePageAdapter extends FragmentStatePagerAdapter{
-
-         public ScreenSlidePageAdapter(@NonNull FragmentManager fm) {
-             super(fm);
-         }
-
-         @NonNull
-         @Override
-         public Fragment getItem(int position) {
-             switch (position){
-                 case 0:
-                     OnBoardginFragment1 pag1 = new OnBoardginFragment1();
-                     return pag1;
-                 case 1:
-                     OnBoardginFragment2 pag2 = new OnBoardginFragment2();
-                     return pag2;
-                 case 2:
-                     OnBoardginFragment3 pag3 = new OnBoardginFragment3();
-                     return pag3;
-             }
-             return null;
-         }
-
-         @Override
-         public int getCount() {
-             return numeroPagineIntro;
-         }
-     }
 }

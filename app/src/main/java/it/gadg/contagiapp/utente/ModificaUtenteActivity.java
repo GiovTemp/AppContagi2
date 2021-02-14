@@ -8,7 +8,7 @@ import it.gadg.contagiapp.MainActivity;
 import it.gadg.contagiapp.R;
 import it.gadg.contagiapp.autenticazione.RegisterActivity;
 import it.gadg.contagiapp.modelli.User;
-import it.gadg.contagiapp.splash.Splash;
+
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -25,7 +25,7 @@ import it.gadg.contagiapp.gruppo.CreaGruppoActivity;
 import it.gadg.contagiapp.gruppo.InvitiGruppi;
 import it.gadg.contagiapp.gruppo.ListaGruppiActivity;
 import it.gadg.contagiapp.modelli.User;
-import it.gadg.contagiapp.splash.Splash;
+
 import it.gadg.contagiapp.utente.ModificaUtenteActivity;
 
 public class HomeGruppiActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {

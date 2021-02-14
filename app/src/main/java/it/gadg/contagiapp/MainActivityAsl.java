@@ -21,7 +21,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import it.gadg.contagiapp.splash.Splash;
 
 public class MainActivityAsl extends AppCompatActivity {
 

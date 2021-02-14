@@ -24,7 +24,7 @@ import it.gadg.contagiapp.evento.CreaEventoActivity;
 import it.gadg.contagiapp.evento.InviaPartecipazioneEvento;
 import it.gadg.contagiapp.evento.ListaEventiActivity;
 import it.gadg.contagiapp.modelli.User;
-import it.gadg.contagiapp.splash.Splash;
+
 import it.gadg.contagiapp.utente.ModificaUtenteActivity;
 
 

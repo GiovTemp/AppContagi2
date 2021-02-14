@@ -206,8 +206,8 @@
 
     <string name="ConnFail">Connection failed</string>
     <string name="ConnClose">Connection closed</string>
-    <string name="logoutSucc">Login Successful</string>
-    <string name="logoutFail">Login Failed</string>
+    <string name="logoutSucc">Logout Successful</string>
+    <string name="logoutFail">Logout Failed</string>
     <string name="delUser">User successfully deleted</string>
     <string name="risPos">You are positive</string>
     <string name="risWait">Waiting for a test result</string>

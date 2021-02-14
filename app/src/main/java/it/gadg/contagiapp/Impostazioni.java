@@ -32,7 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.Locale;
 
 import it.gadg.contagiapp.modelli.User;
-import it.gadg.contagiapp.splash.Splash;
+
 
 public class Impostazioni extends AppCompatActivity {
     User utenteLoggato;
